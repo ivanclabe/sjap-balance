@@ -1,0 +1,5352 @@
+{
+ "producto_dias": {
+  "CORRIENTE": [
+   {
+    "dia": 1,
+    "inventario_inicial": 7703.17,
+    "ventas": 4423.23,
+    "recibos": 0,
+    "inventario_teorico": 3279.94,
+    "inventario_final": 3306.41,
+    "fluctuacion_dia": 26.47,
+    "fluctuacion_acum": 26.47,
+    "fluctuacion_valor": 412667.3
+   },
+   {
+    "dia": 2,
+    "inventario_inicial": 3306.41,
+    "ventas": 2776.75,
+    "recibos": 5800,
+    "inventario_teorico": 6329.66,
+    "inventario_final": 6356.311,
+    "fluctuacion_dia": 26.651,
+    "fluctuacion_acum": 53.121,
+    "fluctuacion_valor": 828156.39
+   },
+   {
+    "dia": 3,
+    "inventario_inicial": 6356.311,
+    "ventas": 2808.95,
+    "recibos": 4000,
+    "inventario_teorico": 7547.361,
+    "inventario_final": 7608.221,
+    "fluctuacion_dia": 60.86,
+    "fluctuacion_acum": 113.981,
+    "fluctuacion_valor": 1776963.79
+   },
+   {
+    "dia": 4,
+    "inventario_inicial": 7608.221,
+    "ventas": 2858.38,
+    "recibos": 2800,
+    "inventario_teorico": 7549.841,
+    "inventario_final": 7464.081,
+    "fluctuacion_dia": -85.76,
+    "fluctuacion_acum": 28.221,
+    "fluctuacion_valor": 439965.39
+   },
+   {
+    "dia": 5,
+    "inventario_inicial": 7464.081,
+    "ventas": 1395.91,
+    "recibos": 2800,
+    "inventario_teorico": 8868.171,
+    "inventario_final": 8778.85,
+    "fluctuacion_dia": -89.321,
+    "fluctuacion_acum": -61.1,
+    "fluctuacion_valor": -928109.0
+   },
+   {
+    "dia": 6,
+    "inventario_inicial": 8778.85,
+    "ventas": 3847.01,
+    "recibos": 4600,
+    "inventario_teorico": 9531.84,
+    "inventario_final": 9476.071,
+    "fluctuacion_dia": -55.769,
+    "fluctuacion_acum": -116.869,
+    "fluctuacion_valor": -1775240.11
+   },
+   {
+    "dia": 7,
+    "inventario_inicial": 9476.071,
+    "ventas": 4825.95,
+    "recibos": 4600,
+    "inventario_teorico": 9250.121,
+    "inventario_final": 9256.63,
+    "fluctuacion_dia": 6.509,
+    "fluctuacion_acum": -110.36,
+    "fluctuacion_valor": -1676368.4
+   },
+   {
+    "dia": 8,
+    "inventario_inicial": 9256.63,
+    "ventas": 4423.63,
+    "recibos": 0,
+    "inventario_teorico": 4833.0,
+    "inventario_final": 5037.03,
+    "fluctuacion_dia": 204.03,
+    "fluctuacion_acum": 93.67,
+    "fluctuacion_valor": 1422847.3
+   },
+   {
+    "dia": 9,
+    "inventario_inicial": 5037.03,
+    "ventas": 3218.93,
+    "recibos": 4600,
+    "inventario_teorico": 6418.1,
+    "inventario_final": 6356.311,
+    "fluctuacion_dia": -61.789,
+    "fluctuacion_acum": 31.881,
+    "fluctuacion_valor": 484272.39
+   },
+   {
+    "dia": 10,
+    "inventario_inicial": 6356.311,
+    "ventas": 3206.85,
+    "recibos": 3700,
+    "inventario_teorico": 6849.461,
+    "inventario_final": 6818.73,
+    "fluctuacion_dia": -30.731,
+    "fluctuacion_acum": 1.15,
+    "fluctuacion_valor": 17468.5
+   },
+   {
+    "dia": 11,
+    "inventario_inicial": 6818.73,
+    "ventas": 3318.89,
+    "recibos": 1800,
+    "inventario_teorico": 5299.84,
+    "inventario_final": 5302.771,
+    "fluctuacion_dia": 2.931,
+    "fluctuacion_acum": 4.081,
+    "fluctuacion_valor": 61990.39
+   },
+   {
+    "dia": 12,
+    "inventario_inicial": 5302.771,
+    "ventas": 3262.23,
+    "recibos": 4000,
+    "inventario_teorico": 6040.541,
+    "inventario_final": 6043.01,
+    "fluctuacion_dia": 2.469,
+    "fluctuacion_acum": 6.55,
+    "fluctuacion_valor": 99494.5
+   },
+   {
+    "dia": 13,
+    "inventario_inicial": 6043.01,
+    "ventas": 3666.17,
+    "recibos": 4000,
+    "inventario_teorico": 6376.84,
+    "inventario_final": 6804.18,
+    "fluctuacion_dia": 427.34,
+    "fluctuacion_acum": 433.89,
+    "fluctuacion_valor": 6590789.1
+   },
+   {
+    "dia": 14,
+    "inventario_inicial": 6804.18,
+    "ventas": 5758.98,
+    "recibos": 7400,
+    "inventario_teorico": 8445.2,
+    "inventario_final": 7982.13,
+    "fluctuacion_dia": -463.07,
+    "fluctuacion_acum": -29.18,
+    "fluctuacion_valor": -443244.2
+   },
+   {
+    "dia": 15,
+    "inventario_inicial": 7982.13,
+    "ventas": 4787.87,
+    "recibos": 4600,
+    "inventario_teorico": 7794.26,
+    "inventario_final": 8118.09,
+    "fluctuacion_dia": 323.83,
+    "fluctuacion_acum": 294.65,
+    "fluctuacion_valor": 4475733.5
+   },
+   {
+    "dia": 16,
+    "inventario_inicial": 8118.09,
+    "ventas": 3117.04,
+    "recibos": 0,
+    "inventario_teorico": 5001.05,
+    "inventario_final": 4771.391,
+    "fluctuacion_dia": -229.659,
+    "fluctuacion_acum": 64.991,
+    "fluctuacion_valor": 987213.29
+   },
+   {
+    "dia": 17,
+    "inventario_inicial": 4771.391,
+    "ventas": 3498.07,
+    "recibos": 7900,
+    "inventario_teorico": 9173.321,
+    "inventario_final": 5779.741,
+    "fluctuacion_dia": -3393.58,
+    "fluctuacion_acum": -3328.589,
+    "fluctuacion_valor": -50561266.91
+   },
+   {
+    "dia": 18,
+    "inventario_inicial": 5779.741,
+    "ventas": 3360.64,
+    "recibos": 1800,
+    "inventario_teorico": 4219.101,
+    "inventario_final": 7512.351,
+    "fluctuacion_dia": 3293.25,
+    "fluctuacion_acum": -35.339,
+    "fluctuacion_valor": -536799.41
+   },
+   {
+    "dia": 19,
+    "inventario_inicial": 7512.351,
+    "ventas": 3465.34,
+    "recibos": 0,
+    "inventario_teorico": 4047.011,
+    "inventario_final": 4084.5,
+    "fluctuacion_dia": 37.489,
+    "fluctuacion_acum": 2.15,
+    "fluctuacion_valor": 32658.5
+   },
+   {
+    "dia": 20,
+    "inventario_inicial": 4084.5,
+    "ventas": 4211.55,
+    "recibos": 3500,
+    "inventario_teorico": 3372.95,
+    "inventario_final": 3357.611,
+    "fluctuacion_dia": -15.339,
+    "fluctuacion_acum": -13.189,
+    "fluctuacion_valor": -200340.91
+   },
+   {
+    "dia": 21,
+    "inventario_inicial": 3357.611,
+    "ventas": 5393.43,
+    "recibos": 5800,
+    "inventario_teorico": 3764.181,
+    "inventario_final": 3822.94,
+    "fluctuacion_dia": 58.759,
+    "fluctuacion_acum": 45.57,
+    "fluctuacion_valor": 692208.3
+   },
+   {
+    "dia": 22,
+    "inventario_inicial": 3822.94,
+    "ventas": 4222.01,
+    "recibos": 5800,
+    "inventario_teorico": 5400.93,
+    "inventario_final": 5355.88,
+    "fluctuacion_dia": -45.05,
+    "fluctuacion_acum": 0.52,
+    "fluctuacion_valor": 7898.8
+   },
+   {
+    "dia": 23,
+    "inventario_inicial": 5355.88,
+    "ventas": 3304.58,
+    "recibos": 3500,
+    "inventario_teorico": 5551.3,
+    "inventario_final": 5568.11,
+    "fluctuacion_dia": 16.81,
+    "fluctuacion_acum": 17.33,
+    "fluctuacion_valor": 263242.7
+   },
+   {
+    "dia": 24,
+    "inventario_inicial": 5568.11,
+    "ventas": 3183.75,
+    "recibos": 4000,
+    "inventario_teorico": 6384.36,
+    "inventario_final": 6356.311,
+    "fluctuacion_dia": -28.049,
+    "fluctuacion_acum": -10.719,
+    "fluctuacion_valor": -162821.61
+   },
+   {
+    "dia": 25,
+    "inventario_inicial": 6356.311,
+    "ventas": 3467.68,
+    "recibos": 2700,
+    "inventario_teorico": 5588.631,
+    "inventario_final": 5668.701,
+    "fluctuacion_dia": 80.07,
+    "fluctuacion_acum": 69.351,
+    "fluctuacion_valor": 1053441.69
+   },
+   {
+    "dia": 26,
+    "inventario_inicial": 5668.701,
+    "ventas": 3178.01,
+    "recibos": 2700,
+    "inventario_teorico": 5190.691,
+    "inventario_final": 5090.181,
+    "fluctuacion_dia": -100.51,
+    "fluctuacion_acum": -31.159,
+    "fluctuacion_valor": -473305.21
+   },
+   {
+    "dia": 27,
+    "inventario_inicial": 5090.181,
+    "ventas": 4230.98,
+    "recibos": 8700,
+    "inventario_teorico": 9559.201,
+    "inventario_final": 6147.8,
+    "fluctuacion_dia": -3411.401,
+    "fluctuacion_acum": -3442.56,
+    "fluctuacion_valor": -52292486.4
+   },
+   {
+    "dia": 28,
+    "inventario_inicial": 6147.8,
+    "ventas": 6102.09,
+    "recibos": 3500,
+    "inventario_teorico": 3545.71,
+    "inventario_final": 6919.96,
+    "fluctuacion_dia": 3374.25,
+    "fluctuacion_acum": -68.31,
+    "fluctuacion_valor": -1037628.9
+   }
+  ],
+  "BIOACEM": [
+   {
+    "dia": 1,
+    "inventario_inicial": 12651.427,
+    "ventas": 1255.44,
+    "recibos": 0,
+    "inventario_teorico": 11395.987,
+    "inventario_final": 11395.534,
+    "fluctuacion_dia": -0.453,
+    "fluctuacion_acum": -0.453,
+    "fluctuacion_valor": -4869.75
+   },
+   {
+    "dia": 2,
+    "inventario_inicial": 11395.534,
+    "ventas": 5294.17,
+    "recibos": 2800,
+    "inventario_teorico": 8901.364,
+    "inventario_final": 10656.98,
+    "fluctuacion_dia": 1755.616,
+    "fluctuacion_acum": 1755.163,
+    "fluctuacion_valor": 18868002.25
+   },
+   {
+    "dia": 3,
+    "inventario_inicial": 10656.98,
+    "ventas": 5289.52,
+    "recibos": 4600,
+    "inventario_teorico": 9967.46,
+    "inventario_final": 8419,
+    "fluctuacion_dia": -1548.46,
+    "fluctuacion_acum": 206.703,
+    "fluctuacion_valor": 2222057.25
+   },
+   {
+    "dia": 4,
+    "inventario_inicial": 8419,
+    "ventas": 5582.65,
+    "recibos": 5800,
+    "inventario_teorico": 8636.35,
+    "inventario_final": 8575.437,
+    "fluctuacion_dia": -60.913,
+    "fluctuacion_acum": 145.79,
+    "fluctuacion_valor": 1567242.5
+   },
+   {
+    "dia": 5,
+    "inventario_inicial": 8575.437,
+    "ventas": 5661.36,
+    "recibos": 3500,
+    "inventario_teorico": 6414.077,
+    "inventario_final": 6408.487,
+    "fluctuacion_dia": -5.59,
+    "fluctuacion_acum": 140.2,
+    "fluctuacion_valor": 1507150.0
+   },
+   {
+    "dia": 6,
+    "inventario_inicial": 6408.487,
+    "ventas": 4443.78,
+    "recibos": 8700,
+    "inventario_teorico": 10664.707,
+    "inventario_final": 10410.033,
+    "fluctuacion_dia": -254.674,
+    "fluctuacion_acum": -114.474,
+    "fluctuacion_valor": -1230595.5
+   },
+   {
+    "dia": 7,
+    "inventario_inicial": 10410.033,
+    "ventas": 4198.96,
+    "recibos": 3500,
+    "inventario_teorico": 9711.073,
+    "inventario_final": 10072.655,
+    "fluctuacion_dia": 361.582,
+    "fluctuacion_acum": 247.108,
+    "fluctuacion_valor": 2656411.0
+   },
+   {
+    "dia": 8,
+    "inventario_inicial": 10072.655,
+    "ventas": 1773.03,
+    "recibos": 0,
+    "inventario_teorico": 8299.625,
+    "inventario_final": 8511.525,
+    "fluctuacion_dia": 211.9,
+    "fluctuacion_acum": 459.008,
+    "fluctuacion_valor": 4934336.0
+   },
+   {
+    "dia": 9,
+    "inventario_inicial": 8511.525,
+    "ventas": 4911.96,
+    "recibos": 4000,
+    "inventario_teorico": 7599.565,
+    "inventario_final": 7422.901,
+    "fluctuacion_dia": -176.664,
+    "fluctuacion_acum": 282.344,
+    "fluctuacion_valor": 3035198.0
+   },
+   {
+    "dia": 10,
+    "inventario_inicial": 7422.901,
+    "ventas": 5231.89,
+    "recibos": 5200,
+    "inventario_teorico": 7391.011,
+    "inventario_final": 7400.189,
+    "fluctuacion_dia": 9.178,
+    "fluctuacion_acum": 291.522,
+    "fluctuacion_valor": 3133861.5
+   },
+   {
+    "dia": 11,
+    "inventario_inicial": 7400.189,
+    "ventas": 4905.58,
+    "recibos": 6800,
+    "inventario_teorico": 9294.609,
+    "inventario_final": 9284.331,
+    "fluctuacion_dia": -10.278,
+    "fluctuacion_acum": 281.244,
+    "fluctuacion_valor": 3023373.0
+   },
+   {
+    "dia": 12,
+    "inventario_inicial": 9284.331,
+    "ventas": 5109.38,
+    "recibos": 4600,
+    "inventario_teorico": 8774.951,
+    "inventario_final": 8819.228,
+    "fluctuacion_dia": 44.277,
+    "fluctuacion_acum": 325.521,
+    "fluctuacion_valor": 3499350.75
+   },
+   {
+    "dia": 13,
+    "inventario_inicial": 8819.228,
+    "ventas": 4691.25,
+    "recibos": 4600,
+    "inventario_teorico": 8727.978,
+    "inventario_final": 8739.618,
+    "fluctuacion_dia": 11.64,
+    "fluctuacion_acum": 337.161,
+    "fluctuacion_valor": 3624480.75
+   },
+   {
+    "dia": 14,
+    "inventario_inicial": 8739.618,
+    "ventas": 3150.09,
+    "recibos": 8000,
+    "inventario_teorico": 13589.528,
+    "inventario_final": 13515.421,
+    "fluctuacion_dia": -74.107,
+    "fluctuacion_acum": 263.054,
+    "fluctuacion_valor": 2827830.5
+   },
+   {
+    "dia": 15,
+    "inventario_inicial": 13515.421,
+    "ventas": 1453.16,
+    "recibos": 4000,
+    "inventario_teorico": 16062.261,
+    "inventario_final": 12075.771,
+    "fluctuacion_dia": -3986.49,
+    "fluctuacion_acum": -3723.436,
+    "fluctuacion_valor": -40026937.0
+   },
+   {
+    "dia": 16,
+    "inventario_inicial": 12075.771,
+    "ventas": 5991.78,
+    "recibos": 0,
+    "inventario_teorico": 6083.991,
+    "inventario_final": 10086.432,
+    "fluctuacion_dia": 4002.441,
+    "fluctuacion_acum": 279.005,
+    "fluctuacion_valor": 2999303.75
+   },
+   {
+    "dia": 17,
+    "inventario_inicial": 10086.432,
+    "ventas": 4767.43,
+    "recibos": 7000,
+    "inventario_teorico": 12319.002,
+    "inventario_final": 8852.951,
+    "fluctuacion_dia": -3466.051,
+    "fluctuacion_acum": -3187.046,
+    "fluctuacion_valor": -34260744.5
+   },
+   {
+    "dia": 18,
+    "inventario_inicial": 8852.951,
+    "ventas": 5163.7,
+    "recibos": 6800,
+    "inventario_teorico": 10489.251,
+    "inventario_final": 14068.581,
+    "fluctuacion_dia": 3579.33,
+    "fluctuacion_acum": 392.284,
+    "fluctuacion_valor": 4217053.0
+   },
+   {
+    "dia": 19,
+    "inventario_inicial": 14068.581,
+    "ventas": 4795.83,
+    "recibos": 0,
+    "inventario_teorico": 9272.751,
+    "inventario_final": 9278.157,
+    "fluctuacion_dia": 5.406,
+    "fluctuacion_acum": 397.69,
+    "fluctuacion_valor": 4275167.5
+   },
+   {
+    "dia": 20,
+    "inventario_inicial": 9278.157,
+    "ventas": 5219.64,
+    "recibos": 6300,
+    "inventario_teorico": 10358.517,
+    "inventario_final": 10430.515,
+    "fluctuacion_dia": 71.998,
+    "fluctuacion_acum": 469.688,
+    "fluctuacion_valor": 5049146.0
+   },
+   {
+    "dia": 21,
+    "inventario_inicial": 10430.515,
+    "ventas": 2986.4,
+    "recibos": 2800,
+    "inventario_teorico": 10244.115,
+    "inventario_final": 10169.017,
+    "fluctuacion_dia": -75.098,
+    "fluctuacion_acum": 394.59,
+    "fluctuacion_valor": 4241842.5
+   },
+   {
+    "dia": 22,
+    "inventario_inicial": 10169.017,
+    "ventas": 1422.48,
+    "recibos": 2800,
+    "inventario_teorico": 11546.537,
+    "inventario_final": 11576.148,
+    "fluctuacion_dia": 29.611,
+    "fluctuacion_acum": 424.201,
+    "fluctuacion_valor": 4560160.75
+   },
+   {
+    "dia": 23,
+    "inventario_inicial": 11576.148,
+    "ventas": 5211.99,
+    "recibos": 2800,
+    "inventario_teorico": 9164.158,
+    "inventario_final": 9128.282,
+    "fluctuacion_dia": -35.876,
+    "fluctuacion_acum": 388.325,
+    "fluctuacion_valor": 4174493.75
+   },
+   {
+    "dia": 24,
+    "inventario_inicial": 9128.282,
+    "ventas": 4989.73,
+    "recibos": 4600,
+    "inventario_teorico": 8738.552,
+    "inventario_final": 8721.543,
+    "fluctuacion_dia": -17.009,
+    "fluctuacion_acum": 371.316,
+    "fluctuacion_valor": 3991647.0
+   },
+   {
+    "dia": 25,
+    "inventario_inicial": 8721.543,
+    "ventas": 5517.01,
+    "recibos": 5800,
+    "inventario_teorico": 9004.533,
+    "inventario_final": 9113.291,
+    "fluctuacion_dia": 108.758,
+    "fluctuacion_acum": 480.074,
+    "fluctuacion_valor": 5160795.5
+   },
+   {
+    "dia": 26,
+    "inventario_inicial": 9113.291,
+    "ventas": 4652.25,
+    "recibos": 4000,
+    "inventario_teorico": 8461.041,
+    "inventario_final": 8404.822,
+    "fluctuacion_dia": -56.219,
+    "fluctuacion_acum": 423.855,
+    "fluctuacion_valor": 4556441.25
+   },
+   {
+    "dia": 27,
+    "inventario_inicial": 8404.822,
+    "ventas": 5105.15,
+    "recibos": 11600,
+    "inventario_teorico": 14899.672,
+    "inventario_final": 8665.277,
+    "fluctuacion_dia": -6234.395,
+    "fluctuacion_acum": -5810.54,
+    "fluctuacion_valor": -62463305.0
+   },
+   {
+    "dia": 28,
+    "inventario_inicial": 8665.277,
+    "ventas": 2964.72,
+    "recibos": 2800,
+    "inventario_teorico": 8500.557,
+    "inventario_final": 14792,
+    "fluctuacion_dia": 6291.443,
+    "fluctuacion_acum": 480.903,
+    "fluctuacion_valor": 5169707.25
+   }
+  ],
+  "EXTRA": [
+   {
+    "dia": 1,
+    "inventario_inicial": 2194.99,
+    "ventas": 473.53,
+    "recibos": 0,
+    "inventario_teorico": 1721.46,
+    "inventario_final": 1712.921,
+    "fluctuacion_dia": -8.539,
+    "fluctuacion_acum": -8.539,
+    "fluctuacion_valor": -168816.03
+   },
+   {
+    "dia": 2,
+    "inventario_inicial": 1712.921,
+    "ventas": 215.37,
+    "recibos": 0,
+    "inventario_teorico": 1497.551,
+    "inventario_final": 1530,
+    "fluctuacion_dia": 32.449,
+    "fluctuacion_acum": 23.91,
+    "fluctuacion_valor": 472700.7
+   },
+   {
+    "dia": 3,
+    "inventario_inicial": 1530,
+    "ventas": 332.29,
+    "recibos": 0,
+    "inventario_teorico": 1197.71,
+    "inventario_final": 1227.75,
+    "fluctuacion_dia": 30.04,
+    "fluctuacion_acum": 53.95,
+    "fluctuacion_valor": 1066591.5
+   },
+   {
+    "dia": 4,
+    "inventario_inicial": 1227.75,
+    "ventas": 300.41,
+    "recibos": 0,
+    "inventario_teorico": 927.34,
+    "inventario_final": 844.66,
+    "fluctuacion_dia": -82.68,
+    "fluctuacion_acum": -28.73,
+    "fluctuacion_valor": -567992.1
+   },
+   {
+    "dia": 5,
+    "inventario_inicial": 844.66,
+    "ventas": 86.21,
+    "recibos": 1800,
+    "inventario_teorico": 2558.45,
+    "inventario_final": 2524.341,
+    "fluctuacion_dia": -34.109,
+    "fluctuacion_acum": -62.839,
+    "fluctuacion_valor": -1242327.03
+   },
+   {
+    "dia": 6,
+    "inventario_inicial": 2524.341,
+    "ventas": 331.14,
+    "recibos": 0,
+    "inventario_teorico": 2193.201,
+    "inventario_final": 2276.9,
+    "fluctuacion_dia": 83.699,
+    "fluctuacion_acum": 20.86,
+    "fluctuacion_valor": 412402.2
+   },
+   {
+    "dia": 7,
+    "inventario_inicial": 2276.9,
+    "ventas": 658.39,
+    "recibos": 0,
+    "inventario_teorico": 1618.51,
+    "inventario_final": 1608.49,
+    "fluctuacion_dia": -10.02,
+    "fluctuacion_acum": 10.84,
+    "fluctuacion_valor": 214306.8
+   },
+   {
+    "dia": 8,
+    "inventario_inicial": 1608.49,
+    "ventas": 413.01,
+    "recibos": 0,
+    "inventario_teorico": 1195.48,
+    "inventario_final": 1227.75,
+    "fluctuacion_dia": 32.27,
+    "fluctuacion_acum": 43.11,
+    "fluctuacion_valor": 852284.7
+   },
+   {
+    "dia": 9,
+    "inventario_inicial": 1227.75,
+    "ventas": 290.11,
+    "recibos": 0,
+    "inventario_teorico": 937.64,
+    "inventario_final": 961.35,
+    "fluctuacion_dia": 23.71,
+    "fluctuacion_acum": 66.82,
+    "fluctuacion_valor": 1321031.4
+   },
+   {
+    "dia": 10,
+    "inventario_inicial": 961.35,
+    "ventas": 289.67,
+    "recibos": 1500,
+    "inventario_teorico": 2171.68,
+    "inventario_final": 2113.46,
+    "fluctuacion_dia": -58.22,
+    "fluctuacion_acum": 8.6,
+    "fluctuacion_valor": 170022.0
+   },
+   {
+    "dia": 11,
+    "inventario_inicial": 2113.46,
+    "ventas": 329.78,
+    "recibos": 0,
+    "inventario_teorico": 1783.68,
+    "inventario_final": 1765.541,
+    "fluctuacion_dia": -18.139,
+    "fluctuacion_acum": -9.539,
+    "fluctuacion_valor": -188586.03
+   },
+   {
+    "dia": 12,
+    "inventario_inicial": 1765.541,
+    "ventas": 303.04,
+    "recibos": 0,
+    "inventario_teorico": 1462.501,
+    "inventario_final": 1505.22,
+    "fluctuacion_dia": 42.719,
+    "fluctuacion_acum": 33.18,
+    "fluctuacion_valor": 655968.6
+   },
+   {
+    "dia": 13,
+    "inventario_inicial": 1505.22,
+    "ventas": 448.13,
+    "recibos": 0,
+    "inventario_teorico": 1057.09,
+    "inventario_final": 1032.771,
+    "fluctuacion_dia": -24.319,
+    "fluctuacion_acum": 8.861,
+    "fluctuacion_valor": 175181.97
+   },
+   {
+    "dia": 14,
+    "inventario_inicial": 1032.771,
+    "ventas": 802.91,
+    "recibos": 1800,
+    "inventario_teorico": 2029.861,
+    "inventario_final": 2059.331,
+    "fluctuacion_dia": 29.47,
+    "fluctuacion_acum": 38.331,
+    "fluctuacion_valor": 757803.87
+   },
+   {
+    "dia": 15,
+    "inventario_inicial": 2059.331,
+    "ventas": 454.83,
+    "recibos": 0,
+    "inventario_teorico": 1604.501,
+    "inventario_final": 1582.57,
+    "fluctuacion_dia": -21.931,
+    "fluctuacion_acum": 16.4,
+    "fluctuacion_valor": 324228.0
+   },
+   {
+    "dia": 16,
+    "inventario_inicial": 1582.57,
+    "ventas": 299.92,
+    "recibos": 0,
+    "inventario_teorico": 1282.65,
+    "inventario_final": 1327.48,
+    "fluctuacion_dia": 44.83,
+    "fluctuacion_acum": 61.23,
+    "fluctuacion_valor": 1210517.1
+   },
+   {
+    "dia": 17,
+    "inventario_inicial": 1327.48,
+    "ventas": 318.65,
+    "recibos": 1800,
+    "inventario_teorico": 2808.83,
+    "inventario_final": 937.771,
+    "fluctuacion_dia": -1871.059,
+    "fluctuacion_acum": -1809.829,
+    "fluctuacion_valor": -35780319.33
+   },
+   {
+    "dia": 18,
+    "inventario_inicial": 937.771,
+    "ventas": 282.54,
+    "recibos": 0,
+    "inventario_teorico": 655.231,
+    "inventario_final": 2496.75,
+    "fluctuacion_dia": 1841.519,
+    "fluctuacion_acum": 31.69,
+    "fluctuacion_valor": 626511.3
+   },
+   {
+    "dia": 19,
+    "inventario_inicial": 2496.75,
+    "ventas": 340.1,
+    "recibos": 0,
+    "inventario_teorico": 2156.65,
+    "inventario_final": 2140.591,
+    "fluctuacion_dia": -16.059,
+    "fluctuacion_acum": 15.631,
+    "fluctuacion_valor": 309024.87
+   },
+   {
+    "dia": 20,
+    "inventario_inicial": 2140.591,
+    "ventas": 452.06,
+    "recibos": 0,
+    "inventario_teorico": 1688.531,
+    "inventario_final": 1765.541,
+    "fluctuacion_dia": 77.01,
+    "fluctuacion_acum": 92.641,
+    "fluctuacion_valor": 1831512.57
+   },
+   {
+    "dia": 21,
+    "inventario_inicial": 1765.541,
+    "ventas": 754.92,
+    "recibos": 0,
+    "inventario_teorico": 1010.621,
+    "inventario_final": 937.771,
+    "fluctuacion_dia": -72.85,
+    "fluctuacion_acum": 19.791,
+    "fluctuacion_valor": 391268.07
+   },
+   {
+    "dia": 22,
+    "inventario_inicial": 937.771,
+    "ventas": 611.25,
+    "recibos": 0,
+    "inventario_teorico": 326.521,
+    "inventario_final": 341.87,
+    "fluctuacion_dia": 15.349,
+    "fluctuacion_acum": 35.14,
+    "fluctuacion_valor": 694717.8
+   },
+   {
+    "dia": 23,
+    "inventario_inicial": 341.87,
+    "ventas": 354.5,
+    "recibos": 1800,
+    "inventario_teorico": 1787.37,
+    "inventario_final": 1765.541,
+    "fluctuacion_dia": -21.829,
+    "fluctuacion_acum": 13.311,
+    "fluctuacion_valor": 263158.47
+   },
+   {
+    "dia": 24,
+    "inventario_inicial": 1765.541,
+    "ventas": 286.52,
+    "recibos": 0,
+    "inventario_teorico": 1479.021,
+    "inventario_final": 1505.22,
+    "fluctuacion_dia": 26.199,
+    "fluctuacion_acum": 39.51,
+    "fluctuacion_valor": 781112.7
+   },
+   {
+    "dia": 25,
+    "inventario_inicial": 1505.22,
+    "ventas": 338.36,
+    "recibos": 0,
+    "inventario_teorico": 1166.86,
+    "inventario_final": 1129.47,
+    "fluctuacion_dia": -37.39,
+    "fluctuacion_acum": 2.12,
+    "fluctuacion_valor": 41912.4
+   },
+   {
+    "dia": 26,
+    "inventario_inicial": 1129.47,
+    "ventas": 376.01,
+    "recibos": 1800,
+    "inventario_teorico": 2553.46,
+    "inventario_final": 2551.94,
+    "fluctuacion_dia": -1.52,
+    "fluctuacion_acum": 0.6,
+    "fluctuacion_valor": 11862.0
+   },
+   {
+    "dia": 27,
+    "inventario_inicial": 2551.94,
+    "ventas": 620.1,
+    "recibos": 0,
+    "inventario_teorico": 1931.84,
+    "inventario_final": 1951.69,
+    "fluctuacion_dia": 19.85,
+    "fluctuacion_acum": 20.45,
+    "fluctuacion_valor": 404296.5
+   },
+   {
+    "dia": 28,
+    "inventario_inicial": 1951.69,
+    "ventas": 892.73,
+    "recibos": 1800,
+    "inventario_teorico": 2858.96,
+    "inventario_final": 2817.44,
+    "fluctuacion_dia": -41.52,
+    "fluctuacion_acum": -21.07,
+    "fluctuacion_valor": -416553.9
+   }
+  ]
+ },
+ "cierre_dias": [
+  {
+   "dia": 1,
+   "vta_corriente": 68958155.7,
+   "vta_bioacem": 13495980,
+   "vta_extra": 9361688.1,
+   "vta_total": 91815823.8,
+   "vta_gl": 6152.2,
+   "num_clientes": 1207,
+   "efectivo": 34720328.8,
+   "rumbo": 1560241,
+   "urea_rumbo": 77920,
+   "cons_terpel": null,
+   "mi_emp": 2100334,
+   "clien_propios": 150156,
+   "app_terpel": null,
+   "go_pass": 237490,
+   "datafono": 52387127,
+   "qr": 605147,
+   "ajustes": null,
+   "vive_terpel": 55000,
+   "urea": 0,
+   "efectivo_real": 35091000,
+   "diferencia_efectivo": -370671.2,
+   "diferencia_efectivo_acum": -370671.2,
+   "certificacion": null,
+   "diferencia_certificacion": -35091000,
+   "diferencia_certificacion_acum": -35091000
+  },
+  {
+   "dia": 2,
+   "vta_corriente": 43289532.5,
+   "vta_bioacem": 56912327.5,
+   "vta_extra": 4257864.9,
+   "vta_total": 104459724.9,
+   "vta_gl": 8286.29,
+   "num_clientes": 1225,
+   "efectivo": 35522186.9,
+   "rumbo": 13845723,
+   "urea_rumbo": 82044,
+   "cons_terpel": null,
+   "mi_emp": 7037635,
+   "clien_propios": 8200671,
+   "app_terpel": null,
+   "go_pass": 237037,
+   "datafono": 37279234,
+   "qr": 2060238,
+   "ajustes": null,
+   "vive_terpel": 277000,
+   "urea": 0,
+   "efectivo_real": 35557000,
+   "diferencia_efectivo": -34813.1,
+   "diferencia_efectivo_acum": -405484.3,
+   "certificacion": null,
+   "diferencia_certificacion": -35557000,
+   "diferencia_certificacion_acum": -70648000
+  },
+  {
+   "dia": 3,
+   "vta_corriente": 43791530.5,
+   "vta_bioacem": 56862340.0,
+   "vta_extra": 6569373.3,
+   "vta_total": 107223243.8,
+   "vta_gl": 8430.76,
+   "num_clientes": 1256,
+   "efectivo": 37613322.8,
+   "rumbo": 15020193,
+   "urea_rumbo": 326391,
+   "cons_terpel": null,
+   "mi_emp": 6745965,
+   "clien_propios": 6214052,
+   "app_terpel": 49128,
+   "go_pass": 1330663,
+   "datafono": 38985134,
+   "qr": 1100786,
+   "ajustes": null,
+   "vive_terpel": 164000,
+   "urea": 0,
+   "efectivo_real": 37496000,
+   "diferencia_efectivo": 117322.8,
+   "diferencia_efectivo_acum": -288161.5,
+   "certificacion": null,
+   "diferencia_certificacion": -37496000,
+   "diferencia_certificacion_acum": -108144000
+  },
+  {
+   "dia": 4,
+   "vta_corriente": 44562144.2,
+   "vta_bioacem": 60013487.5,
+   "vta_extra": 5939105.7,
+   "vta_total": 110514737.4,
+   "vta_gl": 8741.44,
+   "num_clientes": 1213,
+   "efectivo": 39396453.4,
+   "rumbo": 14208699,
+   "urea_rumbo": 69300,
+   "cons_terpel": null,
+   "mi_emp": 5495035,
+   "clien_propios": 6438662,
+   "app_terpel": null,
+   "go_pass": 709302,
+   "datafono": 43273424,
+   "qr": 606162,
+   "ajustes": null,
+   "vive_terpel": 387000,
+   "urea": 0,
+   "efectivo_real": 39207000,
+   "diferencia_efectivo": 189453.4,
+   "diferencia_efectivo_acum": -98708.1,
+   "certificacion": null,
+   "diferencia_certificacion": -39207000,
+   "diferencia_certificacion_acum": -147351000
+  },
+  {
+   "dia": 5,
+   "vta_corriente": 21203872.9,
+   "vta_bioacem": 60859620,
+   "vta_extra": 1704371.7,
+   "vta_total": 83767864.6,
+   "vta_gl": 7143.48,
+   "num_clientes": 734,
+   "efectivo": 27053982.6,
+   "rumbo": 12561260,
+   "urea_rumbo": 356398,
+   "cons_terpel": null,
+   "mi_emp": 9265958,
+   "clien_propios": 5134058,
+   "app_terpel": null,
+   "go_pass": 567228,
+   "datafono": 28583043,
+   "qr": 519335,
+   "ajustes": null,
+   "vive_terpel": 83000,
+   "urea": 0,
+   "efectivo_real": 26692000,
+   "diferencia_efectivo": 361982.6,
+   "diferencia_efectivo_acum": 263274.5,
+   "certificacion": 113099000,
+   "diferencia_certificacion": 86407000,
+   "diferencia_certificacion_acum": -60944000
+  },
+  {
+   "dia": 6,
+   "vta_corriente": 58436081.9,
+   "vta_bioacem": 47770635,
+   "vta_extra": 6546637.8,
+   "vta_total": 112753354.7,
+   "vta_gl": 8621.93,
+   "num_clientes": 1437,
+   "efectivo": 38929002.7,
+   "rumbo": 9822371,
+   "urea_rumbo": 123208,
+   "cons_terpel": null,
+   "mi_emp": 7748215,
+   "clien_propios": 5705014,
+   "app_terpel": null,
+   "go_pass": 590211,
+   "datafono": 47530451,
+   "qr": 2088640,
+   "ajustes": null,
+   "vive_terpel": 197000,
+   "urea": 142450,
+   "efectivo_real": 38799000,
+   "diferencia_efectivo": 130002.7,
+   "diferencia_efectivo_acum": 393277.2,
+   "certificacion": 26740000,
+   "diferencia_certificacion": -12059000,
+   "diferencia_certificacion_acum": -73003000
+  },
+  {
+   "dia": 7,
+   "vta_corriente": 73306180.5,
+   "vta_bioacem": 45138820,
+   "vta_extra": 11897107.3,
+   "vta_total": 130342107.8,
+   "vta_gl": 9683.3,
+   "num_clientes": 1473,
+   "efectivo": 44718813.8,
+   "rumbo": 10326722,
+   "urea_rumbo": 57450,
+   "cons_terpel": null,
+   "mi_emp": 3999655,
+   "clien_propios": 2736310,
+   "app_terpel": 343754,
+   "go_pass": 818085,
+   "datafono": 65405289,
+   "qr": 1729379,
+   "ajustes": null,
+   "vive_terpel": 241000,
+   "urea": 23100,
+   "efectivo_real": 44699000,
+   "diferencia_efectivo": 19813.8,
+   "diferencia_efectivo_acum": 413091.0,
+   "certificacion": null,
+   "diferencia_certificacion": -44699000,
+   "diferencia_certificacion_acum": -117702000
+  },
+  {
+   "dia": 8,
+   "vta_corriente": 67194939.7,
+   "vta_bioacem": 19060072.5,
+   "vta_extra": 7463090.7,
+   "vta_total": 93718102.9,
+   "vta_gl": 6609.67,
+   "num_clientes": 1248,
+   "efectivo": 35956840.9,
+   "rumbo": 4487389,
+   "urea_rumbo": 177878,
+   "cons_terpel": null,
+   "mi_emp": 730732,
+   "clien_propios": 671241,
+   "app_terpel": 57008,
+   "go_pass": null,
+   "datafono": 50213620,
+   "qr": 1278272,
+   "ajustes": null,
+   "vive_terpel": 323000,
+   "urea": 0,
+   "efectivo_real": 35656000,
+   "diferencia_efectivo": 300840.9,
+   "diferencia_efectivo_acum": 713931.9,
+   "certificacion": null,
+   "diferencia_certificacion": -35656000,
+   "diferencia_certificacion_acum": -153358000
+  },
+  {
+   "dia": 9,
+   "vta_corriente": 48895546.7,
+   "vta_bioacem": 52803570,
+   "vta_extra": 5242287.7,
+   "vta_total": 106941404.4,
+   "vta_gl": 8421,
+   "num_clientes": 1305,
+   "efectivo": 39042894.4,
+   "rumbo": 10520959,
+   "urea_rumbo": 148017,
+   "cons_terpel": null,
+   "mi_emp": 8099551,
+   "clien_propios": 6298874,
+   "app_terpel": null,
+   "go_pass": 378443,
+   "datafono": 40299432,
+   "qr": 2061251,
+   "ajustes": null,
+   "vive_terpel": 240000,
+   "urea": 0,
+   "efectivo_real": 39116000,
+   "diferencia_efectivo": -73105.6,
+   "diferencia_efectivo_acum": 640826.3,
+   "certificacion": 126512000,
+   "diferencia_certificacion": 87396000,
+   "diferencia_certificacion_acum": -65962000
+  },
+  {
+   "dia": 10,
+   "vta_corriente": 48712051.5,
+   "vta_bioacem": 56242817.5,
+   "vta_extra": 5234336.9,
+   "vta_total": 110189205.9,
+   "vta_gl": 8728.41,
+   "num_clientes": 1307,
+   "efectivo": 38308779.9,
+   "rumbo": 13333222,
+   "urea_rumbo": 292600,
+   "cons_terpel": null,
+   "mi_emp": 8789210,
+   "clien_propios": 6522444,
+   "app_terpel": 50000,
+   "go_pass": 724261,
+   "datafono": 40390560,
+   "qr": 1618779,
+   "ajustes": null,
+   "vive_terpel": 271000,
+   "urea": 180950,
+   "efectivo_real": 38316000,
+   "diferencia_efectivo": -7220.1,
+   "diferencia_efectivo_acum": 633606.2,
+   "certificacion": null,
+   "diferencia_certificacion": -38316000,
+   "diferencia_certificacion_acum": -104278000
+  },
+  {
+   "dia": 11,
+   "vta_corriente": 50413939.1,
+   "vta_bioacem": 52734985,
+   "vta_extra": 5959124.6,
+   "vta_total": 109108048.7,
+   "vta_gl": 8554.25,
+   "num_clientes": 1333,
+   "efectivo": 41793114.7,
+   "rumbo": 10737100,
+   "urea_rumbo": null,
+   "cons_terpel": null,
+   "mi_emp": 6780813,
+   "clien_propios": 5913315,
+   "app_terpel": null,
+   "go_pass": 639079,
+   "datafono": 41956667,
+   "qr": 1074960,
+   "ajustes": null,
+   "vive_terpel": 213000,
+   "urea": 0,
+   "efectivo_real": 41696000,
+   "diferencia_efectivo": 97114.7,
+   "diferencia_efectivo_acum": 730720.9,
+   "certificacion": null,
+   "diferencia_certificacion": -41696000,
+   "diferencia_certificacion_acum": -145974000
+  },
+  {
+   "dia": 12,
+   "vta_corriente": 49553273.7,
+   "vta_bioacem": 54925835,
+   "vta_extra": 5475932.8,
+   "vta_total": 109955041.5,
+   "vta_gl": 8674.65,
+   "num_clientes": 1363,
+   "efectivo": 44030847.5,
+   "rumbo": 16048391,
+   "urea_rumbo": 177793,
+   "cons_terpel": null,
+   "mi_emp": 5490777,
+   "clien_propios": 5143479,
+   "app_terpel": 30380,
+   "go_pass": 418636,
+   "datafono": 37084294,
+   "qr": 1276237,
+   "ajustes": null,
+   "vive_terpel": 432000,
+   "urea": 0,
+   "efectivo_real": 43608000,
+   "diferencia_efectivo": 422847.5,
+   "diferencia_efectivo_acum": 1153568.4,
+   "certificacion": 114715000,
+   "diferencia_certificacion": 71107000,
+   "diferencia_certificacion_acum": -74867000
+  },
+  {
+   "dia": 13,
+   "vta_corriente": 55689122.3,
+   "vta_bioacem": 50430937.5,
+   "vta_extra": 8097709.1,
+   "vta_total": 114217768.9,
+   "vta_gl": 8805.55,
+   "num_clientes": 1324,
+   "efectivo": 36925127.9,
+   "rumbo": 13607841,
+   "urea_rumbo": 452872,
+   "cons_terpel": null,
+   "mi_emp": 6293578,
+   "clien_propios": 7901832,
+   "app_terpel": null,
+   "go_pass": 1007629,
+   "datafono": 47302430,
+   "qr": 957331,
+   "ajustes": null,
+   "vive_terpel": 222000,
+   "urea": 0,
+   "efectivo_real": 36864000,
+   "diferencia_efectivo": 61127.9,
+   "diferencia_efectivo_acum": 1214696.3,
+   "certificacion": 38467000,
+   "diferencia_certificacion": 1603000,
+   "diferencia_certificacion_acum": -73264000
+  },
+  {
+   "dia": 14,
+   "vta_corriente": 87478906.2,
+   "vta_bioacem": 33863467.5,
+   "vta_extra": 14508583.7,
+   "vta_total": 135850957.4,
+   "vta_gl": 9711.98,
+   "num_clientes": 1679,
+   "efectivo": 43294512.4,
+   "rumbo": 11061843,
+   "urea_rumbo": 84700,
+   "cons_terpel": null,
+   "mi_emp": 3571815,
+   "clien_propios": 1800001,
+   "app_terpel": null,
+   "go_pass": 721426,
+   "datafono": 73873836,
+   "qr": 1378524,
+   "ajustes": null,
+   "vive_terpel": 149000,
+   "urea": 0,
+   "efectivo_real": 42839000,
+   "diferencia_efectivo": 455512.4,
+   "diferencia_efectivo_acum": 1670208.7,
+   "certificacion": null,
+   "diferencia_certificacion": -42839000,
+   "diferencia_certificacion_acum": -116103000
+  },
+  {
+   "dia": 15,
+   "vta_corriente": 72727745.3,
+   "vta_bioacem": 15621470,
+   "vta_extra": 8218778.1,
+   "vta_total": 96567993.4,
+   "vta_gl": 6695.86,
+   "num_clientes": 1312,
+   "efectivo": 39367127.4,
+   "rumbo": 2499572,
+   "urea_rumbo": null,
+   "cons_terpel": null,
+   "mi_emp": 1431561,
+   "clien_propios": 1355253,
+   "app_terpel": 53614,
+   "go_pass": 156396,
+   "datafono": 50637013,
+   "qr": 604457,
+   "ajustes": null,
+   "vive_terpel": 463000,
+   "urea": 0,
+   "efectivo_real": 39299000,
+   "diferencia_efectivo": 68127.4,
+   "diferencia_efectivo_acum": 1738336.1,
+   "certificacion": null,
+   "diferencia_certificacion": -39299000,
+   "diferencia_certificacion_acum": -155402000
+  },
+  {
+   "dia": 16,
+   "vta_corriente": 47347837.6,
+   "vta_bioacem": 64411635,
+   "vta_extra": 5419554.4,
+   "vta_total": 117179027,
+   "vta_gl": 9408.74,
+   "num_clientes": 1360,
+   "efectivo": 40884134,
+   "rumbo": 18471507,
+   "urea_rumbo": 121960,
+   "cons_terpel": null,
+   "mi_emp": 7896585,
+   "clien_propios": 6289095,
+   "app_terpel": 125667,
+   "go_pass": 622758,
+   "datafono": 41538448,
+   "qr": 1234833,
+   "ajustes": null,
+   "vive_terpel": 116000,
+   "urea": 0,
+   "efectivo_real": 40869000,
+   "diferencia_efectivo": 15134,
+   "diferencia_efectivo_acum": 1753470.1,
+   "certificacion": 124978000,
+   "diferencia_certificacion": 84109000,
+   "diferencia_certificacion_acum": -71293000
+  },
+  {
+   "dia": 17,
+   "vta_corriente": 53135683.3,
+   "vta_bioacem": 51249872.5,
+   "vta_extra": 5758005.5,
+   "vta_total": 110143561.3,
+   "vta_gl": 8584.15,
+   "num_clientes": 1423,
+   "efectivo": 41584171.3,
+   "rumbo": 10481252,
+   "urea_rumbo": 223550,
+   "cons_terpel": null,
+   "mi_emp": 8078185,
+   "clien_propios": 6695453,
+   "app_terpel": 470011,
+   "go_pass": 100000,
+   "datafono": 41302752,
+   "qr": 1221737,
+   "ajustes": null,
+   "vive_terpel": 210000,
+   "urea": 0,
+   "efectivo_real": 41422000,
+   "diferencia_efectivo": 162171.3,
+   "diferencia_efectivo_acum": 1915641.4,
+   "certificacion": null,
+   "diferencia_certificacion": -41422000,
+   "diferencia_certificacion_acum": -112715000
+  },
+  {
+   "dia": 18,
+   "vta_corriente": 51048121.6,
+   "vta_bioacem": 55509775,
+   "vta_extra": 5105497.8,
+   "vta_total": 111663394.4,
+   "vta_gl": 8806.88,
+   "num_clientes": 1370,
+   "efectivo": 36961326.4,
+   "rumbo": 14107915,
+   "urea_rumbo": 353345,
+   "cons_terpel": null,
+   "mi_emp": 7960980,
+   "clien_propios": 6888035,
+   "app_terpel": null,
+   "go_pass": 931755,
+   "datafono": 42220539,
+   "qr": 2343044,
+   "ajustes": null,
+   "vive_terpel": 142000,
+   "urea": 107800,
+   "efectivo_real": 36773000,
+   "diferencia_efectivo": 188326.4,
+   "diferencia_efectivo_acum": 2103967.8,
+   "certificacion": null,
+   "diferencia_certificacion": -36773000,
+   "diferencia_certificacion_acum": -149488000
+  },
+  {
+   "dia": 19,
+   "vta_corriente": 52638514.6,
+   "vta_bioacem": 51555172.5,
+   "vta_extra": 6145607,
+   "vta_total": 110339294.1,
+   "vta_gl": 8601.27,
+   "num_clientes": 1330,
+   "efectivo": 37332189.1,
+   "rumbo": 14756723,
+   "urea_rumbo": 37838,
+   "cons_terpel": null,
+   "mi_emp": 7376378,
+   "clien_propios": 4686438,
+   "app_terpel": 159000,
+   "go_pass": 627249,
+   "datafono": 43525309,
+   "qr": 1546008,
+   "ajustes": null,
+   "vive_terpel": 330000,
+   "urea": 0,
+   "efectivo_real": 37212000,
+   "diferencia_efectivo": 120189.1,
+   "diferencia_efectivo_acum": 2224156.9,
+   "certificacion": 117573000,
+   "diferencia_certificacion": 80361000,
+   "diferencia_certificacion_acum": -69127000
+  },
+  {
+   "dia": 20,
+   "vta_corriente": 63973444.5,
+   "vta_bioacem": 56111130,
+   "vta_extra": 8168724.2,
+   "vta_total": 128253298.7,
+   "vta_gl": 9883.25,
+   "num_clientes": 1492,
+   "efectivo": 47443549.7,
+   "rumbo": 14923809,
+   "urea_rumbo": 96250,
+   "cons_terpel": null,
+   "mi_emp": 6068321,
+   "clien_propios": 5559122,
+   "app_terpel": 53362,
+   "go_pass": 526586,
+   "datafono": 51626766,
+   "qr": 1726783,
+   "ajustes": null,
+   "vive_terpel": 325000,
+   "urea": 0,
+   "efectivo_real": 47271000,
+   "diferencia_efectivo": 172549.7,
+   "diferencia_efectivo_acum": 2396706.6,
+   "certificacion": 33496000,
+   "diferencia_certificacion": -13775000,
+   "diferencia_certificacion_acum": -82902000
+  },
+  {
+   "dia": 21,
+   "vta_corriente": 81926201.7,
+   "vta_bioacem": 32103800,
+   "vta_extra": 13641404.4,
+   "vta_total": 127671406.1,
+   "vta_gl": 9134.75,
+   "num_clientes": 1669,
+   "efectivo": 46151452.1,
+   "rumbo": 7155775,
+   "urea_rumbo": 61600,
+   "cons_terpel": null,
+   "mi_emp": 2826430,
+   "clien_propios": 2256236,
+   "app_terpel": 339759,
+   "go_pass": 472261,
+   "datafono": 67264113,
+   "qr": 830380,
+   "ajustes": null,
+   "vive_terpel": 375000,
+   "urea": 0,
+   "efectivo_real": 46067000,
+   "diferencia_efectivo": 84452.1,
+   "diferencia_efectivo_acum": 2481158.7,
+   "certificacion": null,
+   "diferencia_certificacion": -46067000,
+   "diferencia_certificacion_acum": -128969000
+  },
+  {
+   "dia": 22,
+   "vta_corriente": 64132331.9,
+   "vta_bioacem": 15291660,
+   "vta_extra": 11045287.5,
+   "vta_total": 90469279.4,
+   "vta_gl": 6255.74,
+   "num_clientes": 1247,
+   "efectivo": 35478399.4,
+   "rumbo": 2767329,
+   "urea_rumbo": 36510,
+   "cons_terpel": null,
+   "mi_emp": 3197049,
+   "clien_propios": 166331,
+   "app_terpel": 184676,
+   "go_pass": null,
+   "datafono": 47993218,
+   "qr": 346277,
+   "ajustes": null,
+   "vive_terpel": 336000,
+   "urea": 0,
+   "efectivo_real": 35499000,
+   "diferencia_efectivo": -20600.6,
+   "diferencia_efectivo_acum": 2460558.1,
+   "certificacion": null,
+   "diferencia_certificacion": -35499000,
+   "diferencia_certificacion_acum": -164468000
+  },
+  {
+   "dia": 23,
+   "vta_corriente": 50196570.2,
+   "vta_bioacem": 56028892.5,
+   "vta_extra": 6405815,
+   "vta_total": 112631277.7,
+   "vta_gl": 8871.07,
+   "num_clientes": 1352,
+   "efectivo": 45243549.7,
+   "rumbo": 12857685,
+   "urea_rumbo": null,
+   "cons_terpel": null,
+   "mi_emp": 7213613,
+   "clien_propios": 5817861,
+   "app_terpel": null,
+   "go_pass": 532290,
+   "datafono": 38787308,
+   "qr": 1975971,
+   "ajustes": null,
+   "vive_terpel": 203000,
+   "urea": 0,
+   "efectivo_real": 45153000,
+   "diferencia_efectivo": 90549.7,
+   "diferencia_efectivo_acum": 2551107.8,
+   "certificacion": 121884000,
+   "diferencia_certificacion": 76731000,
+   "diferencia_certificacion_acum": -87737000
+  },
+  {
+   "dia": 24,
+   "vta_corriente": 48361162.5,
+   "vta_bioacem": 53639597.5,
+   "vta_extra": 5177416.4,
+   "vta_total": 107178176.4,
+   "vta_gl": 8460,
+   "num_clientes": 1329,
+   "efectivo": 37823715.4,
+   "rumbo": 12666575,
+   "urea_rumbo": 324513,
+   "cons_terpel": null,
+   "mi_emp": 9730177,
+   "clien_propios": 6188609,
+   "app_terpel": 337733,
+   "go_pass": 375181,
+   "datafono": 37941184,
+   "qr": 1993002,
+   "ajustes": null,
+   "vive_terpel": 122000,
+   "urea": 0,
+   "efectivo_real": 37748000,
+   "diferencia_efectivo": 75715.4,
+   "diferencia_efectivo_acum": 2626823.2,
+   "certificacion": null,
+   "diferencia_certificacion": -37748000,
+   "diferencia_certificacion_acum": -125485000
+  },
+  {
+   "dia": 25,
+   "vta_corriente": 52674059.2,
+   "vta_bioacem": 59307857.5,
+   "vta_extra": 6114165.2,
+   "vta_total": 118096081.9,
+   "vta_gl": 9323.05,
+   "num_clientes": 1474,
+   "efectivo": 43240452.9,
+   "rumbo": 14181744,
+   "urea_rumbo": 50050,
+   "cons_terpel": null,
+   "mi_emp": 7290298,
+   "clien_propios": 6512756,
+   "app_terpel": null,
+   "go_pass": 307686,
+   "datafono": 45686288,
+   "qr": 460557,
+   "ajustes": null,
+   "vive_terpel": 347000,
+   "urea": 69300,
+   "efectivo_real": 42899000,
+   "diferencia_efectivo": 341452.9,
+   "diferencia_efectivo_acum": 2968276.1,
+   "certificacion": null,
+   "diferencia_certificacion": -42899000,
+   "diferencia_certificacion_acum": -168384000
+  },
+  {
+   "dia": 26,
+   "vta_corriente": 48273971.9,
+   "vta_bioacem": 50011687.5,
+   "vta_extra": 6794500.7,
+   "vta_total": 105080160.1,
+   "vta_gl": 8206.27,
+   "num_clientes": 1324,
+   "efectivo": 33530636.1,
+   "rumbo": 9850684,
+   "urea_rumbo": null,
+   "cons_terpel": null,
+   "mi_emp": 7071587,
+   "clien_propios": 5104371,
+   "app_terpel": 277324,
+   "go_pass": 1175172,
+   "datafono": 46317707,
+   "qr": 1667679,
+   "ajustes": null,
+   "vive_terpel": 85000,
+   "urea": 0,
+   "efectivo_real": 33322000,
+   "diferencia_efectivo": 208636.1,
+   "diferencia_efectivo_acum": 3176912.2,
+   "certificacion": null,
+   "diferencia_certificacion": -33322000,
+   "diferencia_certificacion_acum": -201706000
+  },
+  {
+   "dia": 27,
+   "vta_corriente": 64268586.2,
+   "vta_bioacem": 54880362.5,
+   "vta_extra": 11205207,
+   "vta_total": 130354155.7,
+   "vta_gl": 9956.23,
+   "num_clientes": 1508,
+   "efectivo": 44993834.7,
+   "rumbo": 13296911,
+   "urea_rumbo": 30900,
+   "cons_terpel": null,
+   "mi_emp": 4705189,
+   "clien_propios": 6903659,
+   "app_terpel": 119196,
+   "go_pass": 975565,
+   "datafono": 56425457,
+   "qr": 2792344,
+   "ajustes": null,
+   "vive_terpel": 142000,
+   "urea": 0,
+   "efectivo_real": 44988000,
+   "diferencia_efectivo": 5834.7,
+   "diferencia_efectivo_acum": 3182746.9,
+   "certificacion": 167521000,
+   "diferencia_certificacion": 122533000,
+   "diferencia_certificacion_acum": -79173000
+  },
+  {
+   "dia": 28,
+   "vta_corriente": 92690747.1,
+   "vta_bioacem": 31870740.0,
+   "vta_extra": 16131631.1,
+   "vta_total": 140693118.2,
+   "vta_gl": 9959.54,
+   "num_clientes": 1749,
+   "efectivo": 51441504.2,
+   "rumbo": 4140014,
+   "urea_rumbo": 145688,
+   "cons_terpel": 124634,
+   "mi_emp": 4767081,
+   "clien_propios": 2039770,
+   "app_terpel": null,
+   "go_pass": 659056,
+   "datafono": 76608659,
+   "qr": 619150,
+   "ajustes": null,
+   "vive_terpel": 197000,
+   "urea": 96250,
+   "efectivo_real": 51295000,
+   "diferencia_efectivo": 146504.2,
+   "diferencia_efectivo_acum": 3329251.1,
+   "certificacion": null,
+   "diferencia_certificacion": -51295000,
+   "diferencia_certificacion_acum": -130468000
+  }
+ ],
+ "cuentas_nombres": [
+  "CRC",
+  "CRC UREA",
+  "EASY CEM",
+  "UT NUTRIENDO",
+  "MAURICIO C",
+  "COLEG NUEVA INGLATERRA",
+  "COLEG NUEVA INGLATERRA UREA",
+  "LA COLINA BRANDS",
+  "LAB BRANDS",
+  "CAPITAL USPEC",
+  "CAPITAL USPEC UREA",
+  "OCMIA",
+  "AQUA",
+  "BAM",
+  "BAM UREA",
+  "INSMEVET",
+  "INSMEVET UREA",
+  "INTEXCO",
+  "AVSA",
+  "DACT CHEMICAL",
+  "VERPACKEN",
+  "SANTILLANA",
+  "QR",
+  "QR UREA",
+  "DISPAPELES",
+  "DASA HIGH",
+  "PETMAX",
+  "IMPRESISTEM",
+  "JANETH TELLEZ",
+  "PROVEFABRICA",
+  "PROVEFABRICA UREA",
+  "PARAISO",
+  "FM INGENIERIA",
+  "WILLIAM JIMENEZ",
+  "EDS JAP",
+  "SEBASTIAN RAMIREZ",
+  "PARQUE ROSALINDA",
+  "FIGUCENTRO",
+  "FIGUCENTER UREA",
+  "INTERPHARMA",
+  "SERVICIO PREMIERE",
+  "DICOLTEXCO",
+  "VARIOS",
+  "JOSE LUIS",
+  "SILVINO",
+  "ANDREA ZARATE",
+  "OFFICE SUPPLY",
+  "GESTOAGRO",
+  "TRANSP LA RUTA",
+  "TRANSP LA RUTA UREA",
+  "POMAR",
+  "LEXMANA",
+  "LEXMANA UREA",
+  "ETRICOL",
+  "GRAFICAS JAIBER",
+  "GRAFICAS JAIBER LUB",
+  "UNION SERVIR",
+  "UNION SERVIR UREA"
+ ],
+ "vtas_efectivo_dias": [
+  {
+   "dia": 1,
+   "total_combustible": 0,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 0,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 605147
+    }
+   ]
+  },
+  {
+   "dia": 2,
+   "total_combustible": 2835136,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 2835136,
+   "movimientos": [
+    {
+     "cuenta": "OCMIA",
+     "monto": 380002
+    },
+    {
+     "cuenta": "QR",
+     "monto": 2060238
+    },
+    {
+     "cuenta": "VARIOS",
+     "monto": 223912
+    },
+    {
+     "cuenta": "ANDREA ZARATE",
+     "monto": 579769
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1651453
+    }
+   ]
+  },
+  {
+   "dia": 3,
+   "total_combustible": 1702749,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1702749,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1100786
+    },
+    {
+     "cuenta": "GESTOAGRO",
+     "monto": 163757
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1007168
+    },
+    {
+     "cuenta": "UNION SERVIR",
+     "monto": 531824
+    }
+   ]
+  },
+  {
+   "dia": 4,
+   "total_combustible": 290486,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 290486,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 606162
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 290486
+    }
+   ]
+  },
+  {
+   "dia": 5,
+   "total_combustible": 1186270,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1186270,
+   "movimientos": [
+    {
+     "cuenta": "CRC",
+     "monto": 297033
+    },
+    {
+     "cuenta": "QR",
+     "monto": 519335
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 889237
+    }
+   ]
+  },
+  {
+   "dia": 6,
+   "total_combustible": 1941951,
+   "total_urea": 142450,
+   "total_lub": 0,
+   "total": 2084401,
+   "movimientos": [
+    {
+     "cuenta": "COLEG NUEVA INGLATERRA UREA",
+     "monto": 57750
+    },
+    {
+     "cuenta": "BAM",
+     "monto": 270685
+    },
+    {
+     "cuenta": "BAM UREA",
+     "monto": 84700
+    },
+    {
+     "cuenta": "QR",
+     "monto": 2088640
+    },
+    {
+     "cuenta": "IMPRESISTEM",
+     "monto": 78626
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 849949
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 211749
+    },
+    {
+     "cuenta": "UNION SERVIR",
+     "monto": 530942
+    }
+   ]
+  },
+  {
+   "dia": 7,
+   "total_combustible": 1465902,
+   "total_urea": 23100,
+   "total_lub": 0,
+   "total": 1489002,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1729379
+    },
+    {
+     "cuenta": "VARIOS",
+     "monto": 217010
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1248892
+    },
+    {
+     "cuenta": "TRANSP LA RUTA UREA",
+     "monto": 23100
+    }
+   ]
+  },
+  {
+   "dia": 8,
+   "total_combustible": 80410,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 80410,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1278272
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 80410
+    }
+   ]
+  },
+  {
+   "dia": 9,
+   "total_combustible": 1444111,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1444111,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 2061251
+    },
+    {
+     "cuenta": "PROVEFABRICA",
+     "monto": 91824
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1352287
+    }
+   ]
+  },
+  {
+   "dia": 10,
+   "total_combustible": 1562381,
+   "total_urea": 180950,
+   "total_lub": 0,
+   "total": 1743331,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1618779
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1562381
+    },
+    {
+     "cuenta": "TRANSP LA RUTA UREA",
+     "monto": 180950
+    }
+   ]
+  },
+  {
+   "dia": 11,
+   "total_combustible": 1169027,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1169027,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1074960
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1065386
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 103641
+    }
+   ]
+  },
+  {
+   "dia": 12,
+   "total_combustible": 661148,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 661148,
+   "movimientos": [
+    {
+     "cuenta": "BAM",
+     "monto": 417181
+    },
+    {
+     "cuenta": "QR",
+     "monto": 1276237
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 120047
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 123920
+    }
+   ]
+  },
+  {
+   "dia": 13,
+   "total_combustible": 1281892,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1281892,
+   "movimientos": [
+    {
+     "cuenta": "BAM",
+     "monto": 150000
+    },
+    {
+     "cuenta": "QR",
+     "monto": 957331
+    },
+    {
+     "cuenta": "GESTOAGRO",
+     "monto": 156092
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 855002
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 120798
+    }
+   ]
+  },
+  {
+   "dia": 14,
+   "total_combustible": 634658,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 634658,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1378524
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 634658
+    }
+   ]
+  },
+  {
+   "dia": 15,
+   "total_combustible": 253969,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 253969,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 604457
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 253969
+    }
+   ]
+  },
+  {
+   "dia": 16,
+   "total_combustible": 1378313,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1378313,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1234833
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1378313
+    }
+   ]
+  },
+  {
+   "dia": 17,
+   "total_combustible": 1115189,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1115189,
+   "movimientos": [
+    {
+     "cuenta": "BAM",
+     "monto": 150000
+    },
+    {
+     "cuenta": "QR",
+     "monto": 1221737
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 358599
+    },
+    {
+     "cuenta": "UNION SERVIR",
+     "monto": 606590
+    }
+   ]
+  },
+  {
+   "dia": 18,
+   "total_combustible": 585866,
+   "total_urea": 107800,
+   "total_lub": 0,
+   "total": 693666,
+   "movimientos": [
+    {
+     "cuenta": "BAM UREA",
+     "monto": 92400
+    },
+    {
+     "cuenta": "QR",
+     "monto": 2343044
+    },
+    {
+     "cuenta": "SEBASTIAN RAMIREZ",
+     "monto": 68381
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 517485
+    },
+    {
+     "cuenta": "TRANSP LA RUTA UREA",
+     "monto": 15400
+    }
+   ]
+  },
+  {
+   "dia": 19,
+   "total_combustible": 370909,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 370909,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1546008
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 271369
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 99540
+    }
+   ]
+  },
+  {
+   "dia": 20,
+   "total_combustible": 2092712,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 2092712,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1726783
+    },
+    {
+     "cuenta": "EDS JAP",
+     "monto": 211055
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1881657
+    }
+   ]
+  },
+  {
+   "dia": 21,
+   "total_combustible": 384194,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 384194,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 830380
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 384194
+    }
+   ]
+  },
+  {
+   "dia": 22,
+   "total_combustible": 166331,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 166331,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 346277
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 166331
+    }
+   ]
+  },
+  {
+   "dia": 23,
+   "total_combustible": 271405,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 271405,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1975971
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 271405
+    }
+   ]
+  },
+  {
+   "dia": 24,
+   "total_combustible": 1441483,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1441483,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 1993002
+    },
+    {
+     "cuenta": "INTERPHARMA",
+     "monto": 220483
+    },
+    {
+     "cuenta": "GESTOAGRO",
+     "monto": 110158
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 526024
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 104067
+    },
+    {
+     "cuenta": "UNION SERVIR",
+     "monto": 480751
+    }
+   ]
+  },
+  {
+   "dia": 25,
+   "total_combustible": 389763,
+   "total_urea": 69300,
+   "total_lub": 0,
+   "total": 459063,
+   "movimientos": [
+    {
+     "cuenta": "QR",
+     "monto": 460557
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 389763
+    },
+    {
+     "cuenta": "TRANSP LA RUTA UREA",
+     "monto": 69300
+    }
+   ]
+  },
+  {
+   "dia": 26,
+   "total_combustible": 1403505,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1403505,
+   "movimientos": [
+    {
+     "cuenta": "BAM",
+     "monto": 300000
+    },
+    {
+     "cuenta": "QR",
+     "monto": 1667679
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 1103505
+    }
+   ]
+  },
+  {
+   "dia": 27,
+   "total_combustible": 1254205,
+   "total_urea": 0,
+   "total_lub": 0,
+   "total": 1254205,
+   "movimientos": [
+    {
+     "cuenta": "BAM",
+     "monto": 325929
+    },
+    {
+     "cuenta": "QR",
+     "monto": 2792344
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 819500
+    },
+    {
+     "cuenta": "ETRICOL",
+     "monto": 108776
+    }
+   ]
+  },
+  {
+   "dia": 28,
+   "total_combustible": 415025,
+   "total_urea": 96250,
+   "total_lub": 0,
+   "total": 511275,
+   "movimientos": [
+    {
+     "cuenta": "CRC UREA",
+     "monto": 50050
+    },
+    {
+     "cuenta": "QR",
+     "monto": 619150
+    },
+    {
+     "cuenta": "TRANSP LA RUTA",
+     "monto": 415025
+    },
+    {
+     "cuenta": "TRANSP LA RUTA UREA",
+     "monto": 46200
+    }
+   ]
+  }
+ ],
+ "urea_dias": [
+  {
+   "dia": 1,
+   "inventario_inicial": 73281.2,
+   "inventario_final": 73307.2,
+   "diferencia": 26,
+   "rumbo_litros": 20.239,
+   "clientes_propios_litros": 0,
+   "valor": 22180.0,
+   "valor_rumbo": 77920,
+   "valor_propios": 0,
+   "total": 100100,
+   "inventario_teorico": 1210.1,
+   "recibo": null
+  },
+  {
+   "dia": 2,
+   "inventario_inicial": 73307.2,
+   "inventario_final": 73429.3,
+   "diferencia": 122.1,
+   "rumbo_litros": 21.3101,
+   "clientes_propios_litros": 0,
+   "valor": 388041.0,
+   "valor_rumbo": 82044,
+   "valor_propios": 0,
+   "total": 470085.0,
+   "inventario_teorico": 1088,
+   "recibo": null
+  },
+  {
+   "dia": 3,
+   "inventario_inicial": 73429.3,
+   "inventario_final": 73579.4,
+   "diferencia": 150.1,
+   "rumbo_litros": 84.7769,
+   "clientes_propios_litros": 0,
+   "valor": 251494.0,
+   "valor_rumbo": 326391,
+   "valor_propios": 0,
+   "total": 577885.0,
+   "inventario_teorico": 937.9,
+   "recibo": null
+  },
+  {
+   "dia": 4,
+   "inventario_inicial": 73579.4,
+   "inventario_final": 73702.3,
+   "diferencia": 122.9,
+   "rumbo_litros": 18,
+   "clientes_propios_litros": 0,
+   "valor": 403865.0,
+   "valor_rumbo": 69300,
+   "valor_propios": 0,
+   "total": 473165.0,
+   "inventario_teorico": 815,
+   "recibo": null
+  },
+  {
+   "dia": 5,
+   "inventario_inicial": 73702.3,
+   "inventario_final": 73842.9,
+   "diferencia": 140.6,
+   "rumbo_litros": 92.5709,
+   "clientes_propios_litros": 0,
+   "valor": 184912.0,
+   "valor_rumbo": 356398,
+   "valor_propios": 0,
+   "total": 541310.0,
+   "inventario_teorico": 674.4,
+   "recibo": null
+  },
+  {
+   "dia": 6,
+   "inventario_inicial": 73842.9,
+   "inventario_final": 74006.1,
+   "diferencia": 163.2,
+   "rumbo_litros": 32.0021,
+   "clientes_propios_litros": 37,
+   "valor": 362662.0,
+   "valor_rumbo": 123208,
+   "valor_propios": 142450,
+   "total": 628320.0,
+   "inventario_teorico": 511.2,
+   "recibo": 1000
+  },
+  {
+   "dia": 7,
+   "inventario_inicial": 74006.1,
+   "inventario_final": 74107.4,
+   "diferencia": 101.3,
+   "rumbo_litros": 14.9221,
+   "clientes_propios_litros": 6,
+   "valor": 309455.0,
+   "valor_rumbo": 57450,
+   "valor_propios": 23100,
+   "total": 390005.0,
+   "inventario_teorico": 1409.9,
+   "recibo": null
+  },
+  {
+   "dia": 8,
+   "inventario_inicial": 74107.4,
+   "inventario_final": 74210.9,
+   "diferencia": 103.5,
+   "rumbo_litros": 46.2021,
+   "clientes_propios_litros": 0,
+   "valor": 220597,
+   "valor_rumbo": 177878,
+   "valor_propios": 0,
+   "total": 398475,
+   "inventario_teorico": 1306.4,
+   "recibo": null
+  },
+  {
+   "dia": 9,
+   "inventario_inicial": 74210.9,
+   "inventario_final": 74289.7,
+   "diferencia": 78.8,
+   "rumbo_litros": 38.446,
+   "clientes_propios_litros": 0,
+   "valor": 155363.0,
+   "valor_rumbo": 148017,
+   "valor_propios": 0,
+   "total": 303380.0,
+   "inventario_teorico": 1227.6,
+   "recibo": null
+  },
+  {
+   "dia": 10,
+   "inventario_inicial": 74289.7,
+   "inventario_final": 74471.1,
+   "diferencia": 181.4,
+   "rumbo_litros": 76,
+   "clientes_propios_litros": 47,
+   "valor": 224840.0,
+   "valor_rumbo": 292600,
+   "valor_propios": 180950,
+   "total": 698390.0,
+   "inventario_teorico": 1046.2,
+   "recibo": null
+  },
+  {
+   "dia": 11,
+   "inventario_inicial": 74471.1,
+   "inventario_final": 74504.2,
+   "diferencia": 33.1,
+   "rumbo_litros": 0,
+   "clientes_propios_litros": 0,
+   "valor": 127435.0,
+   "valor_rumbo": 0,
+   "valor_propios": 0,
+   "total": 127435.0,
+   "inventario_teorico": 1013.1,
+   "recibo": null
+  },
+  {
+   "dia": 12,
+   "inventario_inicial": 74504.2,
+   "inventario_final": 74606.6,
+   "diferencia": 102.4,
+   "rumbo_litros": 46.18,
+   "clientes_propios_litros": 0,
+   "valor": 216447.0,
+   "valor_rumbo": 177793,
+   "valor_propios": 0,
+   "total": 394240.0,
+   "inventario_teorico": 910.7,
+   "recibo": null
+  },
+  {
+   "dia": 13,
+   "inventario_inicial": 74606.6,
+   "inventario_final": 74780.7,
+   "diferencia": 174.1,
+   "rumbo_litros": 117.6291,
+   "clientes_propios_litros": 0,
+   "valor": 217413.0,
+   "valor_rumbo": 452872,
+   "valor_propios": 0,
+   "total": 670285.0,
+   "inventario_teorico": 736.6,
+   "recibo": null
+  },
+  {
+   "dia": 14,
+   "inventario_inicial": 74780.7,
+   "inventario_final": 74825.8,
+   "diferencia": 45.1,
+   "rumbo_litros": 22,
+   "clientes_propios_litros": 0,
+   "valor": 88935.0,
+   "valor_rumbo": 84700,
+   "valor_propios": 0,
+   "total": 173635.0,
+   "inventario_teorico": 691.5,
+   "recibo": null
+  },
+  {
+   "dia": 15,
+   "inventario_inicial": 74825.8,
+   "inventario_final": 74858,
+   "diferencia": 32.2,
+   "rumbo_litros": 0,
+   "clientes_propios_litros": 0,
+   "valor": 123970.0,
+   "valor_rumbo": 0,
+   "valor_propios": 0,
+   "total": 123970.0,
+   "inventario_teorico": 659.3,
+   "recibo": null
+  },
+  {
+   "dia": 16,
+   "inventario_inicial": 74858,
+   "inventario_final": 74946.2,
+   "diferencia": 88.2,
+   "rumbo_litros": 31.6779,
+   "clientes_propios_litros": 0,
+   "valor": 217610.0,
+   "valor_rumbo": 121960,
+   "valor_propios": 0,
+   "total": 339570.0,
+   "inventario_teorico": 571.1,
+   "recibo": null
+  },
+  {
+   "dia": 17,
+   "inventario_inicial": 74946.2,
+   "inventario_final": 75186.9,
+   "diferencia": 240.7,
+   "rumbo_litros": 58.0649,
+   "clientes_propios_litros": 0,
+   "valor": 703145.0,
+   "valor_rumbo": 223550,
+   "valor_propios": 0,
+   "total": 926695.0,
+   "inventario_teorico": 330.4,
+   "recibo": null
+  },
+  {
+   "dia": 18,
+   "inventario_inicial": 75186.9,
+   "inventario_final": 75384,
+   "diferencia": 197.1,
+   "rumbo_litros": 91.7779,
+   "clientes_propios_litros": 28,
+   "valor": 297690.0,
+   "valor_rumbo": 353345,
+   "valor_propios": 107800,
+   "total": 758835.0,
+   "inventario_teorico": 133.3,
+   "recibo": 1900
+  },
+  {
+   "dia": 19,
+   "inventario_inicial": 75384,
+   "inventario_final": 75496.7,
+   "diferencia": 112.7,
+   "rumbo_litros": 9.8281,
+   "clientes_propios_litros": 0,
+   "valor": 396057.0,
+   "valor_rumbo": 37838,
+   "valor_propios": 0,
+   "total": 433895.0,
+   "inventario_teorico": 1920.6,
+   "recibo": null
+  },
+  {
+   "dia": 20,
+   "inventario_inicial": 75496.7,
+   "inventario_final": 75625,
+   "diferencia": 128.3,
+   "rumbo_litros": 25,
+   "clientes_propios_litros": 0,
+   "valor": 397705.0,
+   "valor_rumbo": 96250,
+   "valor_propios": 0,
+   "total": 493955.0,
+   "inventario_teorico": 1792.3,
+   "recibo": null
+  },
+  {
+   "dia": 21,
+   "inventario_inicial": 75625,
+   "inventario_final": 75685.4,
+   "diferencia": 60.4,
+   "rumbo_litros": 16,
+   "clientes_propios_litros": 0,
+   "valor": 170940.0,
+   "valor_rumbo": 61600,
+   "valor_propios": 0,
+   "total": 232540.0,
+   "inventario_teorico": 1731.9,
+   "recibo": null
+  },
+  {
+   "dia": 22,
+   "inventario_inicial": 75685.4,
+   "inventario_final": 75765.1,
+   "diferencia": 79.7,
+   "rumbo_litros": 9.4831,
+   "clientes_propios_litros": 0,
+   "valor": 270335.0,
+   "valor_rumbo": 36510,
+   "valor_propios": 0,
+   "total": 306845.0,
+   "inventario_teorico": 1652.2,
+   "recibo": null
+  },
+  {
+   "dia": 23,
+   "inventario_inicial": 75765.1,
+   "inventario_final": 75867.2,
+   "diferencia": 102.1,
+   "rumbo_litros": 0,
+   "clientes_propios_litros": 0,
+   "valor": 393085.0,
+   "valor_rumbo": 0,
+   "valor_propios": 0,
+   "total": 393085.0,
+   "inventario_teorico": 1550.1,
+   "recibo": null
+  },
+  {
+   "dia": 24,
+   "inventario_inicial": 75867.2,
+   "inventario_final": 76049.6,
+   "diferencia": 182.4,
+   "rumbo_litros": 84.2891,
+   "clientes_propios_litros": 0,
+   "valor": 377727.0,
+   "valor_rumbo": 324513,
+   "valor_propios": 0,
+   "total": 702240.0,
+   "inventario_teorico": 1367.7,
+   "recibo": null
+  },
+  {
+   "dia": 25,
+   "inventario_inicial": 76049.6,
+   "inventario_final": 76203.5,
+   "diferencia": 153.9,
+   "rumbo_litros": 13,
+   "clientes_propios_litros": 18,
+   "valor": 473165.0,
+   "valor_rumbo": 50050,
+   "valor_propios": 69300,
+   "total": 592515.0,
+   "inventario_teorico": 1213.8,
+   "recibo": null
+  },
+  {
+   "dia": 26,
+   "inventario_inicial": 76203.5,
+   "inventario_final": 76239.3,
+   "diferencia": 35.8,
+   "rumbo_litros": 0,
+   "clientes_propios_litros": 0,
+   "valor": 137830.0,
+   "valor_rumbo": 0,
+   "valor_propios": 0,
+   "total": 137830.0,
+   "inventario_teorico": 1178,
+   "recibo": null
+  },
+  {
+   "dia": 27,
+   "inventario_inicial": 76239.3,
+   "inventario_final": 76322.1,
+   "diferencia": 82.8,
+   "rumbo_litros": 8.026,
+   "clientes_propios_litros": 0,
+   "valor": 287880.0,
+   "valor_rumbo": 30900,
+   "valor_propios": 0,
+   "total": 318780.0,
+   "inventario_teorico": 1095.2,
+   "recibo": null
+  },
+  {
+   "dia": 28,
+   "inventario_inicial": 76322.1,
+   "inventario_final": 76449.1,
+   "diferencia": 127,
+   "rumbo_litros": 37.841,
+   "clientes_propios_litros": 25,
+   "valor": 247012,
+   "valor_rumbo": 145688,
+   "valor_propios": 96250,
+   "total": 488950,
+   "inventario_teorico": 968.2,
+   "recibo": null
+  }
+ ],
+ "urea_costo_unitario": 2950,
+ "facturas": [
+  {
+   "fecha": "2025-02-02",
+   "numero_factura": 867020135,
+   "corriente": 5800,
+   "extra": null,
+   "bioacem": 2800
+  },
+  {
+   "fecha": "2025-02-03",
+   "numero_factura": 867029358,
+   "corriente": 4000,
+   "extra": null,
+   "bioacem": 4600
+  },
+  {
+   "fecha": "2025-02-04",
+   "numero_factura": 867029175,
+   "corriente": 2800,
+   "extra": null,
+   "bioacem": 5800
+  },
+  {
+   "fecha": "2025-02-05",
+   "numero_factura": 867031351,
+   "corriente": 2800,
+   "extra": 1800,
+   "bioacem": 3500
+  },
+  {
+   "fecha": "2025-02-06",
+   "numero_factura": 867034431,
+   "corriente": null,
+   "extra": null,
+   "bioacem": 5200
+  },
+  {
+   "fecha": "2025-02-06",
+   "numero_factura": 867033982,
+   "corriente": 4600,
+   "extra": null,
+   "bioacem": 3500
+  },
+  {
+   "fecha": "2025-02-07",
+   "numero_factura": 867040093,
+   "corriente": 4600,
+   "extra": null,
+   "bioacem": 3500
+  },
+  {
+   "fecha": "2025-02-09",
+   "numero_factura": 867045369,
+   "corriente": 4600,
+   "extra": null,
+   "bioacem": 4000
+  },
+  {
+   "fecha": "2025-02-10",
+   "numero_factura": 867053993,
+   "corriente": 3700,
+   "extra": 1500,
+   "bioacem": null
+  },
+  {
+   "fecha": "2025-02-10",
+   "numero_factura": 867051899,
+   "corriente": null,
+   "extra": null,
+   "bioacem": 5200
+  },
+  {
+   "fecha": "2025-02-11",
+   "numero_factura": 867062026,
+   "corriente": 1800,
+   "extra": null,
+   "bioacem": 6800
+  },
+  {
+   "fecha": "2025-02-12",
+   "numero_factura": 867060096,
+   "corriente": 4000,
+   "extra": null,
+   "bioacem": 4600
+  },
+  {
+   "fecha": "2025-02-13",
+   "numero_factura": 867063566,
+   "corriente": 4000,
+   "extra": null,
+   "bioacem": 4600
+  },
+  {
+   "fecha": "2025-02-14",
+   "numero_factura": 867069675,
+   "corriente": 4600,
+   "extra": null,
+   "bioacem": 4000
+  },
+  {
+   "fecha": "2025-02-14",
+   "numero_factura": 867069226,
+   "corriente": 2800,
+   "extra": 1800,
+   "bioacem": 4000
+  },
+  {
+   "fecha": "2025-02-15",
+   "numero_factura": 867075510,
+   "corriente": 4600,
+   "extra": null,
+   "bioacem": 4000
+  },
+  {
+   "fecha": "2025-02-17",
+   "numero_factura": 867083937,
+   "corriente": 3300,
+   "extra": 1800,
+   "bioacem": 3500
+  },
+  {
+   "fecha": "2025-02-17",
+   "numero_factura": 867083434,
+   "corriente": 4600,
+   "extra": null,
+   "bioacem": 3500
+  },
+  {
+   "fecha": "2025-02-18",
+   "numero_factura": 867084103,
+   "corriente": 1800,
+   "extra": null,
+   "bioacem": 6800
+  },
+  {
+   "fecha": "2025-02-20",
+   "numero_factura": 867094878,
+   "corriente": 3500,
+   "extra": null,
+   "bioacem": 6300
+  },
+  {
+   "fecha": "2025-02-21",
+   "numero_factura": 867099527,
+   "corriente": 5800,
+   "extra": null,
+   "bioacem": 2800
+  },
+  {
+   "fecha": "2025-02-22",
+   "numero_factura": 867101512,
+   "corriente": 5800,
+   "extra": null,
+   "bioacem": 2800
+  },
+  {
+   "fecha": "2025-02-23",
+   "numero_factura": 867099706,
+   "corriente": 3500,
+   "extra": 1800,
+   "bioacem": 2800
+  },
+  {
+   "fecha": "2025-02-24",
+   "numero_factura": 9410634788,
+   "corriente": 4000,
+   "extra": null,
+   "bioacem": 4600
+  },
+  {
+   "fecha": "2025-02-25",
+   "numero_factura": 867109496,
+   "corriente": 2700,
+   "extra": null,
+   "bioacem": 5800
+  },
+  {
+   "fecha": "2025-02-26",
+   "numero_factura": 867112976,
+   "corriente": 2700,
+   "extra": 1800,
+   "bioacem": 4000
+  },
+  {
+   "fecha": "2025-02-27",
+   "numero_factura": 867122879,
+   "corriente": 5200,
+   "extra": null,
+   "bioacem": 5300
+  },
+  {
+   "fecha": "2025-02-27",
+   "numero_factura": 867127535,
+   "corriente": 3500,
+   "extra": null,
+   "bioacem": 6300
+  },
+  {
+   "fecha": "2025-02-28",
+   "numero_factura": 867128321,
+   "corriente": 3500,
+   "extra": 1800,
+   "bioacem": 2800
+  }
+ ],
+ "presupuesto_feb": {
+  "Ventas": 238711.71,
+  "Compra": 240300,
+  "Rumbo": 23619.7495,
+  "Clientes Propios": 10327.5384,
+  "Clientes Paso": 204764.4221,
+  "Presupuesto 25": 238464,
+  "Presupuesto CTE": 110924,
+  "Presupuesto ACPM": 117867,
+  "Presupuesto EXTRA": 9673,
+  "Cumplimiento": 1.0077,
+  "% Rumbo": 0.0989,
+  "% Clientes Propios": 0.0433,
+  "% Clientes Paso": 0.8578
+ },
+ "sicom": [
+  {
+   "producto": "ACPM",
+   "inventario_inicial": 12651.427,
+   "compras": 123400,
+   "ventas": -121740.33,
+   "faltantes": -480.903,
+   "evaporacion": 0,
+   "inventario_final_calc": 14311.097,
+   "inventario_final_real": 14792
+  },
+  {
+   "producto": "CORRIENTE",
+   "inventario_inicial": 7703.17,
+   "compras": 104600,
+   "ventas": -105314.9,
+   "faltantes": 26.47,
+   "evaporacion": -41.84,
+   "inventario_final_calc": 6988.27,
+   "inventario_final_real": 6919.96
+  },
+  {
+   "producto": "EXTRA",
+   "inventario_inicial": 2194.99,
+   "compras": 12300,
+   "ventas": -11656.48,
+   "faltantes": 16.15,
+   "evaporacion": -4.92,
+   "inventario_final_calc": 2838.51,
+   "inventario_final_real": 2817.44
+  }
+ ],
+ "promotor_dias": [
+  {
+   "dia": 1,
+   "weekday": "D",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T2",
+     "galones": 664.069,
+     "num_vehiculos": 129,
+     "isla": "2"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T3",
+     "galones": 396.908,
+     "num_vehiculos": 80,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 1041.044,
+     "num_vehiculos": 226,
+     "isla": "4"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T2",
+     "galones": 631.484,
+     "num_vehiculos": 130,
+     "isla": "2"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 583.764,
+     "num_vehiculos": 92,
+     "isla": "3"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T4",
+     "galones": 229.988,
+     "num_vehiculos": 47,
+     "isla": "4"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T3",
+     "galones": 542.997,
+     "num_vehiculos": 98,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T1",
+     "galones": 543.904,
+     "num_vehiculos": 89,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 254.137,
+     "num_vehiculos": 57,
+     "isla": "3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 263.479,
+     "num_vehiculos": 49,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1000.418,
+     "num_vehiculos": 210,
+     "isla": "2"
+    }
+   ]
+  },
+  {
+   "dia": 2,
+   "weekday": "L",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 587.444,
+     "num_vehiculos": 44,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T3",
+     "galones": 365.149,
+     "num_vehiculos": 60,
+     "isla": "1"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 364.805,
+     "num_vehiculos": 39,
+     "isla": "3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 635.822,
+     "num_vehiculos": 132,
+     "isla": "2"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 718.713,
+     "num_vehiculos": 86,
+     "isla": "3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 969.362,
+     "num_vehiculos": 67,
+     "isla": "3"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 1150.12,
+     "num_vehiculos": 182,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T1",
+     "galones": 810.433,
+     "num_vehiculos": 191,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 1089.413,
+     "num_vehiculos": 216,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 906.052,
+     "num_vehiculos": 142,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T4",
+     "galones": 688.941,
+     "num_vehiculos": 66,
+     "isla": "4"
+    }
+   ]
+  },
+  {
+   "dia": 3,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 951.285,
+     "num_vehiculos": 115,
+     "isla": "1"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 997.882,
+     "num_vehiculos": 98,
+     "isla": "1"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 125.179,
+     "num_vehiculos": 20,
+     "isla": "4"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T2",
+     "galones": 757.185,
+     "num_vehiculos": 134,
+     "isla": "3"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 973.694,
+     "num_vehiculos": 243,
+     "isla": "2"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 1187.34,
+     "num_vehiculos": 101,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T2",
+     "galones": 837.843,
+     "num_vehiculos": 151,
+     "isla": "2"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 232.556,
+     "num_vehiculos": 35,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 653.358,
+     "num_vehiculos": 52,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 575.564,
+     "num_vehiculos": 87,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1138.875,
+     "num_vehiculos": 220,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 4,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 506.957,
+     "num_vehiculos": 86,
+     "isla": "1"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 1532.495,
+     "num_vehiculos": 152,
+     "isla": "3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T3",
+     "galones": 548.348,
+     "num_vehiculos": 71,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1139.173,
+     "num_vehiculos": 211,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T2",
+     "galones": 1001.202,
+     "num_vehiculos": 74,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T2",
+     "galones": 956.563,
+     "num_vehiculos": 152,
+     "isla": "1"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 102.999,
+     "num_vehiculos": 19,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 785.312,
+     "num_vehiculos": 78,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T2",
+     "galones": 979.38,
+     "num_vehiculos": 167,
+     "isla": "2"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1189.022,
+     "num_vehiculos": 203,
+     "isla": "2"
+    }
+   ]
+  },
+  {
+   "dia": 5,
+   "weekday": "J",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 646.38,
+     "num_vehiculos": 98,
+     "isla": "1"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 966.464,
+     "num_vehiculos": 129,
+     "isla": "1"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T3",
+     "galones": 1279.422,
+     "num_vehiculos": 113,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1469.508,
+     "num_vehiculos": 94,
+     "isla": "3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T1",
+     "galones": 426.128,
+     "num_vehiculos": 52,
+     "isla": "2"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T2",
+     "galones": 626.279,
+     "num_vehiculos": 71,
+     "isla": "2"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 575.862,
+     "num_vehiculos": 33,
+     "isla": "3"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 9.875,
+     "num_vehiculos": 1,
+     "isla": "4"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T2",
+     "galones": 911.298,
+     "num_vehiculos": 112,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T3",
+     "galones": 232.269,
+     "num_vehiculos": 31,
+     "isla": "2 Y 3"
+    }
+   ]
+  },
+  {
+   "dia": 6,
+   "weekday": "V",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T2",
+     "galones": 977.56,
+     "num_vehiculos": 219,
+     "isla": "2"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T3",
+     "galones": 610.176,
+     "num_vehiculos": 96,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T3",
+     "galones": 464.238,
+     "num_vehiculos": 61,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1087.67,
+     "num_vehiculos": 225,
+     "isla": "2"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 1031.64,
+     "num_vehiculos": 195,
+     "isla": "3"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 1239.403,
+     "num_vehiculos": 232,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T4",
+     "galones": 111.634,
+     "num_vehiculos": 24,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T4",
+     "galones": 1020.487,
+     "num_vehiculos": 112,
+     "isla": "4"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 1441.223,
+     "num_vehiculos": 142,
+     "isla": "3"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T3",
+     "galones": 637.867,
+     "num_vehiculos": 131,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 7,
+   "weekday": "S",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T1",
+     "galones": 564.576,
+     "num_vehiculos": 49,
+     "isla": "3"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T3",
+     "galones": 1237.08,
+     "num_vehiculos": 145,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 915.194,
+     "num_vehiculos": 180,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T2",
+     "galones": 763.461,
+     "num_vehiculos": 74,
+     "isla": "3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T1",
+     "galones": 1376.027,
+     "num_vehiculos": 281,
+     "isla": "2"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T2",
+     "galones": 925.242,
+     "num_vehiculos": 178,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 653.427,
+     "num_vehiculos": 59,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T1",
+     "galones": 1405.595,
+     "num_vehiculos": 262,
+     "isla": "1"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 143.705,
+     "num_vehiculos": 20,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 262.274,
+     "num_vehiculos": 51,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 916.823,
+     "num_vehiculos": 90,
+     "isla": "3"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T3",
+     "galones": 519.842,
+     "num_vehiculos": 84,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 8,
+   "weekday": "D",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T1",
+     "galones": 1026.799,
+     "num_vehiculos": 230,
+     "isla": "1"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T3",
+     "galones": 335.183,
+     "num_vehiculos": 33,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 742.279,
+     "num_vehiculos": 153,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T2",
+     "galones": 893.774,
+     "num_vehiculos": 204,
+     "isla": "2"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 1222.77,
+     "num_vehiculos": 239,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 321.268,
+     "num_vehiculos": 53,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 541.094,
+     "num_vehiculos": 105,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 469.014,
+     "num_vehiculos": 54,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1057.452,
+     "num_vehiculos": 177,
+     "isla": "3"
+    }
+   ]
+  },
+  {
+   "dia": 9,
+   "weekday": "L",
+   "turnos": [
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T2",
+     "galones": 798.948,
+     "num_vehiculos": 173,
+     "isla": "2"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 985.291,
+     "num_vehiculos": 105,
+     "isla": "3"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1617.666,
+     "num_vehiculos": 129,
+     "isla": "3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 678.833,
+     "num_vehiculos": 142,
+     "isla": "2"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 1307.791,
+     "num_vehiculos": 250,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 363.174,
+     "num_vehiculos": 52,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T1",
+     "galones": 1043.501,
+     "num_vehiculos": 220,
+     "isla": "2"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 241.035,
+     "num_vehiculos": 40,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 538.685,
+     "num_vehiculos": 72,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 846.036,
+     "num_vehiculos": 122,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 10,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T1",
+     "galones": 1327.782,
+     "num_vehiculos": 109,
+     "isla": "3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 1331.272,
+     "num_vehiculos": 262,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1264.846,
+     "num_vehiculos": 233,
+     "isla": "1"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 795.125,
+     "num_vehiculos": 165,
+     "isla": "2"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 358.603,
+     "num_vehiculos": 49,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 906.012,
+     "num_vehiculos": 133,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T4",
+     "galones": 85.634,
+     "num_vehiculos": 21,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T2",
+     "galones": 1177.29,
+     "num_vehiculos": 93,
+     "isla": "3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 568.234,
+     "num_vehiculos": 73,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T2",
+     "galones": 913.563,
+     "num_vehiculos": 169,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 11,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T1",
+     "galones": 1107.197,
+     "num_vehiculos": 217,
+     "isla": "1"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T4",
+     "galones": 210.392,
+     "num_vehiculos": 47,
+     "isla": "4"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 673.074,
+     "num_vehiculos": 89,
+     "isla": "3"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1227.698,
+     "num_vehiculos": 236,
+     "isla": "2"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 175.494,
+     "num_vehiculos": 38,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 810.515,
+     "num_vehiculos": 141,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T2",
+     "galones": 1039.207,
+     "num_vehiculos": 79,
+     "isla": "3"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T1",
+     "galones": 727.739,
+     "num_vehiculos": 79,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T4",
+     "galones": 240.157,
+     "num_vehiculos": 17,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 557.807,
+     "num_vehiculos": 42,
+     "isla": "3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T2",
+     "galones": 1029.753,
+     "num_vehiculos": 191,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T2",
+     "galones": 755.18,
+     "num_vehiculos": 157,
+     "isla": "2"
+    }
+   ]
+  },
+  {
+   "dia": 12,
+   "weekday": "J",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T1",
+     "galones": 600.88,
+     "num_vehiculos": 53,
+     "isla": "3"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 604.442,
+     "num_vehiculos": 128,
+     "isla": "2"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T4",
+     "galones": 231.871,
+     "num_vehiculos": 42,
+     "isla": "4"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 790.834,
+     "num_vehiculos": 72,
+     "isla": "3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 869.172,
+     "num_vehiculos": 130,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 832.632,
+     "num_vehiculos": 130,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 1203.309,
+     "num_vehiculos": 175,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 916.887,
+     "num_vehiculos": 177,
+     "isla": "1"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 12.825,
+     "num_vehiculos": 4,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 895.544,
+     "num_vehiculos": 240,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 843.054,
+     "num_vehiculos": 138,
+     "isla": "2"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T2",
+     "galones": 873.185,
+     "num_vehiculos": 74,
+     "isla": "3"
+    }
+   ]
+  },
+  {
+   "dia": 13,
+   "weekday": "V",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T1",
+     "galones": 795.939,
+     "num_vehiculos": 160,
+     "isla": "2"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T2",
+     "galones": 983.861,
+     "num_vehiculos": 186,
+     "isla": "1"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 1130.906,
+     "num_vehiculos": 230,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T3",
+     "galones": 523.369,
+     "num_vehiculos": 65,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 1035.311,
+     "num_vehiculos": 153,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 550.582,
+     "num_vehiculos": 68,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T2",
+     "galones": 1177.089,
+     "num_vehiculos": 88,
+     "isla": "3"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T4",
+     "galones": 157.865,
+     "num_vehiculos": 31,
+     "isla": "4"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 42.252,
+     "num_vehiculos": 13,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T4",
+     "galones": 7.442,
+     "num_vehiculos": 1,
+     "isla": "4"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T4",
+     "galones": 1132.608,
+     "num_vehiculos": 204,
+     "isla": "4"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1268.3,
+     "num_vehiculos": 125,
+     "isla": "3"
+    }
+   ]
+  },
+  {
+   "dia": 14,
+   "weekday": "S",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 267.242,
+     "num_vehiculos": 66,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T2",
+     "galones": 1259.6,
+     "num_vehiculos": 115,
+     "isla": "3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 1362.848,
+     "num_vehiculos": 313,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T3",
+     "galones": 984.651,
+     "num_vehiculos": 160,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 559.793,
+     "num_vehiculos": 99,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T4",
+     "galones": 543.577,
+     "num_vehiculos": 82,
+     "isla": "4"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 1316.74,
+     "num_vehiculos": 260,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 856.996,
+     "num_vehiculos": 185,
+     "isla": "2"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 926.029,
+     "num_vehiculos": 96,
+     "isla": "3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T2",
+     "galones": 1109.585,
+     "num_vehiculos": 212,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T4",
+     "galones": 524.904,
+     "num_vehiculos": 91,
+     "isla": "4"
+    }
+   ]
+  },
+  {
+   "dia": 15,
+   "weekday": "D",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 267.478,
+     "num_vehiculos": 43,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 1080.209,
+     "num_vehiculos": 222,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T3",
+     "galones": 282.73,
+     "num_vehiculos": 51,
+     "isla": "1"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 953.107,
+     "num_vehiculos": 164,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T2",
+     "galones": 619.231,
+     "num_vehiculos": 126,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T1",
+     "galones": 882.499,
+     "num_vehiculos": 158,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 296.028,
+     "num_vehiculos": 47,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T2",
+     "galones": 525.722,
+     "num_vehiculos": 104,
+     "isla": "2"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 1088.962,
+     "num_vehiculos": 246,
+     "isla": "2"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T4",
+     "galones": 699.924,
+     "num_vehiculos": 151,
+     "isla": "4"
+    }
+   ]
+  },
+  {
+   "dia": 16,
+   "weekday": "L",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 378.295,
+     "num_vehiculos": 76,
+     "isla": "1"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T4",
+     "galones": 137.92,
+     "num_vehiculos": 29,
+     "isla": "4"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T2",
+     "galones": 1101.768,
+     "num_vehiculos": 98,
+     "isla": "3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 578.016,
+     "num_vehiculos": 85,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T2",
+     "galones": 1015.567,
+     "num_vehiculos": 182,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T1",
+     "galones": 1637.315,
+     "num_vehiculos": 140,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 1270.085,
+     "num_vehiculos": 133,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T2",
+     "galones": 740.859,
+     "num_vehiculos": 153,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 1210.91,
+     "num_vehiculos": 224,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1338.024,
+     "num_vehiculos": 240,
+     "isla": "2"
+    }
+   ]
+  },
+  {
+   "dia": 17,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T3",
+     "galones": 575.534,
+     "num_vehiculos": 93,
+     "isla": "1"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 119.439,
+     "num_vehiculos": 31,
+     "isla": "4"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T2",
+     "galones": 1117.546,
+     "num_vehiculos": 217,
+     "isla": "2"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 660.157,
+     "num_vehiculos": 152,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 390.425,
+     "num_vehiculos": 63,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 1307.008,
+     "num_vehiculos": 127,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 991.555,
+     "num_vehiculos": 145,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T2",
+     "galones": 1237.828,
+     "num_vehiculos": 120,
+     "isla": "3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 1142.81,
+     "num_vehiculos": 225,
+     "isla": "2"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1041.826,
+     "num_vehiculos": 250,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 18,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T1",
+     "galones": 1211.543,
+     "num_vehiculos": 112,
+     "isla": "3"
+    },
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T4",
+     "galones": 290.334,
+     "num_vehiculos": 56,
+     "isla": "4"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 1051.304,
+     "num_vehiculos": 183,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 696.53,
+     "num_vehiculos": 116,
+     "isla": "1"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T1",
+     "galones": 1044.493,
+     "num_vehiculos": 234,
+     "isla": "2"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 1106.625,
+     "num_vehiculos": 134,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 458.582,
+     "num_vehiculos": 135,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 500.676,
+     "num_vehiculos": 81,
+     "isla": "1"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 11.935,
+     "num_vehiculos": 1,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T2",
+     "galones": 501.782,
+     "num_vehiculos": 125,
+     "isla": "2"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 1598.953,
+     "num_vehiculos": 148,
+     "isla": "3"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T3",
+     "galones": 334.11,
+     "num_vehiculos": 45,
+     "isla": "2 Y 3"
+    }
+   ]
+  },
+  {
+   "dia": 19,
+   "weekday": "J",
+   "turnos": [
+    {
+     "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+     "turno": "T2",
+     "galones": 24.075,
+     "num_vehiculos": 7,
+     "isla": "1"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 1075.039,
+     "num_vehiculos": 215,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1116.052,
+     "num_vehiculos": 279,
+     "isla": "2"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T1",
+     "galones": 1762.339,
+     "num_vehiculos": 132,
+     "isla": "3"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 387.079,
+     "num_vehiculos": 57,
+     "isla": "1"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 933.14,
+     "num_vehiculos": 86,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 1048.027,
+     "num_vehiculos": 147,
+     "isla": "3"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 56.489,
+     "num_vehiculos": 13,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 1158.579,
+     "num_vehiculos": 229,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 287.203,
+     "num_vehiculos": 52,
+     "isla": "4"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T3",
+     "galones": 753.216,
+     "num_vehiculos": 113,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 20,
+   "weekday": "V",
+   "turnos": [
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 1046.085,
+     "num_vehiculos": 94,
+     "isla": "3"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T2",
+     "galones": 992.666,
+     "num_vehiculos": 196,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 1292.934,
+     "num_vehiculos": 231,
+     "isla": "1"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T3",
+     "galones": 944.064,
+     "num_vehiculos": 149,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 1175.54,
+     "num_vehiculos": 235,
+     "isla": "2"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T1",
+     "galones": 1164.567,
+     "num_vehiculos": 253,
+     "isla": "2"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 179.897,
+     "num_vehiculos": 16,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 1924.859,
+     "num_vehiculos": 151,
+     "isla": "3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 618.078,
+     "num_vehiculos": 87,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T3",
+     "galones": 544.527,
+     "num_vehiculos": 80,
+     "isla": "1"
+    }
+   ]
+  },
+  {
+   "dia": 21,
+   "weekday": "S",
+   "turnos": [
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 1145.659,
+     "num_vehiculos": 255,
+     "isla": "1"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T1",
+     "galones": 1283.937,
+     "num_vehiculos": 281,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 1400.879,
+     "num_vehiculos": 287,
+     "isla": "2"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T3",
+     "galones": 478.891,
+     "num_vehiculos": 101,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 260.582,
+     "num_vehiculos": 59,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T1",
+     "galones": 1518.965,
+     "num_vehiculos": 179,
+     "isla": "3"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 30.187,
+     "num_vehiculos": 3,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T2",
+     "galones": 987.123,
+     "num_vehiculos": 207,
+     "isla": "2"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 1045.365,
+     "num_vehiculos": 168,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T2",
+     "galones": 983.146,
+     "num_vehiculos": 129,
+     "isla": "3"
+    }
+   ]
+  },
+  {
+   "dia": 22,
+   "weekday": "D",
+   "turnos": [
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T2",
+     "galones": 727.078,
+     "num_vehiculos": 145,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1074.847,
+     "num_vehiculos": 172,
+     "isla": "3"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 252.973,
+     "num_vehiculos": 38,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T2",
+     "galones": 806.764,
+     "num_vehiculos": 174,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 606.987,
+     "num_vehiculos": 108,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T1",
+     "galones": 1250.957,
+     "num_vehiculos": 265,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 1000.942,
+     "num_vehiculos": 234,
+     "isla": "2"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T3",
+     "galones": 201.3,
+     "num_vehiculos": 47,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T2",
+     "galones": 333.889,
+     "num_vehiculos": 64,
+     "isla": "3"
+    }
+   ]
+  },
+  {
+   "dia": 23,
+   "weekday": "L",
+   "turnos": [
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 1407.371,
+     "num_vehiculos": 255,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1292.091,
+     "num_vehiculos": 229,
+     "isla": "1"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 399.971,
+     "num_vehiculos": 50,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 784.911,
+     "num_vehiculos": 112,
+     "isla": "1"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 1738.437,
+     "num_vehiculos": 145,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 631.973,
+     "num_vehiculos": 93,
+     "isla": "1"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 120.941,
+     "num_vehiculos": 21,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T2",
+     "galones": 606.03,
+     "num_vehiculos": 72,
+     "isla": "3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T2",
+     "galones": 805.5,
+     "num_vehiculos": 180,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T2",
+     "galones": 1083.804,
+     "num_vehiculos": 195,
+     "isla": "2"
+    }
+   ]
+  },
+  {
+   "dia": 24,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 1125.217,
+     "num_vehiculos": 203,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIA CAROLINA MEJIA",
+     "turno": "T1",
+     "galones": 1115.783,
+     "num_vehiculos": 105,
+     "isla": "2"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 982.46,
+     "num_vehiculos": 117,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 355.116,
+     "num_vehiculos": 66,
+     "isla": "1"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T2",
+     "galones": 779.473,
+     "num_vehiculos": 172,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T2",
+     "galones": 884.438,
+     "num_vehiculos": 226,
+     "isla": "3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T2",
+     "galones": 1236.191,
+     "num_vehiculos": 181,
+     "isla": "1"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 87.427,
+     "num_vehiculos": 15,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 387.873,
+     "num_vehiculos": 47,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 841.568,
+     "num_vehiculos": 121,
+     "isla": "3"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 664.446,
+     "num_vehiculos": 76,
+     "isla": "3"
+    }
+   ]
+  },
+  {
+   "dia": 25,
+   "weekday": "M",
+   "turnos": [
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T2",
+     "galones": 1403.365,
+     "num_vehiculos": 224,
+     "isla": "1"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 1591.555,
+     "num_vehiculos": 168,
+     "isla": "3"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T3",
+     "galones": 651.45,
+     "num_vehiculos": 92,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T1",
+     "galones": 1042.946,
+     "num_vehiculos": 223,
+     "isla": "1"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T2",
+     "galones": 1014.816,
+     "num_vehiculos": 103,
+     "isla": "3"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 398.413,
+     "num_vehiculos": 75,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T2",
+     "galones": 942.703,
+     "num_vehiculos": 174,
+     "isla": "2"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 38.014,
+     "num_vehiculos": 12,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 884.06,
+     "num_vehiculos": 112,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 1355.726,
+     "num_vehiculos": 291,
+     "isla": "2"
+    }
+   ]
+  },
+  {
+   "dia": 26,
+   "weekday": "J",
+   "turnos": [
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T2",
+     "galones": 996.742,
+     "num_vehiculos": 128,
+     "isla": "2"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T1",
+     "galones": 1254.262,
+     "num_vehiculos": 228,
+     "isla": "2"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T3",
+     "galones": 526.256,
+     "num_vehiculos": 83,
+     "isla": "3"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T2",
+     "galones": 994.078,
+     "num_vehiculos": 129,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 1139.302,
+     "num_vehiculos": 177,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 266.111,
+     "num_vehiculos": 60,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 278.162,
+     "num_vehiculos": 42,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T3",
+     "galones": 476.786,
+     "num_vehiculos": 71,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T1",
+     "galones": 1244.547,
+     "num_vehiculos": 220,
+     "isla": "1"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1030.009,
+     "num_vehiculos": 186,
+     "isla": "3"
+    }
+   ]
+  },
+  {
+   "dia": 27,
+   "weekday": "V",
+   "turnos": [
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 1645.413,
+     "num_vehiculos": 175,
+     "isla": "3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T3",
+     "galones": 549.372,
+     "num_vehiculos": 84,
+     "isla": "1"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 1031.922,
+     "num_vehiculos": 172,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T2",
+     "galones": 859.553,
+     "num_vehiculos": 156,
+     "isla": "2"
+    },
+    {
+     "promotor": "YADIRA CRUZ",
+     "turno": "T1",
+     "galones": 1199.102,
+     "num_vehiculos": 237,
+     "isla": "1"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T3",
+     "galones": 715.141,
+     "num_vehiculos": 95,
+     "isla": "1"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 1199.563,
+     "num_vehiculos": 164,
+     "isla": "2 Y 3"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 251.587,
+     "num_vehiculos": 25,
+     "isla": "4"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T2",
+     "galones": 1125.706,
+     "num_vehiculos": 127,
+     "isla": "2"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T1",
+     "galones": 1378.833,
+     "num_vehiculos": 273,
+     "isla": "2"
+    }
+   ]
+  },
+  {
+   "dia": 28,
+   "weekday": "S",
+   "turnos": [
+    {
+     "promotor": "YEISON FLOREZ",
+     "turno": "T1",
+     "galones": 1533.712,
+     "num_vehiculos": 229,
+     "isla": "3"
+    },
+    {
+     "promotor": "JHONATAN PADILLA",
+     "turno": "T3",
+     "galones": 754.059,
+     "num_vehiculos": 111,
+     "isla": "1"
+    },
+    {
+     "promotor": "SANDRA YEPEZ",
+     "turno": "T2",
+     "galones": 1248.486,
+     "num_vehiculos": 245,
+     "isla": "1"
+    },
+    {
+     "promotor": "LEONARDO SERPA",
+     "turno": "T2",
+     "galones": 944.773,
+     "num_vehiculos": 197,
+     "isla": "2"
+    },
+    {
+     "promotor": "MARIBEL GAMEZ",
+     "turno": "T1",
+     "galones": 1510.571,
+     "num_vehiculos": 289,
+     "isla": "2"
+    },
+    {
+     "promotor": "ANGELA HERREÑO",
+     "turno": "T3",
+     "galones": 402.307,
+     "num_vehiculos": 70,
+     "isla": "1"
+    },
+    {
+     "promotor": "LIZETH ORJUELA",
+     "turno": "T4",
+     "galones": 417.805,
+     "num_vehiculos": 64,
+     "isla": "4"
+    },
+    {
+     "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+     "turno": "T1",
+     "galones": 1574.684,
+     "num_vehiculos": 294,
+     "isla": "1"
+    },
+    {
+     "promotor": "JOSE DUARTE",
+     "turno": "T2",
+     "galones": 1173.909,
+     "num_vehiculos": 160,
+     "isla": "3"
+    },
+    {
+     "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+     "turno": "T3",
+     "galones": 399.229,
+     "num_vehiculos": 90,
+     "isla": "2 Y 3"
+    }
+   ]
+  }
+ ],
+ "promotor_totales": [
+  {
+   "promotor": "SAMUEL MORENO/SANTIAGO LEON",
+   "galones": 10992.52,
+   "clientes": 1906
+  },
+  {
+   "promotor": "YEISON FLOREZ",
+   "galones": 18274.439,
+   "clientes": 2791
+  },
+  {
+   "promotor": "JHONATAN PADILLA",
+   "galones": 21283.53,
+   "clientes": 3590
+  },
+  {
+   "promotor": "MARIA CAROLINA MEJIA",
+   "galones": 21941.332,
+   "clientes": 3430
+  },
+  {
+   "promotor": "SANDRA YEPEZ",
+   "galones": 18763.447,
+   "clientes": 3590
+  },
+  {
+   "promotor": "LEONARDO SERPA",
+   "galones": 20920.415,
+   "clientes": 3774
+  },
+  {
+   "promotor": "YADIRA CRUZ",
+   "galones": 18716.678,
+   "clientes": 2497
+  },
+  {
+   "promotor": "MARIBEL GAMEZ",
+   "galones": 16786.411,
+   "clientes": 2753
+  },
+  {
+   "promotor": "ANGELA HERREÑO",
+   "galones": 17213.409,
+   "clientes": 2912
+  },
+  {
+   "promotor": "LIZETH ORJUELA",
+   "galones": 0,
+   "clientes": 344
+  },
+  {
+   "promotor": "ANGIE RUIZ/CAMILO SANCHEZ",
+   "galones": 19688.07,
+   "clientes": 3134
+  },
+  {
+   "promotor": "JOSE DUARTE",
+   "galones": 24600.032,
+   "clientes": 4079
+  },
+  {
+   "promotor": "VALENTINA COSSIO /DANIEL ARGEL",
+   "galones": 19471.032,
+   "clientes": 3630
+  }
+ ]
+}

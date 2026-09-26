@@ -1,0 +1,1 @@
+alter table sjap_auditoria alter column estacion_id set not null;

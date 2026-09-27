@@ -11,8 +11,8 @@ distinto al actual. Estado verificado el 23 de septiembre de 2026 (versión 0.1.
 |---|---|---|
 | Código fuente | `/Users/ivanclabe/Workspace/sjap-balance` (Mac del desarrollador, usuario `ivanclabe`) | **No es un repositorio git** y no tiene copia remota (GitHub/GitLab). Hoy es la única copia: ver sección 9. |
 | Base de datos | Supabase, proyecto `iosxchnwfvimfgozumqh`<br>https://iosxchnwfvimfgozumqh.supabase.co | Proyecto **compartido** con otras apps (tablas `dk_*`, `ipler_*`, `sc_*`, `in_*`, logística). SJAP usa solo lo que empieza por `sjap_`. |
-| Esquema de la base | `supabase/migrations/` (21 archivos) | 19 migraciones exportadas del proyecto (idénticas byte a byte) + 2 semillas para entornos nuevos. |
-| Edge Functions | `supabase/functions/admin-crear-usuario`, `supabase/functions/chat-asistente` | Desplegadas en el proyecto (v2). El código local coincide con lo desplegado. |
+| Esquema de la base | `supabase/migrations/` (22 archivos) | Migraciones del proyecto (idénticas a las aplicadas) + 2 semillas para entornos nuevos. `supabase/instalacion/` trae la versión para pegar en el SQL Editor (`npm run generar:instalacion`). |
+| Edge Functions | `supabase/functions/sjap-usuarios`, `supabase/functions/chat-asistente` | Desplegadas en el proyecto. `admin-crear-usuario` quedó retirada (responde 410) y se puede borrar desde el Dashboard. |
 | Script de arranque | `supabase/scripts/crear_usuario_master.sql` | Crea el perfil del primer usuario master. |
 | Variables de entorno | `.env` (no versionar) · plantilla en `.env.example` | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`. |
 | Archivos de prueba | `test-fixtures/` | Cierre diario real (12-feb-2026) y balance mensual de ejemplo. |
@@ -48,11 +48,25 @@ sjap-balance/
   hosting. El archivo del POS se procesa en el navegador.
 - **Backend:** Supabase. Postgres guarda los datos (32 tablas `sjap_*`, con RLS por estación
   y por rol). Auth maneja el ingreso: el usuario `master` entra como `master@sjap.local`.
-  Hay dos Edge Functions.
+  Hay dos Edge Functions: `sjap-usuarios` (gestión de cuentas) y `chat-asistente`.
 - **Anthropic API:** solo la usa el asistente de chat (`chat-asistente`). Es opcional.
 
 La `anon key` es pública (va dentro del bundle). Lo que protege los datos es la RLS. La
 `service_role key` solo existe dentro de las Edge Functions.
+
+### Autenticación
+
+- Cada persona entra con **usuario y contraseña** (Supabase Auth, correo interno `<usuario>@sjap.local`).
+  Tener una cuenta de Auth no basta: la app exige un perfil **activo** en `sjap_usuarios`.
+- **Contraseñas:** mínimo 8 caracteres, letras y números, no triviales. La regla la aplica la
+  función `sjap-usuarios` en el servidor.
+- **Contraseñas temporales:** los usuarios nuevos y las contraseñas restablecidas por un master
+  quedan marcados; la app obliga a cambiarlas al entrar.
+- **Desactivar** un usuario lo bloquea en Auth (no puede entrar ni renovar su sesión) y las
+  políticas RLS dejan de devolverle datos de inmediato. Se conserva su historial.
+- Una estación **siempre conserva al menos un master activo** (trigger en la base).
+- La sesión se **cierra sola** tras 30 minutos sin actividad (configurable), con aviso 60 s antes.
+- Toda acción sobre usuarios queda en `sjap_auditoria` (entidad `usuario`), sin contraseñas.
 
 ---
 
@@ -122,18 +136,19 @@ Después crea el usuario master:
    supabase login
    supabase init                          # si falta supabase/config.toml
    supabase link --project-ref <nuevo-ref>
-   supabase db push                       # aplica las 21 migraciones
+   supabase db push                       # aplica las 22 migraciones
    ```
 4. **Crear el usuario master.** En el Dashboard, ve a Authentication → Users → Add user,
    crea `master@sjap.local` con *Auto Confirm User* y luego ejecuta
    `supabase/scripts/crear_usuario_master.sql` en el SQL Editor.
 5. **Desplegar las Edge Functions:**
    ```bash
-   supabase functions deploy admin-crear-usuario
-   supabase functions deploy chat-asistente              # ver sección 9 antes
+   supabase functions deploy sjap-usuarios
+   supabase functions deploy chat-asistente              # opcional
    supabase secrets set ANTHROPIC_API_KEY=sk-ant-...     # solo si se usa el asistente
    ```
-   `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` las inyecta Supabase automáticamente.
+   `SUPABASE_URL`, `SUPABASE_ANON_KEY` y `SUPABASE_SERVICE_ROLE_KEY` las inyecta Supabase
+   automáticamente.
 6. **Compilar el frontend** con las claves del nuevo proyecto. Vite las incrusta al
    compilar, así que si cambian hay que volver a compilar.
    ```bash
@@ -202,13 +217,14 @@ server {
 | `VITE_SUPABASE_URL` | Build del frontend | Pública |
 | `VITE_SUPABASE_ANON_KEY` | Build del frontend | Pública (la protección real es la RLS) |
 | `ANTHROPIC_API_KEY` | Secreto de Edge Functions | **Secreta** |
-| `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | Edge Functions (automáticas) | **Secreta** la service role; nunca al frontend |
+| `SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` | Edge Functions (automáticas) | **Secreta** la service role; solo la usa `sjap-usuarios`, nunca el frontend |
 | Contraseña de la base | Gestor de secretos | **Secreta** |
 
 `.gitignore` ya excluye `.env`, `.env.local`, `node_modules` y `dist`.
 
-Los umbrales de alerta no son variables de entorno. Viven en la tabla
-`sjap_estacion_config` (columnas `clave`, `valor`) y se cambian por SQL.
+Los umbrales de alerta y los minutos de inactividad antes de cerrar la sesión
+(`sesion_inactividad_minutos`, 30 por defecto; 0 = nunca) no son variables de entorno. Viven
+en la tabla `sjap_estacion_config` (columnas `clave`, `valor`) y se cambian por SQL.
 
 ---
 
@@ -220,7 +236,8 @@ Los umbrales de alerta no son variables de entorno. Viven en la tabla
       `curl "$URL/rest/v1/sjap_cierre_diario?select=fecha&limit=1" -H "apikey: $ANON" -H "Authorization: Bearer $ANON"` → `[]`
 - [ ] Subir `test-fixtures/cierre-diario-2026-02-12.xlsx` en *Cargar* termina en «completado».
       Bórralo después si no corresponde.
-- [ ] Crear un usuario dependiente de prueba y confirmar que ve Configuración en solo lectura.
+- [ ] Crear un usuario dependiente de prueba: al entrar debe pedirle cambiar la contraseña temporal,
+      y luego ver Configuración en solo lectura. Desactivarlo y confirmar que ya no puede entrar.
 - [ ] Si se configuró la API key, el asistente responde.
 - [ ] La consola del navegador y los logs de Edge Functions no muestran errores.
 
@@ -235,11 +252,11 @@ en `supabase/migrations/` (`supabase migration new <nombre>`), nunca SQL suelto.
 
 | Prioridad | Hallazgo | Acción |
 |---|---|---|
-| Crítica | `chat-asistente` usa la service role y toma el `estacionId` del cuerpo de la petición sin validarlo. Con la anon key (que es pública) se pueden leer datos de cualquier estación. | Validar el JWT y tomar la estación de `sjap_usuarios`, como hace `admin-crear-usuario`. Mientras no se corrija, no desplegar esta función. |
 | Crítica | El código no tiene control de versiones y existe una sola copia. | `git init` y push a un repositorio privado de la empresa. |
 | Alta | El proyecto Supabase es compartido con otras apps. Ahí hay una tabla ajena a SJAP (`app_estado_workflow`) sin RLS. | Usar un proyecto dedicado para SJAP. Avisar al responsable de esa tabla. |
 | Alta | `xlsx` 0.18.5 de npm tiene vulnerabilidades conocidas (CVE-2023-30533, CVE-2024-22363). | Actualizar a SheetJS 0.20.x (`cdn.sheetjs.com`) y correr `npm run test:parser`. |
 | Media | PostgREST devuelve máximo 1.000 filas por consulta. `sjap_transacciones` ya tiene 1.344. | Paginar las consultas de rangos amplios. |
+| Media | Ajustes de Auth que solo se cambian en el Dashboard: el registro público está abierto (lo comparten otras apps del proyecto), la longitud mínima de contraseña de Supabase es 6 y la protección contra contraseñas filtradas está apagada. | En un proyecto dedicado: desactivar «Allow new users to sign up», subir el mínimo a 8 y activar *Leaked password protection* (plan Pro). La app ya aplica su propia política de 8 caracteres. |
 | Baja | El SDK de Anthropic no tiene versión fijada en la función. El bundle pesa 1,4 MB. | Fijar la versión. Aplicar code-splitting si hace falta. |
 
 Para migrar el historial actual (28 cierres, 1.344 transacciones, etc.) a un proyecto

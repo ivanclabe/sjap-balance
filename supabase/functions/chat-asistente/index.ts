@@ -7,7 +7,9 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 //
 // Requiere el secreto ANTHROPIC_API_KEY configurado en el proyecto de Supabase:
 //   supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
-// SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY los inyecta la plataforma automáticamente.
+// SUPABASE_URL y SUPABASE_ANON_KEY los inyecta la plataforma automáticamente.
+// Las consultas usan la sesión del usuario que pregunta (RLS), nunca la clave
+// de servicio: el asistente solo ve lo que ese usuario puede ver.
 
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -338,18 +340,36 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const { estacionId, mensaje, historial } = await req.json();
-    if (!estacionId || !mensaje) {
-      return new Response(JSON.stringify({ ok: false, error: "Falta estacionId o mensaje." }), {
-        status: 400,
+    const noAutorizado = (error: string, status: number) =>
+      new Response(JSON.stringify({ ok: false, error }), {
+        status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
-    }
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
+    // Las consultas corren con la sesión del usuario (clave pública + su JWT),
+    // así que las políticas RLS limitan todo a su estación. La estación sale
+    // de su perfil, nunca del cuerpo de la petición.
+    const authorization = req.headers.get("Authorization") ?? "";
+    const jwt = authorization.replace(/^Bearer\s+/i, "");
+    if (!jwt) return noAutorizado("Sesión requerida.", 401);
+
+    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, {
+      global: { headers: { Authorization: authorization } },
+      auth: { persistSession: false },
+    });
+    const { data: sesion, error: errSesion } = await supabase.auth.getUser(jwt);
+    if (errSesion || !sesion?.user) return noAutorizado("Sesión inválida o vencida. Vuelve a iniciar sesión.", 401);
+
+    const { data: perfil } = await supabase
+      .from("sjap_usuarios")
+      .select("estacion_id, activo")
+      .eq("auth_user_id", sesion.user.id)
+      .maybeSingle();
+    if (!perfil?.activo) return noAutorizado("Tu usuario no tiene acceso a SJAP Balance.", 403);
+    const estacionId: string = perfil.estacion_id;
+
+    const { mensaje, historial } = await req.json();
+    if (!mensaje) return noAutorizado("Falta el mensaje.", 400);
 
     const anthropic = new Anthropic({ apiKey });
 

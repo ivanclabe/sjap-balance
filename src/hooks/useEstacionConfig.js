@@ -8,6 +8,7 @@ const DEFAULTS = {
   corte_cumplimiento_presupuesto: 1,
   data_freshness_warning_days: 3,
   data_freshness_critical_days: 7,
+  sesion_inactividad_minutos: 30,
 };
 
 // Umbrales de negocio de la estación (sjap_estacion_config) en vez de literales

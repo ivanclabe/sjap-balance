@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:parser": "node src/parser/test-parser.mjs",
-    "preparar": "node scripts/preparar-publicacion.mjs"
+    "preparar": "node scripts/preparar-publicacion.mjs",
+    "generar:instalacion": "node scripts/generar-script-instalacion.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

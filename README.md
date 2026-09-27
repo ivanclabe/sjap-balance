@@ -18,7 +18,7 @@ npm run dev                 # http://localhost:5173
 |---|---|
 | `src/` | Frontend (páginas en `src/pages`, parser del archivo del POS en `src/parser`) |
 | `supabase/migrations/` | Esquema completo de la base de datos (tablas `sjap_*`, RLS, funciones) |
-| `supabase/functions/` | Edge Functions: `admin-crear-usuario`, `chat-asistente` |
+| `supabase/functions/` | Edge Functions: `sjap-usuarios` (gestión de cuentas), `chat-asistente` |
 | `supabase/scripts/` | Scripts de arranque de un entorno nuevo (usuario master) |
 | `supabase/instalacion/` | Scripts para instalar desde el SQL Editor de Supabase: 01 crear tablas, 02 usuario master, 03 verificar |
 | `scripts/preparar-publicacion.mjs` | `npm run preparar`: pide URL y clave pública y genera `dist/` |
@@ -31,5 +31,5 @@ Ver [DESPLIEGUE.md](DESPLIEGUE.md) (requisitos, ubicación del código, pasos y 
 
 1. Crear un proyecto Supabase y aplicar `supabase/migrations` (`supabase db push`).
 2. Crear el usuario master (`supabase/scripts/crear_usuario_master.sql`).
-3. Desplegar las Edge Functions y definir el secreto `ANTHROPIC_API_KEY`.
+3. Desplegar las Edge Functions (`sjap-usuarios`, y `chat-asistente` con el secreto `ANTHROPIC_API_KEY` si se usa el asistente).
 4. `npm run build` y publicar `dist/` en un hosting estático con fallback SPA a `index.html`.

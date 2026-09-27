@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import {
   Fuel,
@@ -16,11 +16,14 @@ import {
   Eye,
   EyeOff,
   LogOut,
+  UserRound,
 } from 'lucide-react';
 import { useEstacion } from './context/EstacionContext.jsx';
+import { useAuth } from './context/AuthContext.jsx';
 import { useUltimoCierre } from './hooks/useUltimoCierre.js';
+import { useEstacionConfig } from './hooks/useEstacionConfig.js';
+import { useInactividad } from './hooks/useInactividad.js';
 import { formatCOP } from './lib/format.js';
-import { supabase } from './supabase/client.js';
 import DashboardPage from './pages/DashboardPage.jsx';
 import UploadPage from './pages/UploadPage.jsx';
 import DailyBalancesListPage from './pages/DailyBalancesListPage.jsx';
@@ -34,6 +37,7 @@ import ClientesPropiosPage from './pages/ClientesPropiosPage.jsx';
 import FacturasPage from './pages/FacturasPage.jsx';
 import HelpPage from './pages/HelpPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import CambioPasswordPage from './pages/CambioPasswordPage.jsx';
 import InfoTip from './components/InfoTip.jsx';
 import ChatAsistente from './components/ChatAsistente.jsx';
 
@@ -51,29 +55,46 @@ const NAV_ITEMS = [
   { to: '/ayuda', label: 'Ayuda', icon: HelpCircle },
 ];
 
+function PantallaCentrada({ children }) {
+  return <div className="auth-pantalla auth-pantalla--texto">{children}</div>;
+}
+
 export default function App() {
+  const { estado, perfil, esMaster, cerrarSesion, recargarPerfil } = useAuth();
   const { estaciones, estacionId, setEstacionId, estacion } = useEstacion();
   const { cierre: ultimo } = useUltimoCierre(estacionId);
+  const { config } = useEstacionConfig(estacionId);
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
-  const [sesion, setSesion] = useState(undefined); // undefined = verificando, null = sin sesión
   const navigate = useNavigate();
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSesion(data.session ?? null));
-    const { data: sub } = supabase.auth.onAuthStateChange((_evento, session) => setSesion(session));
-    return () => sub.subscription.unsubscribe();
-  }, []);
+  // Equipos compartidos en la estación: la sesión se cierra sola tras N
+  // minutos sin actividad (sjap_estacion_config.sesion_inactividad_minutos).
+  const { segundosRestantes, seguir } = useInactividad({
+    activo: estado === 'listo' && !perfil?.debe_cambiar_password,
+    minutos: config.sesion_inactividad_minutos,
+    onExpira: () => cerrarSesion('Se cerró la sesión por inactividad. Vuelve a iniciar sesión para continuar.'),
+  });
 
   const hayAlerta = ultimo?.estado && ultimo.estado !== 'completo';
 
-  if (sesion === undefined) {
+  if (estado === 'verificando' || estado === 'cargando') return <PantallaCentrada>Cargando…</PantallaCentrada>;
+  if (estado === 'anonimo') return <LoginPage />;
+  if (estado === 'error') {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink-soft)' }}>
-        Cargando…
-      </div>
+      <PantallaCentrada>
+        <p>No se pudo cargar tu perfil de usuario. Revisa la conexión a internet.</p>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button className="btn btn--accent" onClick={recargarPerfil}>
+            Reintentar
+          </button>
+          <button className="btn" onClick={() => cerrarSesion()}>
+            Salir
+          </button>
+        </div>
+      </PantallaCentrada>
     );
   }
-  if (!sesion) return <LoginPage />;
+  if (perfil.debe_cambiar_password) return <CambioPasswordPage />;
 
   return (
     <div className="shell">
@@ -147,13 +168,20 @@ export default function App() {
           </div>
 
           <div className="topbar__actions">
+            <div className="topbar__usuario" title={`Sesión iniciada como ${perfil.username}`}>
+              <UserRound size={15} />
+              <div>
+                <div className="topbar__usuario-nombre">{perfil.nombre || perfil.username}</div>
+                <div className="topbar__usuario-rol">{esMaster ? 'Master' : 'Dependiente'}</div>
+              </div>
+            </div>
             <button className="topbar__action" onClick={() => navigate('/cargar')}>
               <span className="topbar__action-icon">
                 <UploadCloud />
               </span>
               Cargar
             </button>
-            <button className="topbar__action" onClick={() => supabase.auth.signOut()}>
+            <button className="topbar__action" onClick={() => cerrarSesion()}>
               <span className="topbar__action-icon">
                 <LogOut />
               </span>
@@ -181,6 +209,23 @@ export default function App() {
       </div>
 
       <ChatAsistente estacionId={estacionId} />
+
+      {segundosRestantes != null && (
+        <div className="inactividad" role="alertdialog" aria-live="assertive" aria-label="Cierre de sesión por inactividad">
+          <div className="inactividad__tarjeta">
+            <strong>¿Sigues ahí?</strong>
+            <p>Por seguridad, la sesión se cerrará en {segundosRestantes} s por inactividad.</p>
+            <div className="inactividad__acciones">
+              <button className="btn btn--accent" onClick={seguir} autoFocus>
+                Seguir conectado
+              </button>
+              <button className="btn" onClick={() => cerrarSesion()}>
+                Salir ahora
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

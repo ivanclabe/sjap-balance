@@ -8,7 +8,7 @@
 --
 -- Luego ejecuta este script en el SQL Editor. Los siguientes usuarios se crean
 -- desde la app (Configuración → Usuarios), que usa la Edge Function
--- admin-crear-usuario.
+-- sjap-usuarios.
 
 insert into public.sjap_usuarios (auth_user_id, estacion_id, username, rol)
 select u.id, '884b3769-2c20-4a0b-8019-6972bf5e4caa', 'master', 'master'

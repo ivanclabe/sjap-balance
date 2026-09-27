@@ -91,7 +91,7 @@ En esta parte vas a ejecutar tres scripts que vienen dentro de la carpeta del pr
 1. En Supabase, entra a **Authentication** → **Users** → **Add user** → **Create new user**.
 2. Completa exactamente:
    - **Email:** `master@sjap.local` (así, aunque no sea un correo real; la app lo usa internamente)
-   - **Password:** la contraseña fuerte del administrador. **Anótala.**
+   - **Password:** la contraseña del administrador: mínimo 8 caracteres, con letras y números. **Anótala.**
    - Marca la casilla **Auto Confirm User**.
 3. Pulsa **Create user**.
 
@@ -120,13 +120,13 @@ Abre `03_verificar_instalacion.sql`, cópialo, pégalo en **SQL Editor** → **N
 |---|---|
 | Tablas de SJAP | 32 |
 | Reglas de seguridad | 56 |
-| Funciones | 4 |
+| Funciones | 5 |
 | Estación | 1 |
 | Productos | 3 |
 | Medios de pago | 17 |
 | Turnos (T1–T4) | 4 |
 | Esquema de turnos | 1 |
-| Parámetros de alertas | 6 |
+| Parámetros de la estación | 7 |
 | Permisos de la API | 32 |
 | Usuario master activado | 1 |
 
@@ -141,19 +141,25 @@ Contenido del script, como referencia:
 
 ---
 
-## 5. Instalar la función para crear usuarios
+## 5. Instalar las funciones del servidor
 
-La app necesita una pequeña función en Supabase para que el master pueda crear usuarios nuevos desde la pantalla *Configuración*.
+### 5.1 Función de usuarios (obligatoria)
+
+Con esta función el master crea usuarios, restablece contraseñas, cambia roles y desactiva cuentas desde *Configuración → Usuarios*, y cada persona cambia su propia contraseña.
 
 1. En Supabase, entra a **Edge Functions** (menú izquierdo) → **Deploy a new function** → **Via Editor**.
-2. En el nombre de la función escribe exactamente: `admin-crear-usuario`
+2. En el nombre de la función escribe exactamente: `sjap-usuarios`
 3. Borra el código de ejemplo que aparece en el editor.
-4. En la carpeta del proyecto, abre `supabase/functions/admin-crear-usuario/index.ts` con el Bloc de notas o TextEdit, copia todo y pégalo en el editor de Supabase.
+4. En la carpeta del proyecto, abre `supabase/functions/sjap-usuarios/index.ts` con el Bloc de notas o TextEdit, copia todo y pégalo en el editor de Supabase.
 5. Pulsa **Deploy function** y espera el mensaje de éxito.
 6. Si la función muestra la opción **Verify JWT** (o *Enforce JWT verification*), déjala **activada**.
 
-> [!CAUTION]
-> **No instales todavía la función del asistente de chat** (`chat-asistente`). Tiene un problema de seguridad pendiente de corregir por el equipo técnico. Mientras tanto, el botón verde del asistente dentro de la app mostrará un error al usarlo; el resto de la app funciona normalmente.
+### 5.2 Asistente de chat (opcional)
+
+El botón verde de la app abre un asistente que responde preguntas sobre las cifras. Necesita una clave de Anthropic (servicio de pago por uso). Si no la vas a usar, salta este paso: el resto de la app funciona igual y el botón solo mostrará un error.
+
+1. Repite los pasos de la parte 5.1 con el nombre `chat-asistente` y el archivo `supabase/functions/chat-asistente/index.ts`.
+2. En **Edge Functions** → **Secrets** (o *Manage secrets*), agrega un secreto llamado `ANTHROPIC_API_KEY` con la clave que te entregue el equipo técnico, y pulsa **Save**.
 
 ---
 
@@ -236,7 +242,7 @@ Al terminar aparece una carpeta nueva llamada **`dist`** dentro de `sjap-balance
 - [ ] Abre la dirección de Netlify. Debe aparecer la pantalla **SJAP Balance** con los campos *Usuario* y *Contraseña*.
 - [ ] Entra con usuario `master` y la contraseña del paso 4.1.
 - [ ] Ve a **Configuración** → **General** y completa los datos de la estación (NIT, dirección, teléfono). Pulsa **Guardar**.
-- [ ] En **Configuración** → **Usuarios**, crea un usuario para cada persona del equipo (rol **Dependiente** para la operación diaria).
+- [ ] En **Configuración** → **Usuarios**, crea un usuario para cada persona del equipo (rol **Dependiente** para la operación diaria). Usa **Generar** para la contraseña temporal y entrégasela; la app le pedirá cambiarla al entrar por primera vez.
 - [ ] Entra a **Cargar** y sube el archivo del cierre de un día. Debe terminar en **completado**.
 - [ ] Recarga la página con **F5** estando en **Diarios**. Debe seguir mostrando la app (no un error 404).
 
@@ -253,9 +259,11 @@ Si todo lo anterior funciona, **la instalación está terminada**. Comparte la d
 | El script 03 dice «REVISAR» en *Usuario master* | Revisa el correo `master@sjap.local` (parte 4.1) y repite el script 02. |
 | `npm` no se reconoce como comando | Node.js no quedó instalado: repite la parte 7.1 y **cierra y vuelve a abrir** la terminal. |
 | El asistente rechaza la clave | Estás copiando la clave secreta. Copia la **anon public / publishable** (parte 6). |
-| La página abre pero «Usuario o contraseña incorrectos» | Revisa mayúsculas y la contraseña del paso 4.1. Si se perdió, el equipo técnico puede asignar una nueva (el correo `@sjap.local` no recibe mensajes, así que la recuperación por correo no funciona). Una vez dentro, cada usuario cambia su contraseña en **Configuración → Usuarios**. |
+| La página abre pero «Usuario o contraseña incorrectos» | Revisa la contraseña. Si una persona olvidó la suya, el master le asigna una temporal en **Configuración → Usuarios → Restablecer contraseña**. Si el que la olvidó es el único master, el equipo técnico debe asignarle una nueva desde Supabase (la recuperación por correo no funciona: el correo `@sjap.local` no existe). |
+| «Este usuario está desactivado» | Un master lo desactivó. Puede reactivarlo en **Configuración → Usuarios**. |
+| «Se cerró la sesión por inactividad» | Normal: tras 30 minutos sin uso la sesión se cierra por seguridad. Vuelve a entrar. |
 | Error 404 al recargar una página | La carpeta publicada no fue `dist`, o se publicó su contenido incompleto. Vuelve a arrastrar la carpeta `dist` completa. |
-| El botón verde del asistente da error | Es normal mientras la función del chat no esté instalada (parte 5). |
+| El botón verde del asistente da error | Es normal si no instalaste el asistente (parte 5.2) o falta el secreto `ANTHROPIC_API_KEY`. |
 | Olvidaste la contraseña de la base de datos | Supabase → Project Settings → Database → *Reset database password*. |
 
 ### Qué guardar al terminar

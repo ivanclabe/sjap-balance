@@ -92,7 +92,7 @@ En esta parte vas a ejecutar tres scripts que vienen dentro de la carpeta del pr
 1. En Supabase, entra a **Authentication** → **Users** → **Add user** → **Create new user**.
 2. Completa exactamente:
    - **Email:** `master@sjap.local` (así, aunque no sea un correo real; la app lo usa internamente)
-   - **Password:** la contraseña fuerte del administrador. **Anótala.**
+   - **Password:** la contraseña del administrador: mínimo 8 caracteres, con letras y números. **Anótala.**
    - Marca la casilla **Auto Confirm User**.
 3. Pulsa **Create user**.
 
@@ -145,13 +145,13 @@ Abre `03_verificar_instalacion.sql`, cópialo, pégalo en **SQL Editor** → **N
 |---|---|
 | Tablas de SJAP | 32 |
 | Reglas de seguridad | 56 |
-| Funciones | 4 |
+| Funciones | 5 |
 | Estación | 1 |
 | Productos | 3 |
 | Medios de pago | 17 |
 | Turnos (T1–T4) | 4 |
 | Esquema de turnos | 1 |
-| Parámetros de alertas | 6 |
+| Parámetros de la estación | 7 |
 | Permisos de la API | 32 |
 | Usuario master activado | 1 |
 
@@ -170,19 +170,19 @@ with chequeos(orden, elemento, esperado, encontrado) as (
   values
     (1,  'Tablas de SJAP',          32, (select count(*)::int from pg_tables where schemaname = 'public' and tablename like 'sjap\_%')),
     (2,  'Reglas de seguridad',     56, (select count(*)::int from pg_policies where schemaname = 'public' and tablename like 'sjap\_%')),
-    (3,  'Funciones',                4, (select count(*)::int from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname like 'sjap\_%')),
+    (3,  'Funciones',                5, (select count(*)::int from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname like 'sjap\_%')),
     (4,  'Estación',                 1, (select count(*)::int from public.sjap_estaciones)),
     (5,  'Productos',                3, (select count(*)::int from public.sjap_productos)),
     (6,  'Medios de pago',          17, (select count(*)::int from public.sjap_medios_pago)),
     (7,  'Turnos (T1–T4)',           4, (select count(*)::int from public.sjap_turno_tipos)),
     (8,  'Esquema de turnos',        1, (select count(*)::int from public.sjap_esquemas_turno)),
-    (9,  'Parámetros de alertas',    6, (select count(*)::int from public.sjap_estacion_config)),
+    (9,  'Parámetros de la estación', 7, (select count(*)::int from public.sjap_estacion_config)),
     (10, 'Permisos de la API',      32, (select count(*)::int from pg_tables where schemaname = 'public' and tablename like 'sjap\_%'
                                              and has_table_privilege('authenticated', format('public.%I', tablename), 'select')
                                              and has_table_privilege('authenticated', format('public.%I', tablename), 'insert')
                                              and has_table_privilege('authenticated', format('public.%I', tablename), 'update')
                                              and has_table_privilege('authenticated', format('public.%I', tablename), 'delete'))),
-    (11, 'Usuario master activado',  1, (select count(*)::int from public.sjap_usuarios where rol = 'master'))
+    (11, 'Usuario master activado',  1, (select count(*)::int from public.sjap_usuarios where rol = 'master' and activo))
 )
 select elemento, esperado, encontrado,
        case when encontrado = esperado then 'OK' else 'REVISAR' end as estado
@@ -195,19 +195,25 @@ order by orden;
 
 ---
 
-## 5. Instalar la función para crear usuarios
+## 5. Instalar las funciones del servidor
 
-La app necesita una pequeña función en Supabase para que el master pueda crear usuarios nuevos desde la pantalla *Configuración*.
+### 5.1 Función de usuarios (obligatoria)
+
+Con esta función el master crea usuarios, restablece contraseñas, cambia roles y desactiva cuentas desde *Configuración → Usuarios*, y cada persona cambia su propia contraseña.
 
 1. En Supabase, entra a **Edge Functions** (menú izquierdo) → **Deploy a new function** → **Via Editor**.
-2. En el nombre de la función escribe exactamente: `admin-crear-usuario`
+2. En el nombre de la función escribe exactamente: `sjap-usuarios`
 3. Borra el código de ejemplo que aparece en el editor.
-4. En la carpeta del proyecto, abre `supabase/functions/admin-crear-usuario/index.ts` con el Bloc de notas o TextEdit, copia todo y pégalo en el editor de Supabase.
+4. En la carpeta del proyecto, abre `supabase/functions/sjap-usuarios/index.ts` con el Bloc de notas o TextEdit, copia todo y pégalo en el editor de Supabase.
 5. Pulsa **Deploy function** y espera el mensaje de éxito.
 6. Si la función muestra la opción **Verify JWT** (o *Enforce JWT verification*), déjala **activada**.
 
-> [!CAUTION]
-> **No instales todavía la función del asistente de chat** (`chat-asistente`). Tiene un problema de seguridad pendiente de corregir por el equipo técnico. Mientras tanto, el botón verde del asistente dentro de la app mostrará un error al usarlo; el resto de la app funciona normalmente.
+### 5.2 Asistente de chat (opcional)
+
+El botón verde de la app abre un asistente que responde preguntas sobre las cifras. Necesita una clave de Anthropic (servicio de pago por uso). Si no la vas a usar, salta este paso: el resto de la app funciona igual y el botón solo mostrará un error.
+
+1. Repite los pasos de la parte 5.1 con el nombre `chat-asistente` y el archivo `supabase/functions/chat-asistente/index.ts`.
+2. En **Edge Functions** → **Secrets** (o *Manage secrets*), agrega un secreto llamado `ANTHROPIC_API_KEY` con la clave que te entregue el equipo técnico, y pulsa **Save**.
 
 ---
 
@@ -290,7 +296,7 @@ Al terminar aparece una carpeta nueva llamada **`dist`** dentro de `sjap-balance
 - [ ] Abre la dirección de Netlify. Debe aparecer la pantalla **SJAP Balance** con los campos *Usuario* y *Contraseña*.
 - [ ] Entra con usuario `master` y la contraseña del paso 4.1.
 - [ ] Ve a **Configuración** → **General** y completa los datos de la estación (NIT, dirección, teléfono). Pulsa **Guardar**.
-- [ ] En **Configuración** → **Usuarios**, crea un usuario para cada persona del equipo (rol **Dependiente** para la operación diaria).
+- [ ] En **Configuración** → **Usuarios**, crea un usuario para cada persona del equipo (rol **Dependiente** para la operación diaria). Usa **Generar** para la contraseña temporal y entrégasela; la app le pedirá cambiarla al entrar por primera vez.
 - [ ] Entra a **Cargar** y sube el archivo del cierre de un día. Debe terminar en **completado**.
 - [ ] Recarga la página con **F5** estando en **Diarios**. Debe seguir mostrando la app (no un error 404).
 
@@ -307,9 +313,11 @@ Si todo lo anterior funciona, **la instalación está terminada**. Comparte la d
 | El script 03 dice «REVISAR» en *Usuario master* | Revisa el correo `master@sjap.local` (parte 4.1) y repite el script 02. |
 | `npm` no se reconoce como comando | Node.js no quedó instalado: repite la parte 7.1 y **cierra y vuelve a abrir** la terminal. |
 | El asistente rechaza la clave | Estás copiando la clave secreta. Copia la **anon public / publishable** (parte 6). |
-| La página abre pero «Usuario o contraseña incorrectos» | Revisa mayúsculas y la contraseña del paso 4.1. Si se perdió, el equipo técnico puede asignar una nueva (el correo `@sjap.local` no recibe mensajes, así que la recuperación por correo no funciona). Una vez dentro, cada usuario cambia su contraseña en **Configuración → Usuarios**. |
+| La página abre pero «Usuario o contraseña incorrectos» | Revisa la contraseña. Si una persona olvidó la suya, el master le asigna una temporal en **Configuración → Usuarios → Restablecer contraseña**. Si el que la olvidó es el único master, el equipo técnico debe asignarle una nueva desde Supabase (la recuperación por correo no funciona: el correo `@sjap.local` no existe). |
+| «Este usuario está desactivado» | Un master lo desactivó. Puede reactivarlo en **Configuración → Usuarios**. |
+| «Se cerró la sesión por inactividad» | Normal: tras 30 minutos sin uso la sesión se cierra por seguridad. Vuelve a entrar. |
 | Error 404 al recargar una página | La carpeta publicada no fue `dist`, o se publicó su contenido incompleto. Vuelve a arrastrar la carpeta `dist` completa. |
-| El botón verde del asistente da error | Es normal mientras la función del chat no esté instalada (parte 5). |
+| El botón verde del asistente da error | Es normal si no instalaste el asistente (parte 5.2) o falta el secreto `ANTHROPIC_API_KEY`. |
 | Olvidaste la contraseña de la base de datos | Supabase → Project Settings → Database → *Reset database password*. |
 
 ### Qué guardar al terminar
@@ -343,7 +351,8 @@ Este es el contenido completo de `supabase/instalacion/01_crear_tablas.sql`. **P
 -- Si algo falla, no se aplica nada (todo o nada). Si la base ya tenía SJAP
 -- instalado, el script se detiene sin tocar nada.
 --
--- Generado el 2026-09-24 a partir de supabase/migrations/ (21 archivos, en orden).
+-- Generado el 2026-09-26 a partir de supabase/migrations/ (22 archivos, en orden)
+-- con: npm run generar:instalacion  — no editar a mano.
 -- =============================================================================
 
 do $$
@@ -1475,6 +1484,98 @@ end $$;
 ;
 
 -- -----------------------------------------------------------------------------
+-- 20260926144116_sjap_auth_mejoras.sql
+-- -----------------------------------------------------------------------------
+-- Mejoras de autenticación y gestión de usuarios (2026-09-26).
+--
+-- 1. sjap_usuarios gana estado (activo), nombre visible y la marca
+--    debe_cambiar_password (contraseña temporal asignada por un master).
+-- 2. Un usuario desactivado deja de ver datos de inmediato: las funciones que
+--    usan todas las políticas RLS solo reconocen usuarios activos. Además la
+--    Edge Function sjap-usuarios lo bloquea en Supabase Auth (ban).
+-- 3. Una estación nunca puede quedarse sin un master activo.
+-- 4. Parámetro de cierre de sesión por inactividad.
+-- 5. Endurecimiento señalado por los advisors de Supabase: las funciones de
+--    rol/estación ya no se pueden ejecutar sin sesión, y el trigger de turnos
+--    fija su search_path.
+
+alter table public.sjap_usuarios
+  add column if not exists activo boolean not null default true,
+  add column if not exists nombre text,
+  add column if not exists debe_cambiar_password boolean not null default false,
+  add column if not exists updated_at timestamptz not null default now();
+
+comment on column public.sjap_usuarios.activo is 'false = usuario desactivado: no inicia sesión (ban en Auth) y las políticas RLS no le devuelven datos.';
+comment on column public.sjap_usuarios.debe_cambiar_password is 'true cuando un master asignó una contraseña temporal: la app obliga a cambiarla al entrar.';
+
+-- Solo usuarios ACTIVOS obtienen estación/rol → todas las políticas existentes
+-- quedan cerradas para un usuario desactivado sin tener que tocarlas una a una.
+create or replace function public.sjap_estacion_de_usuario()
+returns uuid
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select estacion_id from public.sjap_usuarios where auth_user_id = auth.uid() and activo limit 1;
+$$;
+
+create or replace function public.sjap_rol_de_usuario()
+returns text
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select rol from public.sjap_usuarios where auth_user_id = auth.uid() and activo limit 1;
+$$;
+
+revoke execute on function public.sjap_estacion_de_usuario() from public, anon;
+revoke execute on function public.sjap_rol_de_usuario() from public, anon;
+grant execute on function public.sjap_estacion_de_usuario() to authenticated, service_role;
+grant execute on function public.sjap_rol_de_usuario() to authenticated, service_role;
+
+alter function public.sjap_validar_turno_tipo() set search_path = public;
+
+-- Nunca dejar una estación sin master activo (por cambio de rol, desactivación
+-- o eliminación), venga el cambio de la app, del SQL Editor o de la API.
+create or replace function public.sjap_proteger_ultimo_master()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  if old.rol = 'master' and old.activo
+     and (tg_op = 'DELETE' or new.rol <> 'master' or not new.activo) then
+    if not exists (
+      select 1 from public.sjap_usuarios
+      where estacion_id = old.estacion_id and rol = 'master' and activo and id <> old.id
+    ) then
+      raise exception 'La estación debe conservar al menos un usuario master activo.'
+        using errcode = 'P0001';
+    end if;
+  end if;
+  if tg_op = 'DELETE' then
+    return old;
+  end if;
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+drop trigger if exists sjap_usuarios_proteger_master on public.sjap_usuarios;
+create trigger sjap_usuarios_proteger_master
+  before update or delete on public.sjap_usuarios
+  for each row execute function public.sjap_proteger_ultimo_master();
+
+-- Minutos sin actividad antes de cerrar la sesión (equipos compartidos).
+insert into public.sjap_estacion_config (estacion_id, clave, valor, descripcion)
+select id, 'sesion_inactividad_minutos', '30', 'Minutos sin actividad antes de cerrar la sesión automáticamente (0 = nunca)'
+from public.sjap_estaciones
+on conflict (estacion_id, clave) do nothing;
+;
+
+-- -----------------------------------------------------------------------------
 -- Permisos para la API (por si el proyecto se creó sin "exponer tablas nuevas").
 -- La seguridad real la dan las reglas RLS de arriba: cada usuario solo ve los
 -- datos de su estación.
@@ -1486,6 +1587,7 @@ begin
   for r in select tablename from pg_tables where schemaname = 'public' and tablename like 'sjap\_%' loop
     execute format('grant select, insert, update, delete on public.%I to authenticated', r.tablename);
   end loop;
+  -- Funciones: solo usuarios con sesión (nunca anon).
   for r in select p.oid::regprocedure as fn from pg_proc p join pg_namespace n on n.oid = p.pronamespace
            where n.nspname = 'public' and p.proname like 'sjap\_%' loop
     execute format('grant execute on function %s to authenticated', r.fn);

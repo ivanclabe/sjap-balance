@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Pencil, Trash2, Check, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext.jsx';
+import ConfirmarAccion from '../components/ConfirmarAccion.jsx';
 import { useEstacion } from '../context/EstacionContext.jsx';
 import { supabase } from '../supabase/client.js';
 import { formatFecha, formatNumero } from '../lib/format.js';
@@ -8,6 +10,8 @@ import InfoTip from '../components/InfoTip.jsx';
 
 export default function FacturasPage() {
   const { estacionId } = useEstacion();
+  const { esMaster } = useAuth();
+  const [editando, setEditando] = useState(null); // { id, cantidad }
   const [facturas, setFacturas] = useState([]);
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -21,7 +25,7 @@ export default function FacturasPage() {
     const [{ data: f }, { data: p }] = await Promise.all([
       supabase
         .from('sjap_facturas_compra')
-        .select('fecha, numero_factura, cantidad, origen, producto_id, sjap_productos(nombre_visible)')
+        .select('id, fecha, numero_factura, cantidad, origen, producto_id, sjap_productos(nombre_visible)')
         .eq('estacion_id', estacionId)
         .order('fecha', { ascending: false }),
       supabase.from('sjap_productos').select('id, nombre_visible').eq('estacion_id', estacionId).eq('activo', true).order('orden'),
@@ -38,7 +42,20 @@ export default function FacturasPage() {
   }, [estacionId]);
 
   async function registrar() {
-    if (!nueva.fecha || !nueva.producto_id || !nueva.cantidad) return;
+    setMensaje(null);
+    if (!nueva.fecha || !nueva.producto_id || nueva.cantidad === '') {
+      setMensaje({ tipo: 'error', texto: 'Completa la fecha, el producto y la cantidad.' });
+      return;
+    }
+    if (!(Number(nueva.cantidad) > 0)) {
+      setMensaje({ tipo: 'error', texto: 'La cantidad debe ser mayor que cero.' });
+      return;
+    }
+    const numero = nueva.numero_factura.trim() || null;
+    if (numero && facturas.some((f) => f.fecha === nueva.fecha && f.numero_factura === numero && f.producto_id === nueva.producto_id)) {
+      setMensaje({ tipo: 'error', texto: `La factura ${numero} ya tiene ese producto registrado en esa fecha.` });
+      return;
+    }
     setGuardando(true);
     setMensaje(null);
     const { error } = await supabase.from('sjap_facturas_compra').insert({
@@ -55,6 +72,35 @@ export default function FacturasPage() {
       return;
     }
     setNueva({ fecha: '', numero_factura: '', producto_id: '', cantidad: '' });
+    setMensaje({ tipo: 'ok', texto: 'Factura registrada.' });
+    cargar();
+  }
+
+  // Solo las facturas capturadas en la app (origen manual) se corrigen o
+  // eliminan, y solo un master; las importadas del Excel son historial.
+  async function guardarCantidad() {
+    const cantidad = Number(editando.cantidad);
+    if (!(cantidad > 0)) {
+      setMensaje({ tipo: 'error', texto: 'La cantidad debe ser mayor que cero.' });
+      return;
+    }
+    const { error } = await supabase.from('sjap_facturas_compra').update({ cantidad }).eq('id', editando.id);
+    if (error) {
+      setMensaje({ tipo: 'error', texto: error.message });
+      return;
+    }
+    setEditando(null);
+    setMensaje({ tipo: 'ok', texto: 'Cantidad corregida.' });
+    cargar();
+  }
+
+  async function eliminar(id) {
+    const { error } = await supabase.from('sjap_facturas_compra').delete().eq('id', id);
+    if (error) {
+      setMensaje({ tipo: 'error', texto: error.message });
+      return;
+    }
+    setMensaje({ tipo: 'ok', texto: 'Línea de factura eliminada.' });
     cargar();
   }
 
@@ -64,7 +110,7 @@ export default function FacturasPage() {
       if (filtroProducto !== 'todos' && f.producto_id !== filtroProducto) continue;
       const key = `${f.fecha}__${f.numero_factura}`;
       porFactura[key] = porFactura[key] || { fecha: f.fecha, numero_factura: f.numero_factura, items: [] };
-      porFactura[key].items.push({ producto: f.sjap_productos?.nombre_visible ?? '—', cantidad: f.cantidad });
+      porFactura[key].items.push({ id: f.id, origen: f.origen, producto: f.sjap_productos?.nombre_visible ?? '—', cantidad: f.cantidad });
     }
     return Object.values(porFactura);
   }, [facturas, filtroProducto]);
@@ -177,7 +223,55 @@ export default function FacturasPage() {
                   <tr key={`${f.fecha}-${f.numero_factura}`}>
                     <td className="mono">{formatFecha(f.fecha, { year: 'numeric' })}</td>
                     <td className="mono">{f.numero_factura ?? '—'}</td>
-                    <td>{f.items.map((it) => `${it.producto}: ${formatNumero(it.cantidad)} gal`).join(' · ')}</td>
+                    <td>
+                      <div className="factura-items">
+                        {f.items.map((it) => {
+                          const editable = esMaster && it.origen === 'manual';
+                          if (editando?.id === it.id) {
+                            return (
+                              <span key={it.id} className="factura-item">
+                                {it.producto}:
+                                <input
+                                  className="field-input factura-item__input"
+                                  type="number"
+                                  min="0"
+                                  step="0.01"
+                                  autoFocus
+                                  aria-label={`Cantidad de ${it.producto}`}
+                                  value={editando.cantidad}
+                                  onChange={(e) => setEditando({ ...editando, cantidad: e.target.value })}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') guardarCantidad();
+                                    if (e.key === 'Escape') setEditando(null);
+                                  }}
+                                />
+                                <button className="icon-btn icon-btn--ok" onClick={guardarCantidad} aria-label="Guardar cantidad">
+                                  <Check size={13} />
+                                </button>
+                                <button className="icon-btn" onClick={() => setEditando(null)} aria-label="Cancelar">
+                                  <X size={13} />
+                                </button>
+                              </span>
+                            );
+                          }
+                          return (
+                            <span key={it.id} className="factura-item">
+                              {it.producto}: {formatNumero(it.cantidad)} gal
+                              {editable && (
+                                <>
+                                  <button className="icon-btn" onClick={() => setEditando({ id: it.id, cantidad: String(it.cantidad) })} aria-label={`Corregir ${it.producto}`} title="Corregir cantidad">
+                                    <Pencil size={12} />
+                                  </button>
+                                  <ConfirmarAccion className="icon-btn" pregunta="¿Eliminar?" onConfirmar={() => eliminar(it.id)} ariaLabel={`Eliminar ${it.producto}`} title="Eliminar">
+                                    <Trash2 size={12} />
+                                  </ConfirmarAccion>
+                                </>
+                              )}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>

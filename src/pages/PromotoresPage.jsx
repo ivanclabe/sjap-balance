@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Plus, Trash2, ChevronLeft, ChevronRight, AlertTriangle, X, GripVertical, Download, Settings2, Moon } from 'lucide-react';
+import { Plus, Trash2, Pencil, ChevronLeft, ChevronRight, AlertTriangle, X, GripVertical, Download, Settings2, Moon } from 'lucide-react';
 import { useEstacion } from '../context/EstacionContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import { supabase } from '../supabase/client.js';
 import { formatFecha, nombreMes } from '../lib/format.js';
 import { exportarExcel } from '../lib/export-excel.js';
 import InfoTip from '../components/InfoTip.jsx';
 import CatalogoPanel from '../components/CatalogoPanel.jsx';
+import ConfirmarAccion from '../components/ConfirmarAccion.jsx';
 import ConfigTurnosTab from './promotores/ConfigTurnosTab.jsx';
 import TurnoTimeline from './promotores/TurnoTimeline.jsx';
 import {
@@ -50,7 +52,7 @@ function sumarDias(fechaISO, delta) {
 
 // ---------------------------------------------------------------- gestión de turnos
 
-function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, reglas, onConfigurar }) {
+function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, reglas, onConfigurar, esMaster }) {
   const [fecha, setFecha] = useState(hoyISO());
   const [asignaciones, setAsignaciones] = useState([]); // fecha-1 … fecha+1
   const [ausentesFecha, setAusentesFecha] = useState([]);
@@ -174,6 +176,11 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
   }, [fecha]);
 
   const esHoy = fecha === hoyISO();
+  // Los días anteriores a hoy son historia: solo un master puede corregirlos
+  // (la base de datos aplica la misma regla).
+  const esPasado = fecha < hoyISO();
+  const soloLectura = esPasado && !esMaster;
+  const [quitarId, setQuitarId] = useState(null);
   const ahoraMin = useMemo(() => {
     const d = new Date();
     return d.getHours() * 60 + d.getMinutes();
@@ -270,12 +277,25 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
   }
 
   async function eliminarTurno(id) {
-    await supabase.from('sjap_turnos_programados').delete().eq('id', id);
+    const { error } = await supabase.from('sjap_turnos_programados').delete().eq('id', id);
+    setQuitarId(null);
+    if (error) {
+      avisar({ tipo: 'error', texto: error.message || 'No se pudo quitar la asignación.' }, 8000);
+      return;
+    }
     cargarDia();
   }
 
   async function asignarReemplazo(conflicto, reemplazoId) {
-    await supabase.from('sjap_turnos_programados').update({ promotor_id: reemplazoId, estado: 'reemplazado' }).eq('id', conflicto.id);
+    const { error } = await supabase
+      .from('sjap_turnos_programados')
+      .update({ promotor_id: reemplazoId, estado: 'reemplazado' })
+      .eq('id', conflicto.id);
+    if (error) {
+      avisar({ tipo: 'error', texto: error.message || 'No se pudo asignar el reemplazo.' }, 8000);
+      return;
+    }
+    avisar({ tipo: 'ok', texto: `Reemplazo asignado: ${nombrePromotor(reemplazoId)}.` });
     cargarDia();
   }
 
@@ -328,6 +348,7 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
   }
 
   function soltarEn(key, pIslaId, pTurnoTipoId) {
+    if (soloLectura) return {};
     return {
       onDragOver: (e) => {
         e.preventDefault();
@@ -358,9 +379,22 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
         {nombrePromotor(a.promotor_id)}
         {ausente ? ' (ausente)' : ''}
         {cruce && <AlertTriangle size={11} aria-label="horario cruzado" />}
-        <button className="badge__remove" onClick={() => eliminarTurno(a.id)} aria-label={`Quitar a ${nombrePromotor(a.promotor_id)}`}>
-          <X size={11} />
-        </button>
+        {!soloLectura &&
+          (quitarId === a.id ? (
+            <span className="badge__confirmar">
+              ¿Quitar?
+              <button className="badge__si" onClick={() => eliminarTurno(a.id)} aria-label={`Confirmar quitar a ${nombrePromotor(a.promotor_id)}`}>
+                Sí
+              </button>
+              <button className="badge__no" onClick={() => setQuitarId(null)} aria-label="Cancelar">
+                No
+              </button>
+            </span>
+          ) : (
+            <button className="badge__remove" onClick={() => setQuitarId(a.id)} aria-label={`Quitar a ${nombrePromotor(a.promotor_id)}`}>
+              <X size={11} />
+            </button>
+          ))}
       </span>
     );
   }
@@ -463,6 +497,14 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
           <span className="panel__hint">{formatFecha(fecha, { weekday: 'long', year: 'numeric' })}</span>
         </div>
 
+        {esPasado && (
+          <div className={`subnote subnote--${soloLectura ? 'lectura' : 'aviso'}`} style={{ marginBottom: 14 }}>
+            {soloLectura
+              ? 'Este día ya pasó: la programación queda como historial y solo un usuario master puede corregirla.'
+              : 'Estás corrigiendo un día que ya pasó. Los cambios quedan en el historial de programación.'}
+          </div>
+        )}
+
         {esquemasHoy.length > 0 && (
           <div className="esquemas-hoy">
             {esquemasHoy.map(({ esquema, turnos: nTurnos, islas: n }) => (
@@ -480,7 +522,7 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
           <div className="empty-state">Cargando…</div>
         ) : (
           <div className="turnos-layout">
-            <div className="promotores-lista">
+            <div className="promotores-lista" hidden={soloLectura}>
               <div className="promotores-lista__header">
                 <span className="promotores-lista__title">Disponibles · arrastra a un turno</span>
                 <button className="promotores-lista__toggle-form" onClick={() => setMostrarFormulario((v) => !v)}>
@@ -516,13 +558,13 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
             </div>
 
             <div>
-              {mostrarFormulario && (
+              {mostrarFormulario && !soloLectura && (
                 <div className="panel panel--sub" style={{ marginBottom: 16 }}>
                   <div className="field-grid">
                     <div className="field-row">
                       <label className="field-label" htmlFor="as-promotor">Promotor</label>
                       <select id="as-promotor" className="select field-input" value={promotorId} onChange={(e) => setPromotorId(e.target.value)}>
-                        {promotoresActivos.map((p) => (
+                        {disponibles.map((p) => (
                           <option key={p.id} value={p.id}>
                             {p.nombre}
                           </option>
@@ -654,31 +696,27 @@ function GestionTurnos({ estacionId, promotores, islas, turnoTipos, esquemas, re
 
 // ---------------------------------------------------------------- ausencias
 
-function AusenciasTab({ estacionId, promotores }) {
+function AusenciasTab({ estacionId, promotores, esMaster }) {
   const [ausencias, setAusencias] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
-
-  const promotoresActivos = useMemo(() => promotores.filter((p) => p.activo), [promotores]);
-  const [promotorId, setPromotorId] = useState('');
-  const [tipo, setTipo] = useState('dia_libre');
-  const [desde, setDesde] = useState(hoyISO());
-  const [hasta, setHasta] = useState(hoyISO());
-  const [nota, setNota] = useState('');
+  const [verHistorial, setVerHistorial] = useState(false);
+  const [formulario, setFormulario] = useState(null); // null | { id?, promotorId, tipo, desde, hasta, nota }
+  const [guardando, setGuardando] = useState(false);
   const [mensaje, setMensaje] = useState(null);
 
-  useEffect(() => {
-    setPromotorId((prev) => (promotoresActivos.some((p) => p.id === prev) ? prev : promotoresActivos[0]?.id ?? ''));
-  }, [promotoresActivos]);
+  const promotoresActivos = useMemo(() => promotores.filter((p) => p.activo), [promotores]);
+  const hoy = hoyISO();
 
   async function cargar() {
     setCargando(true);
-    const { data } = await supabase
+    let consulta = supabase
       .from('sjap_ausencias')
       .select('id, promotor_id, fecha_desde, fecha_hasta, tipo, nota')
       .eq('estacion_id', estacionId)
-      .gte('fecha_hasta', hoyISO())
-      .order('fecha_desde');
+      .order('fecha_desde', { ascending: !verHistorial });
+    if (!verHistorial) consulta = consulta.gte('fecha_hasta', hoy);
+    const { data, error } = await consulta.limit(verHistorial ? 300 : 1000);
+    if (error) setMensaje({ tipo: 'error', texto: error.message });
     setAusencias(data || []);
     setCargando(false);
   }
@@ -687,64 +725,93 @@ function AusenciasTab({ estacionId, promotores }) {
     if (!estacionId) return;
     cargar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [estacionId]);
+  }, [estacionId, verHistorial]);
 
-  async function registrar() {
-    if (!promotorId || !desde || !hasta || hasta < desde) {
-      setMensaje({ tipo: 'error', texto: 'Revisa las fechas — "hasta" no puede ser anterior a "desde".' });
-      return;
-    }
-    try {
-      await supabase.from('sjap_ausencias').insert({
-        estacion_id: estacionId,
-        promotor_id: promotorId,
-        fecha_desde: desde,
-        fecha_hasta: hasta,
-        tipo,
-        nota: nota || null,
-      });
-      setNota('');
-      setMensaje({ tipo: 'ok', texto: 'Ausencia registrada — revisa "Gestión de turnos" en esas fechas por si hay turnos afectados.' });
-      setTimeout(() => setMensaje(null), 6000);
-      setMostrarFormulario(false);
-      cargar();
-    } catch (err) {
-      setMensaje({ tipo: 'error', texto: err.message || 'No se pudo registrar la ausencia.' });
-    }
+  function nuevo() {
+    setMensaje(null);
+    setFormulario({ promotorId: promotoresActivos[0]?.id ?? '', tipo: 'dia_libre', desde: hoy, hasta: hoy, nota: '' });
   }
 
-  async function eliminar(id) {
-    await supabase.from('sjap_ausencias').delete().eq('id', id);
+  function editar(a) {
+    setMensaje(null);
+    setFormulario({ id: a.id, promotorId: a.promotor_id, tipo: a.tipo, desde: a.fecha_desde, hasta: a.fecha_hasta, nota: a.nota ?? '' });
+  }
+
+  // Evita registrar dos ausencias que se cruzan para el mismo promotor.
+  function seCruza(f) {
+    return ausencias.find(
+      (a) => a.id !== f.id && a.promotor_id === f.promotorId && a.fecha_desde <= f.hasta && f.desde <= a.fecha_hasta,
+    );
+  }
+
+  async function guardar(e) {
+    e.preventDefault();
+    const f = formulario;
+    if (!f.promotorId) return setMensaje({ tipo: 'error', texto: 'Elige el promotor.' });
+    if (!f.desde || !f.hasta || f.hasta < f.desde) {
+      return setMensaje({ tipo: 'error', texto: 'Revisa las fechas: "hasta" no puede ser anterior a "desde".' });
+    }
+    const cruce = seCruza(f);
+    if (cruce) {
+      return setMensaje({
+        tipo: 'error',
+        texto: `Ese promotor ya tiene una ausencia del ${formatFecha(cruce.fecha_desde)} al ${formatFecha(cruce.fecha_hasta, { year: 'numeric' })}. Edítala en lugar de crear otra.`,
+      });
+    }
+    const fila = { promotor_id: f.promotorId, fecha_desde: f.desde, fecha_hasta: f.hasta, tipo: f.tipo, nota: f.nota.trim() || null };
+    setGuardando(true);
+    const { error } = f.id
+      ? await supabase.from('sjap_ausencias').update(fila).eq('id', f.id)
+      : await supabase.from('sjap_ausencias').insert({ ...fila, estacion_id: estacionId });
+    setGuardando(false);
+    if (error) return setMensaje({ tipo: 'error', texto: error.message || 'No se pudo guardar la ausencia.' });
+    setFormulario(null);
+    setMensaje({
+      tipo: 'ok',
+      texto: f.id ? 'Ausencia actualizada.' : 'Ausencia registrada. Revisa "Gestión de turnos" en esas fechas por si hay turnos afectados.',
+    });
     cargar();
   }
 
-  if (cargando) return <div className="empty-state">Cargando…</div>;
+  async function eliminar(a) {
+    const { error } = await supabase.from('sjap_ausencias').delete().eq('id', a.id);
+    if (error) return setMensaje({ tipo: 'error', texto: error.message || 'No se pudo eliminar la ausencia.' });
+    setMensaje({ tipo: 'ok', texto: 'Ausencia eliminada.' });
+    cargar();
+  }
 
   return (
     <div className="panel">
       <div className="panel__header">
         <h2>Ausencias</h2>
-        <button className="btn btn--accent" onClick={() => setMostrarFormulario((v) => !v)}>
-          <Plus size={14} /> Registrar
-        </button>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <label className="catalogo-filtro" style={{ margin: 0 }}>
+            <input type="checkbox" checked={verHistorial} onChange={(e) => setVerHistorial(e.target.checked)} /> Ver historial
+          </label>
+          <button className="btn btn--accent" onClick={nuevo} disabled={!promotoresActivos.length}>
+            <Plus size={14} /> Registrar ausencia
+          </button>
+        </div>
       </div>
 
-      {mostrarFormulario && (
-        <div className="panel panel--sub" style={{ marginBottom: 16 }}>
+      {formulario && (
+        <form className="panel panel--sub" style={{ marginBottom: 16 }} onSubmit={guardar} noValidate>
           <div className="field-grid">
             <div className="field-row">
-              <label className="field-label">Promotor</label>
-              <select className="select field-input" value={promotorId} onChange={(e) => setPromotorId(e.target.value)}>
-                {promotoresActivos.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.nombre}
-                  </option>
-                ))}
+              <label className="field-label" htmlFor="au-promotor">Promotor</label>
+              <select id="au-promotor" className="select field-input" value={formulario.promotorId} onChange={(e) => setFormulario({ ...formulario, promotorId: e.target.value })}>
+                {promotores
+                  .filter((p) => p.activo || p.id === formulario.promotorId)
+                  .map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.nombre}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="field-row">
-              <label className="field-label">Tipo</label>
-              <select className="select field-input" value={tipo} onChange={(e) => setTipo(e.target.value)}>
+              <label className="field-label" htmlFor="au-tipo">Tipo</label>
+              <select id="au-tipo" className="select field-input" value={formulario.tipo} onChange={(e) => setFormulario({ ...formulario, tipo: e.target.value })}>
                 {TIPOS_AUSENCIA.map((t) => (
                   <option key={t.value} value={t.value}>
                     {t.label}
@@ -753,43 +820,73 @@ function AusenciasTab({ estacionId, promotores }) {
               </select>
             </div>
             <div className="field-row">
-              <label className="field-label">Desde</label>
-              <input className="field-input" type="date" value={desde} onChange={(e) => setDesde(e.target.value)} />
+              <label className="field-label" htmlFor="au-desde">Desde</label>
+              <input id="au-desde" className="field-input" type="date" value={formulario.desde} onChange={(e) => setFormulario({ ...formulario, desde: e.target.value })} />
             </div>
             <div className="field-row">
-              <label className="field-label">Hasta</label>
-              <input className="field-input" type="date" value={hasta} onChange={(e) => setHasta(e.target.value)} />
+              <label className="field-label" htmlFor="au-hasta">Hasta</label>
+              <input id="au-hasta" className="field-input" type="date" value={formulario.hasta} onChange={(e) => setFormulario({ ...formulario, hasta: e.target.value })} />
             </div>
             <div className="field-row">
-              <label className="field-label">Nota (opcional)</label>
-              <input className="field-input" value={nota} onChange={(e) => setNota(e.target.value)} placeholder="detalle" />
+              <label className="field-label" htmlFor="au-nota">Nota (opcional)</label>
+              <input id="au-nota" className="field-input" value={formulario.nota} onChange={(e) => setFormulario({ ...formulario, nota: e.target.value })} placeholder="detalle" />
             </div>
           </div>
-          <button className="btn btn--accent" onClick={registrar} disabled={!promotoresActivos.length}>
-            Guardar
-          </button>
-          {mensaje && <div className={`field-msg field-msg--${mensaje.tipo}`}>{mensaje.texto}</div>}
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button className="btn btn--accent" type="submit" disabled={guardando}>
+              {guardando ? 'Guardando…' : formulario.id ? 'Guardar cambios' : 'Registrar'}
+            </button>
+            <button className="btn" type="button" onClick={() => setFormulario(null)} disabled={guardando}>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      )}
+      {mensaje && (
+        <div className={`field-msg field-msg--${mensaje.tipo}`} role={mensaje.tipo === 'error' ? 'alert' : 'status'} style={{ margin: '0 0 12px' }}>
+          {mensaje.texto}
         </div>
       )}
 
-      {ausencias.length === 0 ? (
-        <div className="empty-state">Sin ausencias vigentes ni próximas.</div>
+      {cargando ? (
+        <div className="empty-state">Cargando…</div>
+      ) : ausencias.length === 0 ? (
+        <div className="empty-state">{verHistorial ? 'No hay ausencias registradas.' : 'Sin ausencias vigentes ni próximas.'}</div>
       ) : (
         <div className="ausencia-lista">
           {ausencias.map((a) => {
             const tipoInfo = TIPOS_AUSENCIA.find((t) => t.value === a.tipo);
             const mismoDia = a.fecha_desde === a.fecha_hasta;
+            const terminada = a.fecha_hasta < hoy;
+            const editable = !terminada || esMaster;
             return (
-              <div className="ausencia-row" key={a.id}>
+              <div className={`ausencia-row ${terminada ? 'ausencia-row--pasada' : ''}`} key={a.id}>
                 <span className={`badge badge--${tipoInfo?.tono ?? 'muted'}`}>{tipoInfo?.label ?? a.tipo}</span>
                 <span className="ausencia-row__nombre">{promotores.find((p) => p.id === a.promotor_id)?.nombre ?? '—'}</span>
                 <span className="ausencia-row__fechas mono">
                   {mismoDia ? formatFecha(a.fecha_desde, { year: 'numeric' }) : `${formatFecha(a.fecha_desde)} – ${formatFecha(a.fecha_hasta, { year: 'numeric' })}`}
                 </span>
                 {a.nota && <span className="ausencia-row__nota">{a.nota}</span>}
-                <button className="ausencia-row__eliminar" onClick={() => eliminar(a.id)} title="Eliminar">
-                  <Trash2 size={14} />
-                </button>
+                {editable ? (
+                  <span className="ausencia-row__acciones">
+                    <button className="icon-btn" onClick={() => editar(a)} title="Editar" aria-label="Editar ausencia">
+                      <Pencil size={14} />
+                    </button>
+                    <ConfirmarAccion
+                      className="icon-btn"
+                      pregunta="¿Eliminar esta ausencia?"
+                      onConfirmar={() => eliminar(a)}
+                      ariaLabel="Eliminar ausencia"
+                      title="Eliminar"
+                    >
+                      <Trash2 size={14} />
+                    </ConfirmarAccion>
+                  </span>
+                ) : (
+                  <span className="text-ink-soft" style={{ fontSize: 11 }} title="Solo un master puede modificar ausencias terminadas">
+                    historial
+                  </span>
+                )}
               </div>
             );
           })}
@@ -803,6 +900,7 @@ function AusenciasTab({ estacionId, promotores }) {
 
 export default function PromotoresPage() {
   const { estacionId } = useEstacion();
+  const { esMaster } = useAuth();
   const [tab, setTab] = useState('turnos');
   const [promotores, setPromotores] = useState([]);
   const [islas, setIslas] = useState([]);
@@ -821,7 +919,7 @@ export default function PromotoresPage() {
         .select('id, nombre, hora_inicio, hora_fin, orden, activo, esquema_id')
         .eq('estacion_id', estacionId)
         .order('orden'),
-      supabase.from('sjap_esquemas_turno').select('id, nombre, es_predeterminado, created_at').eq('estacion_id', estacionId).order('created_at'),
+      supabase.from('sjap_esquemas_turno').select('id, estacion_id, nombre, es_predeterminado, created_at').eq('estacion_id', estacionId).order('created_at'),
       supabase.from('sjap_esquema_reglas').select('id, esquema_id, isla_id, dia_semana, fecha').eq('estacion_id', estacionId),
     ]);
     // Si alguna consulta falla (p. ej. un corte de red) se conservan los datos
@@ -846,21 +944,6 @@ export default function PromotoresPage() {
     cargarCatalogos().finally(() => setCargando(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estacionId]);
-
-  async function agregarPromotor(nombre) {
-    await supabase.from('sjap_promotores').insert({ estacion_id: estacionId, nombre });
-    cargarCatalogos();
-  }
-
-  async function agregarIsla(nombre) {
-    await supabase.from('sjap_islas').insert({ estacion_id: estacionId, nombre });
-    cargarCatalogos();
-  }
-
-  async function toggleActivo(tabla, item) {
-    await supabase.from(tabla).update({ activo: !item.activo }).eq('id', item.id);
-    cargarCatalogos();
-  }
 
   if (cargando) return <div className="empty-state">Cargando…</div>;
 
@@ -897,6 +980,7 @@ export default function PromotoresPage() {
           esquemas={esquemas}
           reglas={reglas}
           onConfigurar={() => setTab('config')}
+          esMaster={esMaster}
         />
       )}
 
@@ -908,32 +992,42 @@ export default function PromotoresPage() {
           turnoTipos={turnoTipos}
           reglas={reglas}
           onCambio={cargarCatalogos}
+          soloLectura={!esMaster}
         />
       )}
 
       {tab === 'promotores' && (
         <CatalogoPanel
           titulo="Promotores"
-          hint={`${promotores.filter((p) => p.activo).length} activo(s)`}
+          tabla="sjap_promotores"
+          tipoUso="promotor"
+          estacionId={estacionId}
           items={promotores}
-          onAgregar={agregarPromotor}
-          onToggle={(item) => toggleActivo('sjap_promotores', item)}
-          placeholder="Nombre del promotor"
+          onCambio={cargarCatalogos}
+          soloLectura={!esMaster}
+          placeholder="Nombre completo del promotor"
+          notaRenombrar="Los registros de venta importados conservan el nombre con que llegaron del archivo."
+          normalizar={(s) => s.replace(/\s+/g, ' ').toUpperCase()}
         />
       )}
 
       {tab === 'islas' && (
         <CatalogoPanel
           titulo="Islas"
-          hint={`${islas.filter((i) => i.activo).length} activa(s)`}
+          tabla="sjap_islas"
+          tipoUso="isla"
+          estacionId={estacionId}
           items={islas}
-          onAgregar={agregarIsla}
-          onToggle={(item) => toggleActivo('sjap_islas', item)}
-          placeholder="Ej. 1, 2, 3…"
+          onCambio={cargarCatalogos}
+          soloLectura={!esMaster}
+          etiquetaNombre="Isla"
+          placeholder="Ej. 5"
+          notaRenombrar="Una isla que aparece por nombre en ventas históricas no se puede renombrar."
+          normalizar={(s) => s.replace(/\s+/g, ' ').toUpperCase()}
         />
       )}
 
-      {tab === 'ausencias' && <AusenciasTab estacionId={estacionId} promotores={promotores} />}
+      {tab === 'ausencias' && <AusenciasTab estacionId={estacionId} promotores={promotores} esMaster={esMaster} />}
     </>
   );
 }

@@ -28,14 +28,23 @@ export default function UploadPage() {
         if (!parsed.fecha) {
           throw new Error('No se pudo determinar la fecha del cierre: ninguna transacción trae un valor de FECHA reconocible.');
         }
-        const { productosSinResolver } = await persistCierreDiario({
-          estacionId,
+        const { productosSinResolver, diaCerrado, diferencias, reprocesado } = await persistCierreDiario({
           parsed,
           archivoMeta: { nombreArchivo: file.name, tamanoBytes: file.size },
         });
+        const cop = (n) => Number(n).toLocaleString('es-CO', { maximumFractionDigits: 2 });
         const warnings = [
           ...parsed.warnings,
           ...(productosSinResolver.length ? [`Productos sin resolver contra el catálogo (revisar alias): ${productosSinResolver.join(', ')}`] : []),
+          ...(diaCerrado
+            ? [
+                diferencias
+                  ? `El día ya estaba cerrado: se actualizó solo el detalle del archivo. El archivo suma $${cop(diferencias.venta_archivo)} y ${cop(diferencias.galones_archivo)} gal; el cierre conciliado conserva $${cop(diferencias.venta_cierre)} y ${cop(diferencias.galones_cierre)} gal. Si el cierre debe cambiar, un master puede corregirlo en el detalle del día.`
+                  : 'El día ya estaba cerrado: se actualizó solo el detalle del archivo (los totales coinciden).',
+              ]
+            : reprocesado
+              ? ['El día ya existía: se reprocesó conservando el efectivo, las lecturas y demás datos capturados.']
+              : []),
         ];
         setCola((prev) => prev.map((it, i) => (i === idx ? { ...it, estado: 'completado', fecha: parsed.fecha, warnings } : it)));
       } catch (err) {

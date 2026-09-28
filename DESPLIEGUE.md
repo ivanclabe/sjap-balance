@@ -14,6 +14,7 @@ distinto al actual. Estado verificado el 23 de septiembre de 2026 (versión 0.1.
 | Esquema de la base | `supabase/migrations/` (22 archivos) | Migraciones del proyecto (idénticas a las aplicadas) + 2 semillas para entornos nuevos. `supabase/instalacion/` trae la versión para pegar en el SQL Editor (`npm run generar:instalacion`). |
 | Edge Functions | `supabase/functions/sjap-usuarios`, `supabase/functions/chat-asistente` | Desplegadas en el proyecto. `admin-crear-usuario` quedó retirada (responde 410) y se puede borrar desde el Dashboard. |
 | Script de arranque | `supabase/scripts/crear_usuario_master.sql` | Crea el perfil del primer usuario master. |
+| Alta automática (solo desarrollo) | `supabase/scripts/dev_alta_automatica.sql` | Aplicado en el proyecto de desarrollo: toda cuenta nueva de Auth recibe perfil SJAP «dependiente». **No aplicar en producción.** Se quita con las dos líneas `drop` que trae el archivo. |
 | Variables de entorno | `.env` (no versionar) · plantilla en `.env.example` | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`. |
 | Archivos de prueba | `test-fixtures/` | Cierre diario real (12-feb-2026) y balance mensual de ejemplo. |
 | Frontend en producción | — | No hay despliegue publicado. Hoy corre en local con `npm run dev`. |
@@ -56,8 +57,15 @@ La `anon key` es pública (va dentro del bundle). Lo que protege los datos es la
 
 ### Autenticación
 
-- Cada persona entra con **usuario y contraseña** (Supabase Auth, correo interno `<usuario>@sjap.local`).
-  Tener una cuenta de Auth no basta: la app exige un perfil **activo** en `sjap_usuarios`.
+- **Identidad:** Supabase Auth (`auth.users`) es la fuente de verdad del correo y la contraseña.
+  `sjap_usuarios` es solo el perfil de la app (usuario, nombre, rol, estado); no guarda contraseñas.
+- **Ingreso:** con el correo registrado o, si la persona no tiene correo, con su nombre de usuario
+  (correo interno `<usuario>@sjap.local`). Tener cuenta en Auth no basta: se exige perfil **activo**.
+- **Recuperación:** "¿Olvidaste tu contraseña?" envía un enlace de Supabase al correo; la contraseña
+  nueva se valida en el servidor. Requiere configurar en Supabase → Authentication → URL Configuration
+  el *Site URL* y la URL de la app en *Redirect URLs*, y un SMTP propio (el correo integrado de Supabase
+  solo entrega a miembros del equipo del proyecto y con un límite muy bajo). Quien no tiene correo pide
+  a un master una contraseña temporal.
 - **Contraseñas:** mínimo 8 caracteres, letras y números, no triviales. La regla la aplica la
   función `sjap-usuarios` en el servidor.
 - **Contraseñas temporales:** los usuarios nuevos y las contraseñas restablecidas por un master
@@ -67,6 +75,26 @@ La `anon key` es pública (va dentro del bundle). Lo que protege los datos es la
 - Una estación **siempre conserva al menos un master activo** (trigger en la base).
 - La sesión se **cierra sola** tras 30 minutos sin actividad (configurable), con aviso 60 s antes.
 - Toda acción sobre usuarios queda en `sjap_auditoria` (entidad `usuario`), sin contraseñas.
+
+### Roles y permisos (aplicados en la base de datos con RLS, no solo en pantalla)
+
+| Área | Master | Dependiente |
+|---|---|---|
+| Consultar todos los módulos y reportes | Sí | Sí |
+| Cargar archivos de cierre (también re-subir) | Sí | Sí |
+| Lectura de tanque, efectivo, facturas y ventas efectivo/QR | Sí | Sí (crear) |
+| Corregir o eliminar facturas/movimientos manuales | Sí | No |
+| Corregir venta, galones o clientes de un cierre | Sí | No |
+| Turnos y ausencias de hoy en adelante | Sí | Sí |
+| Turnos y ausencias ya pasados | Sí | No (historial) |
+| Promotores, islas, esquemas de turno, clientes, productos, medios de pago, presupuesto, configuración | Sí | Solo lectura |
+| Usuarios | Sí | Solo su contraseña |
+| Borrar historia (cierres, transacciones, auditoría) | Nunca por la app | No |
+
+Además: los datos importados del Excel no se editan ni se borran desde la app; los catálogos con
+historial solo se desactivan (renombrar una isla o un medio de pago que aparece en ventas
+históricas está bloqueado); y re-subir el archivo de un día **cerrado** solo actualiza su detalle,
+sin tocar los totales ni el balance conciliados.
 
 ---
 
@@ -119,7 +147,7 @@ Después crea el usuario master:
 2. Ejecuta `supabase/scripts/crear_usuario_master.sql`.
 
 > Probado el 23-sep-2026: las 21 migraciones se aplicaron sin errores sobre una base
-> vacía. Resultado: 32 tablas, 56 políticas RLS y 4 funciones, igual que el proyecto
+> vacía. Resultado: 32 tablas, 124 políticas RLS y 19 funciones, igual que el proyecto
 > actual, más las semillas (estación, 3 productos, 17 medios de pago, turnos T1–T4 y
 > esquema «Estándar»).
 

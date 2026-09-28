@@ -38,6 +38,7 @@ import FacturasPage from './pages/FacturasPage.jsx';
 import HelpPage from './pages/HelpPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import CambioPasswordPage from './pages/CambioPasswordPage.jsx';
+import RestablecerPasswordPage from './pages/RestablecerPasswordPage.jsx';
 import InfoTip from './components/InfoTip.jsx';
 import ChatAsistente from './components/ChatAsistente.jsx';
 
@@ -60,7 +61,7 @@ function PantallaCentrada({ children }) {
 }
 
 export default function App() {
-  const { estado, perfil, esMaster, cerrarSesion, recargarPerfil } = useAuth();
+  const { estado, perfil, esMaster, cerrarSesion, recargarPerfil, recuperando } = useAuth();
   const { estaciones, estacionId, setEstacionId, estacion } = useEstacion();
   const { cierre: ultimo } = useUltimoCierre(estacionId);
   const { config } = useEstacionConfig(estacionId);
@@ -70,7 +71,7 @@ export default function App() {
   // Equipos compartidos en la estación: la sesión se cierra sola tras N
   // minutos sin actividad (sjap_estacion_config.sesion_inactividad_minutos).
   const { segundosRestantes, seguir } = useInactividad({
-    activo: estado === 'listo' && !perfil?.debe_cambiar_password,
+    activo: estado === 'listo' && !perfil?.debe_cambiar_password && !recuperando,
     minutos: config.sesion_inactividad_minutos,
     onExpira: () => cerrarSesion('Se cerró la sesión por inactividad. Vuelve a iniciar sesión para continuar.'),
   });
@@ -94,6 +95,7 @@ export default function App() {
       </PantallaCentrada>
     );
   }
+  if (recuperando) return <RestablecerPasswordPage />;
   if (perfil.debe_cambiar_password) return <CambioPasswordPage />;
 
   return (

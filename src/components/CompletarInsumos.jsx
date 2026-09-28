@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Trash2 } from 'lucide-react';
 import { supabase } from '../supabase/client.js';
-import { formatNumero } from '../lib/format.js';
+import { useAuth } from '../context/AuthContext.jsx';
+import { formatCOP, formatNumero } from '../lib/format.js';
 import InfoTip from './InfoTip.jsx';
+import ConfirmarAccion from './ConfirmarAccion.jsx';
 
 const TABS = [
   { key: 'inventario', label: 'Inventario' },
@@ -10,28 +13,20 @@ const TABS = [
   { key: 'ventas', label: 'Ventas efectivo / QR' },
 ];
 
-// Recalcula el estado del cierre: completo cuando ya hay lectura de
-// inventario para cada producto y efectivo real capturado. Las facturas no
-// bloquean el estado — no todos los días llegan facturas de compra.
-async function recomputarEstadoCierre(estacionId, fecha) {
-  const [{ data: productos }, { data: balance }, { data: cierre }] = await Promise.all([
-    supabase.from('sjap_productos').select('id').eq('estacion_id', estacionId),
-    supabase.from('sjap_balance_diario_producto').select('producto_id, inventario_final_real').eq('estacion_id', estacionId).eq('fecha', fecha),
-    supabase.from('sjap_cierre_diario').select('efectivo_real').eq('estacion_id', estacionId).eq('fecha', fecha).maybeSingle(),
-  ]);
-  const balancePorProducto = new Map((balance || []).map((b) => [b.producto_id, b]));
-  const inventarioCompleto =
-    (productos || []).length > 0 && (productos || []).every((p) => balancePorProducto.get(p.id)?.inventario_final_real != null);
-  const efectivoCompleto = cierre?.efectivo_real != null;
-  const nuevoEstado = inventarioCompleto && efectivoCompleto ? 'completo' : 'pendiente_insumos';
-  await supabase.from('sjap_cierre_diario').update({ estado: nuevoEstado }).eq('estacion_id', estacionId).eq('fecha', fecha);
-}
+const TIPOS_MOVIMIENTO = { COMBUSTIBLE: 'Combustible', UREA: 'Urea', LUBRICANTES: 'Lubricantes' };
 
+// Lectura de tanque y efectivo se guardan con funciones de la base de datos
+// (sjap_registrar_inventario / sjap_registrar_efectivo): son atómicas,
+// permiten corregir un valor ya capturado y recalculan el estado del cierre
+// (completo = cada producto ACTIVO con lectura + efectivo real).
 export default function CompletarInsumos({ estacionId, fecha, balanceProducto, onGuardado }) {
+  const { esMaster } = useAuth();
   const [tab, setTab] = useState('inventario');
   const [productos, setProductos] = useState([]);
   const [cuentas, setCuentas] = useState([]);
   const [facturasDia, setFacturasDia] = useState([]);
+  const [movimientosDia, setMovimientosDia] = useState([]);
+  const [recarga, setRecarga] = useState(0);
 
   const [inventarioValores, setInventarioValores] = useState({});
   const [efectivoValor, setEfectivoValor] = useState('');
@@ -48,155 +43,122 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
     if (!estacionId) return;
     (async () => {
       const [{ data: prods }, { data: ctas }] = await Promise.all([
-        supabase.from('sjap_productos').select('id, nombre_visible, orden').eq('estacion_id', estacionId).order('orden'),
-        supabase.from('sjap_cuentas_cliente').select('id, nombre').eq('estacion_id', estacionId).order('nombre'),
+        supabase.from('sjap_productos').select('id, nombre_visible, orden').eq('estacion_id', estacionId).eq('activo', true).order('orden'),
+        supabase.from('sjap_cuentas_cliente').select('id, nombre').eq('estacion_id', estacionId).eq('activo', true).order('nombre'),
       ]);
       setProductos(prods || []);
       setCuentas(ctas || []);
       const qr = (ctas || []).find((c) => c.nombre === 'QR');
       if (qr) setVentaCuentaId(qr.id);
+      else if (ctas?.length) setVentaCuentaId(ctas[0].id);
     })();
   }, [estacionId]);
 
   useEffect(() => {
     if (!estacionId || !fecha) return;
     (async () => {
-      const { data } = await supabase
-        .from('sjap_facturas_compra')
-        .select('numero_factura, cantidad, sjap_productos(nombre_visible)')
-        .eq('estacion_id', estacionId)
-        .eq('fecha', fecha)
-        .order('numero_factura');
-      setFacturasDia(data || []);
+      const [{ data: facturas }, { data: movimientos }] = await Promise.all([
+        supabase
+          .from('sjap_facturas_compra')
+          .select('id, numero_factura, cantidad, origen, sjap_productos(nombre_visible)')
+          .eq('estacion_id', estacionId)
+          .eq('fecha', fecha)
+          .order('numero_factura'),
+        supabase
+          .from('sjap_movimientos_cuenta_cliente')
+          .select('id, tipo, monto, origen, sjap_cuentas_cliente!inner(nombre, estacion_id)')
+          .eq('sjap_cuentas_cliente.estacion_id', estacionId)
+          .eq('fecha', fecha)
+          .order('created_at'),
+      ]);
+      setFacturasDia(facturas || []);
+      setMovimientosDia(movimientos || []);
     })();
-  }, [estacionId, fecha, mensaje]);
+  }, [estacionId, fecha, recarga]);
 
   function avisar(tipo, texto) {
     setMensaje({ tipo, texto });
-    setTimeout(() => setMensaje(null), 4000);
+    if (tipo === 'ok') setTimeout(() => setMensaje((m) => (m?.texto === texto ? null : m)), 4000);
+  }
+
+  function terminar(texto) {
+    avisar('ok', texto);
+    setRecarga((n) => n + 1);
+    onGuardado?.();
+  }
+
+  async function ejecutar(fn, textoOk) {
+    setGuardando(true);
+    setMensaje(null);
+    const { error } = await fn();
+    setGuardando(false);
+    if (error) {
+      avisar('error', error.message || 'No se pudo guardar.');
+      return false;
+    }
+    terminar(textoOk);
+    return true;
   }
 
   async function guardarInventario() {
-    const filas = Object.entries(inventarioValores).filter(([, v]) => v !== '' && v != null);
-    if (filas.length === 0) return;
-    setGuardando(true);
-    try {
-      for (const [productoId, valorStr] of filas) {
-        const valor = Number(valorStr);
-        await supabase
-          .from('sjap_lecturas_inventario')
-          .insert({ estacion_id: estacionId, producto_id: productoId, fecha, inventario_final_real: valor, origen: 'manual' });
-
-        const { data: fila } = await supabase
-          .from('sjap_balance_diario_producto')
-          .select('inventario_teorico, precio_vigente')
-          .eq('estacion_id', estacionId)
-          .eq('producto_id', productoId)
-          .eq('fecha', fecha)
-          .maybeSingle();
-
-        const inventarioTeorico = Number(fila?.inventario_teorico ?? 0);
-        const precioVigente = fila?.precio_vigente != null ? Number(fila.precio_vigente) : null;
-        const fluctuacionDia = valor - inventarioTeorico;
-        const fluctuacionValor = precioVigente != null ? fluctuacionDia * precioVigente : null;
-
-        const { data: anterior } = await supabase
-          .from('sjap_balance_diario_producto')
-          .select('fluctuacion_acumulada')
-          .eq('estacion_id', estacionId)
-          .eq('producto_id', productoId)
-          .lt('fecha', fecha)
-          .order('fecha', { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        const fluctuacionAcumulada = Number(anterior?.fluctuacion_acumulada ?? 0) + fluctuacionDia;
-
-        await supabase
-          .from('sjap_balance_diario_producto')
-          .update({
-            inventario_final_real: valor,
-            fluctuacion_dia: fluctuacionDia,
-            fluctuacion_valor: fluctuacionValor,
-            fluctuacion_acumulada: fluctuacionAcumulada,
-            estado: 'completo',
-          })
-          .eq('estacion_id', estacionId)
-          .eq('producto_id', productoId)
-          .eq('fecha', fecha);
-      }
-      await recomputarEstadoCierre(estacionId, fecha);
-      setInventarioValores({});
-      avisar('ok', 'Inventario guardado.');
-      onGuardado?.();
-    } catch (err) {
-      avisar('error', err.message || 'No se pudo guardar el inventario.');
-    } finally {
-      setGuardando(false);
+    const lecturas = Object.entries(inventarioValores)
+      .filter(([, v]) => v !== '' && v != null)
+      .map(([producto_id, v]) => ({ producto_id, valor: Number(v) }));
+    if (lecturas.length === 0) return avisar('error', 'Escribe al menos una lectura.');
+    if (lecturas.some((l) => !Number.isFinite(l.valor) || l.valor < 0)) {
+      return avisar('error', 'Las lecturas deben ser números mayores o iguales a cero.');
     }
+    const ok = await ejecutar(() => supabase.rpc('sjap_registrar_inventario', { p_fecha: fecha, p_lecturas: lecturas }), 'Inventario guardado.');
+    if (ok) setInventarioValores({});
   }
 
   async function guardarEfectivo() {
-    if (efectivoValor === '') return;
-    setGuardando(true);
-    try {
-      const valor = Number(efectivoValor);
-      await supabase.from('sjap_efectivo_diario').insert({ estacion_id: estacionId, fecha, efectivo_real: valor, origen: 'manual' });
-      await supabase.from('sjap_cierre_diario').update({ efectivo_real: valor }).eq('estacion_id', estacionId).eq('fecha', fecha);
-      await recomputarEstadoCierre(estacionId, fecha);
-      setEfectivoValor('');
-      avisar('ok', 'Efectivo real guardado.');
-      onGuardado?.();
-    } catch (err) {
-      avisar('error', err.message || 'No se pudo guardar el efectivo.');
-    } finally {
-      setGuardando(false);
-    }
+    const valor = Number(efectivoValor);
+    if (efectivoValor === '' || !Number.isFinite(valor) || valor < 0) return avisar('error', 'Escribe un valor en pesos mayor o igual a cero.');
+    const ok = await ejecutar(() => supabase.rpc('sjap_registrar_efectivo', { p_fecha: fecha, p_efectivo: valor }), 'Efectivo real guardado.');
+    if (ok) setEfectivoValor('');
   }
 
   async function guardarFactura() {
-    const filas = Object.entries(facturaCantidades)
-      .filter(([, v]) => v !== '' && v != null && Number(v) > 0)
-      .map(([productoId, v]) => ({
-        estacion_id: estacionId,
-        producto_id: productoId,
-        fecha,
-        numero_factura: facturaNumero || null,
-        cantidad: Number(v),
-        origen: 'manual',
-      }));
-    if (filas.length === 0) return;
-    setGuardando(true);
-    try {
-      await supabase.from('sjap_facturas_compra').insert(filas);
+    const entradas = Object.entries(facturaCantidades).filter(([, v]) => v !== '' && v != null);
+    if (entradas.some(([, v]) => !(Number(v) > 0))) return avisar('error', 'Las cantidades deben ser mayores que cero.');
+    if (entradas.length === 0) return avisar('error', 'Escribe la cantidad recibida de al menos un producto.');
+    const numero = facturaNumero.trim() || null;
+    if (numero && facturasDia.some((f) => f.numero_factura === numero)) {
+      return avisar('error', `La factura ${numero} ya está registrada para este día.`);
+    }
+    const filas = entradas.map(([productoId, v]) => ({
+      estacion_id: estacionId,
+      producto_id: productoId,
+      fecha,
+      numero_factura: numero,
+      cantidad: Number(v),
+      origen: 'manual',
+    }));
+    const ok = await ejecutar(() => supabase.from('sjap_facturas_compra').insert(filas), 'Factura registrada.');
+    if (ok) {
       setFacturaNumero('');
       setFacturaCantidades({});
-      avisar('ok', 'Factura registrada.');
-      onGuardado?.();
-    } catch (err) {
-      avisar('error', err.message || 'No se pudo guardar la factura.');
-    } finally {
-      setGuardando(false);
     }
   }
 
   async function guardarVenta() {
-    if (!ventaCuentaId || ventaMonto === '') return;
-    setGuardando(true);
-    try {
-      await supabase
-        .from('sjap_movimientos_cuenta_cliente')
-        .insert({ cuenta_id: ventaCuentaId, fecha, tipo: ventaTipo, monto: Number(ventaMonto), origen: 'manual' });
-      setVentaMonto('');
-      avisar('ok', 'Movimiento registrado.');
-      onGuardado?.();
-    } catch (err) {
-      avisar('error', err.message || 'No se pudo guardar el movimiento.');
-    } finally {
-      setGuardando(false);
-    }
+    const monto = Number(ventaMonto);
+    if (!ventaCuentaId) return avisar('error', 'Elige la cuenta.');
+    if (ventaMonto === '' || !(monto > 0)) return avisar('error', 'El monto debe ser mayor que cero.');
+    const ok = await ejecutar(
+      () => supabase.from('sjap_movimientos_cuenta_cliente').insert({ cuenta_id: ventaCuentaId, fecha, tipo: ventaTipo, monto, origen: 'manual' }),
+      'Movimiento registrado.',
+    );
+    if (ok) setVentaMonto('');
+  }
+
+  async function eliminarRegistro(tabla, id, texto) {
+    await ejecutar(() => supabase.from(tabla).delete().eq('id', id), texto);
   }
 
   const balancePorProducto = new Map((balanceProducto || []).map((b) => [b.producto_id, b]));
+  const puedeBorrar = (fila) => esMaster && fila.origen === 'manual';
 
   return (
     <div className="panel">
@@ -215,21 +177,21 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
 
       {tab === 'inventario' && (
         <div>
-          <p className="field-help">Lectura de tanque al cierre del día (tabla de aforo), por producto.</p>
+          <p className="field-help">Lectura de tanque al cierre del día (tabla de aforo), por producto. Si ya hay una lectura, la nueva la reemplaza.</p>
           <div className="field-grid">
             {productos.map((p) => {
               const actual = balancePorProducto.get(p.id);
               return (
                 <div className="field-row" key={p.id}>
-                  <label className="field-label">
+                  <label className="field-label" htmlFor={`inv-${p.id}`}>
                     {p.nombre_visible}
-                    {actual?.inventario_final_real != null && (
-                      <span className="text-good"> · ya capturado ({formatNumero(actual.inventario_final_real)})</span>
-                    )}
+                    {actual?.inventario_final_real != null && <span className="text-good"> · capturado ({formatNumero(actual.inventario_final_real)})</span>}
                   </label>
                   <input
+                    id={`inv-${p.id}`}
                     className="field-input"
                     type="number"
+                    min="0"
                     step="0.01"
                     placeholder={actual?.inventario_final_real != null ? String(actual.inventario_final_real) : 'galones'}
                     value={inventarioValores[p.id] ?? ''}
@@ -240,7 +202,7 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
             })}
           </div>
           <button className="btn btn--accent" onClick={guardarInventario} disabled={guardando}>
-            Guardar inventario
+            {guardando ? 'Guardando…' : 'Guardar inventario'}
           </button>
         </div>
       )}
@@ -248,7 +210,7 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
       {tab === 'efectivo' && (
         <div>
           <p className="field-help">
-            Efectivo contado físicamente al cierre de caja.
+            Efectivo contado físicamente al cierre de caja. Si ya había un valor, el nuevo lo reemplaza.
             <InfoTip side="right">
               Por ahora solo se guarda el valor contado. La comparación contra el efectivo esperado (diferencia de caja) queda pendiente
               hasta confirmar con el cliente cómo se calcula ese esperado.
@@ -256,26 +218,19 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
           </p>
           <div className="field-grid" style={{ maxWidth: 240 }}>
             <div className="field-row">
-              <label className="field-label">Efectivo real (COP)</label>
-              <input
-                className="field-input"
-                type="number"
-                step="1"
-                placeholder="pesos"
-                value={efectivoValor}
-                onChange={(e) => setEfectivoValor(e.target.value)}
-              />
+              <label className="field-label" htmlFor="ef-valor">Efectivo real (COP)</label>
+              <input id="ef-valor" className="field-input" type="number" min="0" step="1" placeholder="pesos" value={efectivoValor} onChange={(e) => setEfectivoValor(e.target.value)} />
             </div>
           </div>
           <button className="btn btn--accent" onClick={guardarEfectivo} disabled={guardando}>
-            Guardar efectivo
+            {guardando ? 'Guardando…' : 'Guardar efectivo'}
           </button>
         </div>
       )}
 
       {tab === 'facturas' && (
         <div>
-          <p className="field-help">Una factura puede traer varios productos — se registra un número de factura y la cantidad recibida por cada uno.</p>
+          <p className="field-help">Una factura puede traer varios productos: se registra un número de factura y la cantidad recibida por cada uno.</p>
 
           {facturasDia.length > 0 && (
             <div className="table-scroll" style={{ marginBottom: 16 }}>
@@ -285,14 +240,26 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
                     <th>N.° factura</th>
                     <th>Producto</th>
                     <th className="num">Cantidad</th>
+                    <th>Origen</th>
+                    {esMaster && <th aria-label="Acciones" />}
                   </tr>
                 </thead>
                 <tbody>
-                  {facturasDia.map((f, i) => (
-                    <tr key={i}>
+                  {facturasDia.map((f) => (
+                    <tr key={f.id}>
                       <td className="mono">{f.numero_factura ?? '—'}</td>
                       <td>{f.sjap_productos?.nombre_visible ?? '—'}</td>
                       <td className="num mono">{formatNumero(f.cantidad)}</td>
+                      <td className="text-ink-soft">{f.origen}</td>
+                      {esMaster && (
+                        <td>
+                          {puedeBorrar(f) && (
+                            <ConfirmarAccion className="icon-btn" pregunta="¿Eliminar esta línea de factura?" onConfirmar={() => eliminarRegistro('sjap_facturas_compra', f.id, 'Línea de factura eliminada.')} ariaLabel="Eliminar línea de factura">
+                              <Trash2 size={14} />
+                            </ConfirmarAccion>
+                          )}
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -301,16 +268,18 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
           )}
 
           <div className="field-row" style={{ maxWidth: 240, marginBottom: 14 }}>
-            <label className="field-label">N.° de factura</label>
-            <input className="field-input" value={facturaNumero} onChange={(e) => setFacturaNumero(e.target.value)} placeholder="ej. 12345" />
+            <label className="field-label" htmlFor="fa-numero">N.° de factura</label>
+            <input id="fa-numero" className="field-input" value={facturaNumero} onChange={(e) => setFacturaNumero(e.target.value)} placeholder="ej. 12345" />
           </div>
           <div className="field-grid">
             {productos.map((p) => (
               <div className="field-row" key={p.id}>
-                <label className="field-label">{p.nombre_visible}</label>
+                <label className="field-label" htmlFor={`fa-${p.id}`}>{p.nombre_visible}</label>
                 <input
+                  id={`fa-${p.id}`}
                   className="field-input"
                   type="number"
+                  min="0"
                   step="0.01"
                   placeholder="galones"
                   value={facturaCantidades[p.id] ?? ''}
@@ -320,18 +289,54 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
             ))}
           </div>
           <button className="btn btn--accent" onClick={guardarFactura} disabled={guardando}>
-            Registrar factura
+            {guardando ? 'Guardando…' : 'Registrar factura'}
           </button>
         </div>
       )}
 
       {tab === 'ventas' && (
         <div>
-          <p className="field-help">Ventas en efectivo por cuenta (incluye QR) — la misma pestaña "Ventas efectivo" que hoy se llena en el Excel.</p>
+          <p className="field-help">Ventas en efectivo por cuenta (incluye QR), la misma pestaña "Ventas efectivo" que hoy se llena en el Excel.</p>
+
+          {movimientosDia.length > 0 && (
+            <div className="table-scroll" style={{ marginBottom: 16 }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cuenta</th>
+                    <th>Tipo</th>
+                    <th className="num">Monto</th>
+                    <th>Origen</th>
+                    {esMaster && <th aria-label="Acciones" />}
+                  </tr>
+                </thead>
+                <tbody>
+                  {movimientosDia.map((m) => (
+                    <tr key={m.id}>
+                      <td>{m.sjap_cuentas_cliente?.nombre ?? '—'}</td>
+                      <td>{TIPOS_MOVIMIENTO[m.tipo] ?? m.tipo}</td>
+                      <td className="num mono">{formatCOP(m.monto)}</td>
+                      <td className="text-ink-soft">{m.origen}</td>
+                      {esMaster && (
+                        <td>
+                          {puedeBorrar(m) && (
+                            <ConfirmarAccion className="icon-btn" pregunta="¿Eliminar este movimiento?" onConfirmar={() => eliminarRegistro('sjap_movimientos_cuenta_cliente', m.id, 'Movimiento eliminado.')} ariaLabel="Eliminar movimiento">
+                              <Trash2 size={14} />
+                            </ConfirmarAccion>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
           <div className="field-grid" style={{ maxWidth: 480 }}>
             <div className="field-row">
-              <label className="field-label">Cuenta</label>
-              <select className="select field-input" value={ventaCuentaId} onChange={(e) => setVentaCuentaId(e.target.value)}>
+              <label className="field-label" htmlFor="mv-cuenta">Cuenta</label>
+              <select id="mv-cuenta" className="select field-input" value={ventaCuentaId} onChange={(e) => setVentaCuentaId(e.target.value)}>
                 {cuentas.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.nombre}
@@ -340,25 +345,31 @@ export default function CompletarInsumos({ estacionId, fecha, balanceProducto, o
               </select>
             </div>
             <div className="field-row">
-              <label className="field-label">Tipo</label>
-              <select className="select field-input" value={ventaTipo} onChange={(e) => setVentaTipo(e.target.value)}>
-                <option value="COMBUSTIBLE">Combustible</option>
-                <option value="UREA">Urea</option>
-                <option value="LUBRICANTES">Lubricantes</option>
+              <label className="field-label" htmlFor="mv-tipo">Tipo</label>
+              <select id="mv-tipo" className="select field-input" value={ventaTipo} onChange={(e) => setVentaTipo(e.target.value)}>
+                {Object.entries(TIPOS_MOVIMIENTO).map(([valor, texto]) => (
+                  <option key={valor} value={valor}>
+                    {texto}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="field-row">
-              <label className="field-label">Monto (COP)</label>
-              <input className="field-input" type="number" step="1" placeholder="pesos" value={ventaMonto} onChange={(e) => setVentaMonto(e.target.value)} />
+              <label className="field-label" htmlFor="mv-monto">Monto (COP)</label>
+              <input id="mv-monto" className="field-input" type="number" min="0" step="1" placeholder="pesos" value={ventaMonto} onChange={(e) => setVentaMonto(e.target.value)} />
             </div>
           </div>
           <button className="btn btn--accent" onClick={guardarVenta} disabled={guardando}>
-            Registrar movimiento
+            {guardando ? 'Guardando…' : 'Registrar movimiento'}
           </button>
         </div>
       )}
 
-      {mensaje && <div className={`field-msg field-msg--${mensaje.tipo}`}>{mensaje.texto}</div>}
+      {mensaje && (
+        <div className={`field-msg field-msg--${mensaje.tipo}`} role={mensaje.tipo === 'error' ? 'alert' : 'status'}>
+          {mensaje.texto}
+        </div>
+      )}
     </div>
   );
 }

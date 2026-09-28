@@ -119,8 +119,8 @@ Abre `03_verificar_instalacion.sql`, cópialo, pégalo en **SQL Editor** → **N
 | Elemento | Esperado |
 |---|---|
 | Tablas de SJAP | 32 |
-| Reglas de seguridad | 56 |
-| Funciones | 5 |
+| Reglas de seguridad | 124 |
+| Funciones | 19 |
 | Estación | 1 |
 | Productos | 3 |
 | Medios de pago | 17 |

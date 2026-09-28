@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
-import { UserPlus, KeyRound, Copy, RefreshCw, ShieldCheck, UserX, UserCheck, Wand2 } from 'lucide-react';
+import { UserPlus, KeyRound, Copy, RefreshCw, ShieldCheck, UserX, UserCheck, Wand2, Mail } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext.jsx';
 import { supabase } from '../../supabase/client.js';
 import { CampoPassword, ReglasPassword } from '../../components/CampoPassword.jsx';
 import { generarPassword, mensajeDeFuncion, validarPassword } from '../../lib/password.js';
@@ -48,7 +49,10 @@ function CredencialEntregable({ usuario, password, onCerrar }) {
   );
 }
 
+const CORREO_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 function CambiarPassword({ usuario }) {
+  const { correo } = useAuth();
   const [actual, setActual] = useState('');
   const [nueva, setNueva] = useState('');
   const [confirmacion, setConfirmacion] = useState('');
@@ -83,6 +87,11 @@ function CambiarPassword({ usuario }) {
         <h2>Cambiar mi contraseña</h2>
         <span className="panel__hint">usuario: {usuario.username}</span>
       </div>
+      <p className="field-help" style={{ marginTop: 0 }}>
+        {correo
+          ? `Ingresas con tu correo ${correo}. Si olvidas la contraseña puedes recuperarla desde la pantalla de ingreso.`
+          : 'Ingresas con tu nombre de usuario. Sin un correo registrado no puedes recuperar la contraseña por tu cuenta: pídele a un master que registre tu correo.'}
+      </p>
       <div className="field-grid">
         <CampoPassword id="pw-actual" label="Contraseña actual" value={actual} onChange={setActual} autoComplete="current-password" />
         <CampoPassword id="pw-nueva" label="Nueva contraseña" value={nueva} onChange={setNueva} autoComplete="new-password" />
@@ -98,7 +107,7 @@ function CambiarPassword({ usuario }) {
 }
 
 function FormularioNuevo({ onCreado }) {
-  const vacio = { username: '', nombre: '', password: '', rol: 'dependiente' };
+  const vacio = { username: '', nombre: '', email: '', password: '', rol: 'dependiente' };
   const [nuevo, setNuevo] = useState(vacio);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
@@ -108,10 +117,11 @@ function FormularioNuevo({ onCreado }) {
     setError(null);
     const invalida = validarPassword(nuevo.password, nuevo.username);
     if (invalida) return setError(invalida);
+    if (nuevo.email.trim() && !CORREO_RE.test(nuevo.email.trim())) return setError('El correo no es válido.');
     setGuardando(true);
     try {
       const data = await llamar('crear', nuevo);
-      onCreado({ usuario: data.username, password: nuevo.password });
+      onCreado({ usuario: nuevo.email.trim() ? nuevo.email.trim().toLowerCase() : data.username, password: nuevo.password });
       setNuevo(vacio);
     } catch (err) {
       setError(err.message);
@@ -139,6 +149,18 @@ function FormularioNuevo({ onCreado }) {
         <div className="field-row">
           <label className="field-label" htmlFor="nu-nombre">Nombre (opcional)</label>
           <input id="nu-nombre" className="field-input" placeholder="ej. Ana Pérez" value={nuevo.nombre} onChange={(e) => setNuevo({ ...nuevo, nombre: e.target.value })} />
+        </div>
+        <div className="field-row">
+          <label className="field-label" htmlFor="nu-email">Correo (opcional)</label>
+          <input
+            id="nu-email"
+            className="field-input"
+            type="email"
+            autoComplete="off"
+            placeholder="para ingresar y recuperar la contraseña"
+            value={nuevo.email}
+            onChange={(e) => setNuevo({ ...nuevo, email: e.target.value })}
+          />
         </div>
         <div className="field-row">
           <label className="field-label" htmlFor="nu-rol">Rol</label>
@@ -204,10 +226,13 @@ function GestionUsuarios() {
     cargar();
   }, []);
 
+  const [correoNuevo, setCorreoNuevo] = useState('');
+
   function pedir(u, accion) {
     setMensaje(null);
     setPendiente({ id: u.id, accion });
     if (accion === 'restablecer_password') setPasswordReset(generarPassword());
+    if (accion === 'cambiar_correo') setCorreoNuevo(u.email ?? '');
   }
 
   async function confirmar(u) {
@@ -219,6 +244,11 @@ function GestionUsuarios() {
       datos.password = passwordReset;
     }
     if (accion === 'cambiar_rol') datos.rol = u.rol === 'master' ? 'dependiente' : 'master';
+    if (accion === 'cambiar_correo') {
+      const limpio = correoNuevo.trim().toLowerCase();
+      if (limpio && !CORREO_RE.test(limpio)) return setMensaje({ tipo: 'error', texto: 'El correo no es válido.' });
+      datos.email = limpio;
+    }
 
     setTrabajando(u.id);
     try {
@@ -228,6 +258,9 @@ function GestionUsuarios() {
         cambiar_rol: `"${u.username}" ahora es ${datos.rol === 'master' ? 'master' : 'dependiente'}.`,
         desactivar: `"${u.username}" quedó desactivado: ya no puede entrar ni ver datos.`,
         reactivar: `"${u.username}" puede volver a entrar.`,
+        cambiar_correo: datos.email
+          ? `"${u.username}" ahora ingresa con ${datos.email} y puede recuperar su contraseña por correo.`
+          : `"${u.username}" vuelve a ingresar con su nombre de usuario.`,
       };
       if (accion === 'restablecer_password') setEntregable({ usuario: u.username, password: passwordReset });
       else setMensaje({ tipo: 'ok', texto: textos[accion] });
@@ -245,6 +278,7 @@ function GestionUsuarios() {
     cambiar_rol: (u) => (u.rol === 'master' ? `¿Quitar el rol master a "${u.username}"?` : `¿Dar acceso total (master) a "${u.username}"?`),
     desactivar: (u) => `¿Desactivar a "${u.username}"? No podrá entrar hasta que lo reactives.`,
     reactivar: (u) => `¿Reactivar a "${u.username}"?`,
+    cambiar_correo: (u) => `Correo de "${u.username}" (déjalo vacío para que ingrese con su usuario):`,
   };
 
   const activos = usuarios.filter((u) => u.activo).length;
@@ -286,6 +320,7 @@ function GestionUsuarios() {
                 <th>Usuario</th>
                 <th>Rol</th>
                 <th>Estado</th>
+                <th>Ingresa con</th>
                 <th>Último ingreso</th>
                 <th aria-label="Acciones" />
               </tr>
@@ -312,6 +347,9 @@ function GestionUsuarios() {
                           <span className="badge badge--good">Activo</span>
                         )}
                       </td>
+                      <td style={{ fontSize: 12 }}>
+                        {u.email ? <span className="mono">{u.email}</span> : <span className="text-ink-soft">usuario (sin correo)</span>}
+                      </td>
                       <td className="mono" style={{ fontSize: 12 }}>{fechaHora(u.ultimo_ingreso) ?? <span className="text-ink-soft">Nunca</span>}</td>
                       <td>
                         {u.es_yo ? (
@@ -322,6 +360,9 @@ function GestionUsuarios() {
                               <>
                                 <button className="btn btn--sm" onClick={() => pedir(u, 'restablecer_password')} disabled={trabajando === u.id}>
                                   <KeyRound size={13} /> Restablecer contraseña
+                                </button>
+                                <button className="btn btn--sm" onClick={() => pedir(u, 'cambiar_correo')} disabled={trabajando === u.id}>
+                                  <Mail size={13} /> Correo
                                 </button>
                                 <button className="btn btn--sm" onClick={() => pedir(u, 'cambiar_rol')} disabled={trabajando === u.id}>
                                   <ShieldCheck size={13} /> {u.rol === 'master' ? 'Quitar master' : 'Hacer master'}
@@ -342,9 +383,21 @@ function GestionUsuarios() {
                     </tr>
                     {enConfirmacion && (
                       <tr className="usuarios-tabla__confirmacion">
-                        <td colSpan={5}>
+                        <td colSpan={6}>
                           <div className="confirmacion">
                             <span>{PREGUNTAS[pendiente.accion](u)}</span>
+                            {pendiente.accion === 'cambiar_correo' && (
+                              <input
+                                className="field-input"
+                                type="email"
+                                aria-label="Correo"
+                                placeholder="correo@empresa.com"
+                                value={correoNuevo}
+                                autoFocus
+                                onChange={(e) => setCorreoNuevo(e.target.value)}
+                                style={{ maxWidth: 280 }}
+                              />
+                            )}
                             {pendiente.accion === 'restablecer_password' && (
                               <span className="usuarios-nuevo__pw">
                                 <input

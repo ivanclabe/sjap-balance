@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Pencil } from 'lucide-react';
 import { useEstacion } from '../context/EstacionContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import { supabase } from '../supabase/client.js';
 import { formatCOP, formatNumero, formatFechaLarga } from '../lib/format.js';
 import { useEstacionConfig } from '../hooks/useEstacionConfig.js';
@@ -9,7 +10,7 @@ import KpiCard from '../components/KpiCard.jsx';
 import InfoTip from '../components/InfoTip.jsx';
 import CompletarInsumos from '../components/CompletarInsumos.jsx';
 
-function EditorCierre({ estacionId, fecha, cierre, onGuardado, onCancelar }) {
+function EditorCierre({ estacionId, fecha, cierre, onGuardado, onCancelar, usuario }) {
   const [ventaTotal, setVentaTotal] = useState(cierre.venta_total ?? '');
   const [ventaGalones, setVentaGalones] = useState(cierre.venta_galones_total ?? '');
   const [numeroClientes, setNumeroClientes] = useState(cierre.numero_clientes ?? '');
@@ -17,23 +18,37 @@ function EditorCierre({ estacionId, fecha, cierre, onGuardado, onCancelar }) {
   const [mensaje, setMensaje] = useState(null);
 
   async function guardar() {
+    setMensaje(null);
+    const venta = Number(ventaTotal);
+    const galones = Number(ventaGalones);
+    const clientes = numeroClientes === '' ? null : Number(numeroClientes);
+    if (ventaTotal === '' || !Number.isFinite(venta) || venta < 0) return setMensaje({ tipo: 'error', texto: 'La venta total debe ser un número mayor o igual a cero.' });
+    if (ventaGalones === '' || !Number.isFinite(galones) || galones < 0) return setMensaje({ tipo: 'error', texto: 'Los galones deben ser un número mayor o igual a cero.' });
+    if (clientes != null && (!Number.isInteger(clientes) || clientes < 0)) return setMensaje({ tipo: 'error', texto: 'El número de clientes debe ser un entero mayor o igual a cero.' });
+
     setGuardando(true);
-    try {
-      await supabase
-        .from('sjap_cierre_diario')
-        .update({
-          venta_total: ventaTotal === '' ? 0 : Number(ventaTotal),
-          venta_galones_total: ventaGalones === '' ? 0 : Number(ventaGalones),
-          numero_clientes: numeroClientes === '' ? null : Number(numeroClientes),
-        })
-        .eq('estacion_id', estacionId)
-        .eq('fecha', fecha);
-      onGuardado();
-    } catch (err) {
-      setMensaje({ tipo: 'error', texto: err.message || 'No se pudo guardar la corrección.' });
-    } finally {
+    const nuevo = { venta_total: venta, venta_galones_total: galones, numero_clientes: clientes };
+    const { error } = await supabase.from('sjap_cierre_diario').update(nuevo).eq('estacion_id', estacionId).eq('fecha', fecha);
+    if (error) {
       setGuardando(false);
+      return setMensaje({ tipo: 'error', texto: error.message || 'No se pudo guardar la corrección.' });
     }
+    // Trazabilidad: quién corrigió qué, con el valor anterior.
+    await supabase.from('sjap_auditoria').insert({
+      estacion_id: estacionId,
+      entidad: 'sjap_cierre_diario',
+      entidad_id: cierre.id,
+      accion: 'correccion_manual',
+      nivel: 'warning',
+      detalle: {
+        fecha,
+        antes: { venta_total: cierre.venta_total, venta_galones_total: cierre.venta_galones_total, numero_clientes: cierre.numero_clientes },
+        despues: nuevo,
+      },
+      created_by: usuario?.username ?? null,
+    });
+    setGuardando(false);
+    onGuardado();
   }
 
   return (
@@ -72,6 +87,7 @@ function EditorCierre({ estacionId, fecha, cierre, onGuardado, onCancelar }) {
 export default function DailyBalanceDetailPage() {
   const { fecha } = useParams();
   const { estacionId } = useEstacion();
+  const { perfil, esMaster } = useAuth();
   const { config } = useEstacionConfig(estacionId);
   const [datos, setDatos] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -150,8 +166,8 @@ export default function DailyBalanceDetailPage() {
             <Link to="/diarios">← volver a balances diarios</Link>
           </p>
         </div>
-        {!editandoCierre && (
-          <button className="btn" onClick={() => setEditandoCierre(true)}>
+        {!editandoCierre && esMaster && (
+          <button className="btn" onClick={() => setEditandoCierre(true)} title="Solo para corregir un error de extracción del archivo">
             <Pencil size={14} /> Corregir valores
           </button>
         )}
@@ -159,6 +175,7 @@ export default function DailyBalanceDetailPage() {
 
       {editandoCierre && (
         <EditorCierre
+          usuario={perfil}
           estacionId={estacionId}
           fecha={fecha}
           cierre={cierre}

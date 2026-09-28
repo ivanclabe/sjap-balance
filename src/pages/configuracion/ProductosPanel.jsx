@@ -44,7 +44,8 @@ export default function ProductosPanel({ estacionId, soloLectura }) {
   }
 
   async function toggleActivo(p) {
-    await supabase.from('sjap_productos').update({ activo: !p.activo }).eq('id', p.id);
+    const { error } = await supabase.from('sjap_productos').update({ activo: !p.activo }).eq('id', p.id);
+    if (error) return setMensaje({ tipo: 'error', texto: error.message });
     cargar();
   }
 
@@ -54,10 +55,13 @@ export default function ProductosPanel({ estacionId, soloLectura }) {
   }
 
   async function guardarEdicion(p) {
-    await supabase
+    const nombre = valores.nombre_visible.trim();
+    if (!nombre) return setMensaje({ tipo: 'error', texto: 'El nombre visible no puede quedar vacío.' });
+    const { error } = await supabase
       .from('sjap_productos')
-      .update({ nombre_visible: valores.nombre_visible, unidad: valores.unidad, orden: Number(valores.orden) || 0 })
+      .update({ nombre_visible: nombre, unidad: valores.unidad.trim() || 'GALONES', orden: Number(valores.orden) || 0 })
       .eq('id', p.id);
+    if (error) return setMensaje({ tipo: 'error', texto: error.message });
     setEditando(null);
     cargar();
   }

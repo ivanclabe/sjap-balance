@@ -1405,3 +1405,44 @@ tbody tr.clickable:hover { background: var(--surface-2); }
 .usuarios-tabla__confirmacion td { background: var(--surface-2); }
 .confirmacion { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; font-size: 13px; }
 .confirmacion__botones { display: inline-flex; gap: 6px; margin-left: auto; }
+
+/* ---------------------------------------------------------------- CRUD: confirmaciones, catálogos, listas */
+
+.confirmar-accion { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.confirmar-accion__pregunta { font-size: 12px; color: var(--red); font-weight: 600; }
+
+.catalogo-nuevo { display: flex; gap: 8px; margin-bottom: 14px; }
+.catalogo-filtro { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); margin-bottom: 8px; cursor: pointer; }
+.catalogo-tabla td { vertical-align: middle; }
+.catalogo-tabla__inactivo td:not(:last-child) { opacity: 0.55; }
+.catalogo-editar { display: flex; gap: 4px; align-items: center; }
+.catalogo-editar .field-input { max-width: 260px; padding: 6px 9px; }
+.catalogo-acciones { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+.icon-btn--ok:hover { color: var(--green); }
+
+.badge__confirmar { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; font-weight: 600; }
+.badge__si, .badge__no {
+  border: none;
+  border-radius: 4px;
+  padding: 0 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 16px;
+}
+.badge__si { background: var(--red); color: #fff; }
+.badge__no { background: var(--surface-hover); color: var(--ink); }
+
+.subnote--lectura { background: var(--surface-2); color: var(--ink-soft); }
+.subnote--aviso { background: var(--amber-dim); color: var(--amber); }
+
+fieldset.esquema-card { margin: 0; min-width: 0; }
+fieldset.esquema-card:disabled .esquema-card__nombre,
+fieldset.esquema-card:disabled .field-input { opacity: 0.85; cursor: default; }
+
+.ausencia-row--pasada { opacity: 0.7; }
+.ausencia-row__acciones { display: inline-flex; gap: 2px; margin-left: auto; align-items: center; }
+
+.factura-items { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.factura-item { display: inline-flex; align-items: center; gap: 4px; }
+.factura-item__input { width: 110px; padding: 4px 8px; }

@@ -9,8 +9,8 @@
 with chequeos(orden, elemento, esperado, encontrado) as (
   values
     (1,  'Tablas de SJAP',          32, (select count(*)::int from pg_tables where schemaname = 'public' and tablename like 'sjap\_%')),
-    (2,  'Reglas de seguridad',     56, (select count(*)::int from pg_policies where schemaname = 'public' and tablename like 'sjap\_%')),
-    (3,  'Funciones',                5, (select count(*)::int from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname like 'sjap\_%')),
+    (2,  'Reglas de seguridad',    124, (select count(*)::int from pg_policies where schemaname = 'public' and tablename like 'sjap\_%')),
+    (3,  'Funciones',               19, (select count(*)::int from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname like 'sjap\_%')),
     (4,  'Estación',                 1, (select count(*)::int from public.sjap_estaciones)),
     (5,  'Productos',                3, (select count(*)::int from public.sjap_productos)),
     (6,  'Medios de pago',          17, (select count(*)::int from public.sjap_medios_pago)),

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useEstacion } from '../context/EstacionContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import { supabase } from '../supabase/client.js';
 import { formatNumero, nombreMes } from '../lib/format.js';
 import { useEstacionConfig } from '../hooks/useEstacionConfig.js';
@@ -24,6 +25,9 @@ function mesesDelTrimestre(anio, mes) {
 
 export default function PresupuestoPage() {
   const { estacionId } = useEstacion();
+  // El presupuesto lo fija Terpel y lo registra el master; la base de datos
+  // solo acepta cambios de un master (RLS), así que el dependiente lo consulta.
+  const { esMaster } = useAuth();
   const { config } = useEstacionConfig(estacionId);
   const hoy = new Date();
   const [anio, setAnio] = useState(hoy.getFullYear());
@@ -154,14 +158,14 @@ export default function PresupuestoPage() {
   // generan del catálogo activo — agregar o desactivar un producto cambia esta
   // tabla sin tocar código.
   const filas = useMemo(() => {
-    const out = [{ seccion: 'Volumen del mes (galones) — editable' }];
+    const out = [{ seccion: `Volumen del mes (galones)${esMaster ? ' — editable' : ''}` }];
     out.push({ tipo: 'campo', key: 'ventas', label: 'Ventas', dec: 0, editable: true });
     out.push({ tipo: 'campo', key: 'compra', label: 'Compra', dec: 0, editable: true });
     out.push({ tipo: 'campo', key: 'rumbo', label: 'Rumbo', dec: 0, editable: true });
     out.push({ tipo: 'campo', key: 'clientesPropios', label: 'Clientes propios', dec: 0, editable: true });
     out.push({ tipo: 'campo', key: 'clientesPaso', label: 'Clientes de paso', dec: 0, editable: true });
 
-    out.push({ seccion: 'Presupuesto asignado por Terpel (galones) — editable' });
+    out.push({ seccion: `Presupuesto asignado por Terpel (galones)${esMaster ? ' — editable' : ''}` });
     for (const p of productos) out.push({ tipo: 'presupuesto_producto', productoId: p.id, label: p.nombre_visible, dec: 0, editable: true });
     out.push({ tipo: 'presupuesto_total', label: 'Total', dec: 0, fuerte: true });
 
@@ -178,7 +182,7 @@ export default function PresupuestoPage() {
     for (const p of productos) out.push({ tipo: 'mezcla_producto', productoId: p.id, label: p.nombre_visible, pct: true });
 
     return out;
-  }, [productos]);
+  }, [productos, esMaster]);
 
   function iniciarEdicion(fila, mes, valorActual) {
     canceladoRef.current = false;
@@ -244,7 +248,13 @@ export default function PresupuestoPage() {
     }
     actualizarLocalProducto(mes, productoId, valor);
 
-    const trimestre = mesesDelTrimestre(anio, mes).filter((m) => m.mes !== mes);
+    const trimestre = mesesDelTrimestre(anio, mes)
+      .filter((m) => m.mes !== mes)
+      .map((m) => ({ ...m, actual: porMes[m.mes]?.porProducto?.[productoId]?.presupuesto ?? null }));
+    if (trimestre.every((m) => Number(m.actual) === valor)) {
+      setSugerenciaTrimestre(null);
+      return;
+    }
     setSugerenciaTrimestre({ mes, productoId, trimestre, valor });
   }
 
@@ -261,8 +271,11 @@ export default function PresupuestoPage() {
           ),
       ),
     ).then((resultados) => ({ error: resultados.find((r) => r.error)?.error }));
+    if (error) {
+      setSugerenciaTrimestre({ error: error.message || 'No se pudo aplicar el valor al trimestre.' });
+      return;
+    }
     setSugerenciaTrimestre(null);
-    if (error) return;
     for (const m of trimestre) actualizarLocalProducto(m.mes, productoId, valor);
   }
 
@@ -333,11 +346,11 @@ export default function PresupuestoPage() {
 
     return (
       <td
-        className={`num ${toneClass(fila, mes)} ${fila.editable ? 'cell-editable' : ''} ${guardando ? 'cell-editable--saving' : ''}`}
+        className={`num ${toneClass(fila, mes)} ${fila.editable && esMaster ? 'cell-editable' : ''} ${guardando ? 'cell-editable--saving' : ''}`}
         key={mes}
         style={fila.fuerte ? { fontWeight: 700 } : undefined}
-        onClick={fila.editable && !guardando ? () => iniciarEdicion(fila, mes, valorCelda(fila, mes)) : undefined}
-        title={fila.editable ? 'Clic para editar' : undefined}
+        onClick={fila.editable && esMaster && !guardando ? () => iniciarEdicion(fila, mes, valorCelda(fila, mes)) : undefined}
+        title={fila.editable && esMaster ? 'Clic para editar' : undefined}
       >
         {guardando ? '…' : celda(fila, mes)}
       </td>
@@ -414,6 +427,17 @@ export default function PresupuestoPage() {
             <span>
               Terpel fija este presupuesto por trimestre — ¿aplicar el mismo valor a{' '}
               {sugerenciaTrimestre.trimestre.map((t) => nombreMes(t.anio, t.mes).split(' ')[0]).join(' y ')}?
+              {sugerenciaTrimestre.trimestre.some((t) => t.actual != null && Number(t.actual) !== sugerenciaTrimestre.valor) && (
+                <strong>
+                  {' '}
+                  Ojo: reemplazaría{' '}
+                  {sugerenciaTrimestre.trimestre
+                    .filter((t) => t.actual != null && Number(t.actual) !== sugerenciaTrimestre.valor)
+                    .map((t) => `${nombreMes(t.anio, t.mes).split(' ')[0]} (${Number(t.actual).toLocaleString('es-CO')})`)
+                    .join(' y ')}
+                  .
+                </strong>
+              )}
             </span>
             <div className="budget-hint__actions">
               <button className="btn btn--accent" style={{ padding: '6px 12px', fontSize: 12.5 }} onClick={aplicarATrimestre}>

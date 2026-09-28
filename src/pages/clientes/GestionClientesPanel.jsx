@@ -81,21 +81,33 @@ export default function GestionClientesPanel({ estacionId, soloLectura }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estacionId]);
 
+  const duplicado = (nombre, exceptoId = null) =>
+    clientes.some((c) => c.id !== exceptoId && c.nombre.trim().toLowerCase() === nombre.trim().toLowerCase());
+
+  function mensajeBd(error) {
+    if (error?.code === '23505') return 'Ya existe un cliente con ese nombre.';
+    return error?.message || 'No se pudo guardar.';
+  }
+
   async function agregar() {
-    const nombre = nuevo.nombre.trim();
-    if (!nombre) return;
+    const nombre = nuevo.nombre.trim().replace(/\s+/g, ' ');
     setMensaje(null);
+    if (!nombre) return setMensaje({ tipo: 'error', texto: 'Escribe el nombre del cliente.' });
+    if (duplicado(nombre)) return setMensaje({ tipo: 'error', texto: `"${nombre}" ya está en el catálogo.` });
     const { error } = await supabase.from('sjap_cuentas_cliente').insert({ estacion_id: estacionId, nombre, nit: nuevo.nit.trim() || null });
     if (error) {
-      setMensaje({ tipo: 'error', texto: error.message });
+      setMensaje({ tipo: 'error', texto: mensajeBd(error) });
       return;
     }
     setNuevo({ nombre: '', nit: '' });
+    setMensaje({ tipo: 'ok', texto: `Cliente "${nombre}" agregado.` });
     cargar();
   }
 
   async function toggleActivo(c) {
-    await supabase.from('sjap_cuentas_cliente').update({ activo: !c.activo }).eq('id', c.id);
+    const { error } = await supabase.from('sjap_cuentas_cliente').update({ activo: !c.activo }).eq('id', c.id);
+    if (error) return setMensaje({ tipo: 'error', texto: mensajeBd(error) });
+    setMensaje({ tipo: 'ok', texto: `"${c.nombre}" ${c.activo ? 'desactivado' : 'reactivado'}.` });
     cargar();
   }
 
@@ -105,8 +117,13 @@ export default function GestionClientesPanel({ estacionId, soloLectura }) {
   }
 
   async function guardarEdicion(c) {
-    await supabase.from('sjap_cuentas_cliente').update({ nombre: valores.nombre, nit: valores.nit || null }).eq('id', c.id);
+    const nombre = valores.nombre.trim().replace(/\s+/g, ' ');
+    if (!nombre) return setMensaje({ tipo: 'error', texto: 'El nombre no puede quedar vacío.' });
+    if (duplicado(nombre, c.id)) return setMensaje({ tipo: 'error', texto: `"${nombre}" ya está en el catálogo.` });
+    const { error } = await supabase.from('sjap_cuentas_cliente').update({ nombre, nit: valores.nit.trim() || null }).eq('id', c.id);
+    if (error) return setMensaje({ tipo: 'error', texto: mensajeBd(error) });
     setEditando(null);
+    setMensaje({ tipo: 'ok', texto: 'Cliente actualizado.' });
     cargar();
   }
 

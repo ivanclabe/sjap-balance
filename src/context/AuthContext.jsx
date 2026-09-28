@@ -14,12 +14,15 @@ export function AuthProvider({ children }) {
   const [perfil, setPerfil] = useState(null);
   const [estadoPerfil, setEstadoPerfil] = useState('inactivo'); // inactivo | cargando | listo | error
   const [aviso, setAviso] = useState(null); // motivo que ve la pantalla de ingreso
+  // true cuando la sesión viene del enlace "Olvidé mi contraseña" del correo.
+  const [recuperando, setRecuperando] = useState(false);
   const cierreIntencional = useRef(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSesion(data.session ?? null));
     const { data: sub } = supabase.auth.onAuthStateChange((evento, session) => {
       setSesion(session ?? null);
+      if (evento === 'PASSWORD_RECOVERY') setRecuperando(true);
       if (evento === 'SIGNED_OUT') {
         // Si no la cerró el usuario (token vencido, usuario desactivado,
         // sesión cerrada en otro equipo) se le explica al volver al ingreso.
@@ -33,6 +36,7 @@ export function AuthProvider({ children }) {
   const cerrarSesion = useCallback(async (motivo = null) => {
     cierreIntencional.current = true;
     setAviso(motivo);
+    setRecuperando(false);
     setPerfil(null);
     // scope local: cierra solo este equipo, no las sesiones del usuario en otros.
     await supabase.auth.signOut({ scope: 'local' });
@@ -83,6 +87,9 @@ export function AuthProvider({ children }) {
   const valor = {
     estado,
     sesion,
+    correo: sesion?.user?.email && !sesion.user.email.endsWith('@sjap.local') ? sesion.user.email : null,
+    recuperando,
+    terminarRecuperacion: () => setRecuperando(false),
     perfil,
     esMaster: perfil?.rol === 'master',
     aviso,

@@ -34,16 +34,6 @@ export default function ConfiguracionPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estacionId, tab]);
 
-  async function agregarMedio(nombre) {
-    await supabase.from('sjap_medios_pago').insert({ estacion_id: estacionId, nombre: nombre.toUpperCase(), orden: medios.length });
-    cargarMedios();
-  }
-
-  async function toggleMedio(m) {
-    await supabase.from('sjap_medios_pago').update({ activo: !m.activo }).eq('id', m.id);
-    cargarMedios();
-  }
-
   const soloLectura = !cargandoUsuario && !esMaster;
 
   return (
@@ -78,11 +68,17 @@ export default function ConfiguracionPage() {
           <CatalogoPanel
             titulo="Medios de pago"
             hint="catálogo de la estación · usado en Balance mensual → Cierre detallado"
+            tabla="sjap_medios_pago"
+            tipoUso="medio_pago"
+            estacionId={estacionId}
             items={medios}
-            onAgregar={agregarMedio}
-            onToggle={toggleMedio}
+            onCambio={cargarMedios}
             placeholder="Nombre del medio de pago"
+            etiquetaNombre="Medio de pago"
             soloLectura={soloLectura}
+            normalizar={(s) => s.replace(/\s+/g, ' ').toUpperCase()}
+            extraAlCrear={(lista) => ({ orden: lista.length + 1 })}
+            notaRenombrar="Un medio que aparece por nombre en ventas históricas no se puede renombrar."
           />
         ))}
     </>

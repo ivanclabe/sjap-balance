@@ -3,9 +3,13 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 // Edge Function: sjap-usuarios
 // Toda la gestión de cuentas de SJAP Balance pasa por aquí, con la clave de
 // servicio y validaciones del lado del servidor:
-//   - cualquier usuario activo: cambiar_mi_password
+//   - cualquier usuario activo: cambiar_mi_password, nueva_password_recuperacion
 //   - solo master: listar, crear, restablecer_password, cambiar_rol,
-//     desactivar, reactivar
+//     cambiar_correo, desactivar, reactivar
+// Identidad: Supabase Auth (auth.users) es la fuente de verdad del correo y la
+// contraseña. sjap_usuarios guarda solo el perfil de la app (usuario, nombre,
+// rol, estado). Un usuario sin correo real usa el correo interno
+// <usuario>@sjap.local y no puede recuperar su contraseña por correo.
 // La estación SIEMPRE se toma del perfil de quien llama, nunca del cuerpo de
 // la petición. Cada acción queda en sjap_auditoria (sin contraseñas).
 
@@ -17,6 +21,7 @@ const corsHeaders = {
 };
 
 const USERNAME_RE = /^[a-z0-9._-]{3,30}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const EMAIL_DOMINIO = "sjap.local";
 const BAN_DESACTIVADO = "876000h"; // ~100 años: hasta que un master lo reactive
 const PASSWORDS_COMUNES = new Set([
@@ -51,6 +56,32 @@ function validarPassword(password: unknown, username: string): string | null {
     return "Esa contraseña es demasiado fácil de adivinar. Elige otra.";
   }
   return null;
+}
+
+function correoInterno(username: string) {
+  return `${username}@${EMAIL_DOMINIO}`;
+}
+
+function normalizarCorreo(valor: unknown, username: string): string {
+  const correo = typeof valor === "string" ? valor.trim().toLowerCase() : "";
+  if (!correo) return correoInterno(username);
+  if (!EMAIL_RE.test(correo) || correo.endsWith(`@${EMAIL_DOMINIO}`)) {
+    throw new ErrorHttp(400, "El correo no es válido.");
+  }
+  return correo;
+}
+
+// Minutos desde que la sesión se abrió con un enlace de recuperación (claim amr).
+function minutosDesdeRecuperacion(jwt: string): number | null {
+  try {
+    const payload = JSON.parse(atob(jwt.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+    const metodos = Array.isArray(payload.amr) ? payload.amr : [];
+    const rec = metodos.find((m: { method?: string }) => ["recovery", "otp", "magiclink"].includes(String(m?.method)));
+    if (!rec?.timestamp) return null;
+    return (Date.now() / 1000 - Number(rec.timestamp)) / 60;
+  } catch {
+    return null;
+  }
 }
 
 type Perfil = { id: string; auth_user_id: string; estacion_id: string; username: string; rol: string; activo: boolean };
@@ -130,7 +161,7 @@ Deno.serve(async (req: Request) => {
         // solo esa sesión de verificación (scope local), no la del usuario.
         const verificador = createClient(url, Deno.env.get("SUPABASE_ANON_KEY")!, { auth: { persistSession: false } });
         const { error: errActual } = await verificador.auth.signInWithPassword({
-          email: `${llamante.username}@${EMAIL_DOMINIO}`,
+          email: sesion.user.email ?? correoInterno(llamante.username),
           password: actual,
         });
         if (errActual) throw new ErrorHttp(400, "La contraseña actual no es correcta.");
@@ -141,6 +172,35 @@ Deno.serve(async (req: Request) => {
         await admin.from("sjap_usuarios").update({ debe_cambiar_password: false }).eq("id", llamante.id);
         await auditar(admin, llamante, llamante, "cambiar_mi_password");
         return responder({ ok: true });
+      }
+
+      case "nueva_password_recuperacion": {
+        // Solo desde una sesión abierta con el enlace de recuperación del correo
+        // en los últimos 15 minutos.
+        const minutos = minutosDesdeRecuperacion(jwt);
+        if (minutos == null || minutos > 15) {
+          throw new ErrorHttp(403, "El enlace de recuperación venció. Pide uno nuevo desde la pantalla de ingreso.");
+        }
+        const invalida = validarPassword(cuerpo.nueva, llamante.username);
+        if (invalida) throw new ErrorHttp(400, invalida);
+        const { error } = await admin.auth.admin.updateUserById(llamante.auth_user_id, { password: cuerpo.nueva });
+        if (error) throw new ErrorHttp(400, error.message);
+        await admin.from("sjap_usuarios").update({ debe_cambiar_password: false }).eq("id", llamante.id);
+        await auditar(admin, llamante, llamante, "recuperar_password");
+        return responder({ ok: true });
+      }
+
+      case "cambiar_correo": {
+        exigirMaster(llamante);
+        const objetivo = await perfilObjetivo(admin, llamante, cuerpo.id);
+        const correo = normalizarCorreo(cuerpo.email, objetivo.username);
+        const { error } = await admin.auth.admin.updateUserById(objetivo.auth_user_id, { email: correo, email_confirm: true });
+        if (error) {
+          const repetido = /already|registered|exists/i.test(error.message);
+          throw new ErrorHttp(repetido ? 409 : 400, repetido ? "Ese correo ya lo usa otra cuenta." : error.message);
+        }
+        await auditar(admin, llamante, objetivo, "cambiar_correo", { correo_real: !correo.endsWith(`@${EMAIL_DOMINIO}`) });
+        return responder({ ok: true, email: correo });
       }
 
       case "listar": {
@@ -155,7 +215,13 @@ Deno.serve(async (req: Request) => {
           (data ?? []).map(async (u) => {
             const { data: auth } = await admin.auth.admin.getUserById(u.auth_user_id);
             const { auth_user_id: _omitido, ...resto } = u;
-            return { ...resto, ultimo_ingreso: auth?.user?.last_sign_in_at ?? null, es_yo: u.id === llamante.id };
+            const email = auth?.user?.email ?? null;
+            return {
+              ...resto,
+              email: email && !email.endsWith(`@${EMAIL_DOMINIO}`) ? email : null,
+              ultimo_ingreso: auth?.user?.last_sign_in_at ?? null,
+              es_yo: u.id === llamante.id,
+            };
           }),
         );
         return responder({ ok: true, usuarios });
@@ -175,15 +241,17 @@ Deno.serve(async (req: Request) => {
         const { data: existente } = await admin.from("sjap_usuarios").select("id").eq("username", usuario).maybeSingle();
         if (existente) throw new ErrorHttp(409, `El usuario "${usuario}" ya existe.`);
 
+        const correo = normalizarCorreo(cuerpo.email, usuario);
         const { data: creado, error: errCrear } = await admin.auth.admin.createUser({
-          email: `${usuario}@${EMAIL_DOMINIO}`,
+          email: correo,
           password: cuerpo.password,
           email_confirm: true,
           user_metadata: { username: usuario },
         });
         if (errCrear) {
-          throw new ErrorHttp(errCrear.message.includes("already") ? 409 : 400,
-            errCrear.message.includes("already") ? `El usuario "${usuario}" ya existe.` : errCrear.message);
+          const repetido = /already|registered|exists/i.test(errCrear.message);
+          throw new ErrorHttp(repetido ? 409 : 400,
+            repetido ? (correo.endsWith(`@${EMAIL_DOMINIO}`) ? `El usuario "${usuario}" ya existe.` : "Ese correo ya lo usa otra cuenta.") : errCrear.message);
         }
 
         const { data: perfil, error: errPerfil } = await admin

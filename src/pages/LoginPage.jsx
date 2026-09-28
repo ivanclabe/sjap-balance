@@ -8,12 +8,63 @@ const DOMINIO = '@sjap.local';
 const MAX_INTENTOS = 5;
 const ESPERA_SEG = 30;
 
-// El usuario escribe su nombre de usuario; internamente Supabase Auth lo
-// identifica como <usuario>@sjap.local. Si alguien pega el correo completo,
-// también funciona.
+// Se entra con el correo registrado o, si la persona no tiene correo, con su
+// nombre de usuario (Supabase Auth lo identifica como <usuario>@sjap.local).
 function emailDeUsuario(texto) {
   const limpio = texto.trim().toLowerCase();
-  return limpio.endsWith(DOMINIO) ? limpio : `${limpio}${DOMINIO}`;
+  return limpio.includes('@') ? limpio : `${limpio}${DOMINIO}`;
+}
+
+// "Olvidé mi contraseña": Supabase envía un enlace al correo. La respuesta es
+// la misma exista o no la cuenta, para no revelar qué correos están registrados.
+function Recuperar({ onVolver }) {
+  const [correo, setCorreo] = useState('');
+  const [enviando, setEnviando] = useState(false);
+  const [resultado, setResultado] = useState(null);
+
+  async function enviar(e) {
+    e.preventDefault();
+    const limpio = correo.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(limpio)) {
+      setResultado({ tipo: 'error', texto: 'Escribe el correo con el que ingresas a la app.' });
+      return;
+    }
+    setEnviando(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(limpio, { redirectTo: `${window.location.origin}/` });
+    setEnviando(false);
+    if (error && (error.status === 429 || /rate limit/i.test(error.message))) {
+      setResultado({ tipo: 'error', texto: 'Se enviaron demasiados correos seguidos. Espera unos minutos e intenta de nuevo.' });
+      return;
+    }
+    setResultado({
+      tipo: 'ok',
+      texto: 'Si ese correo está registrado, te llegará un enlace para crear una contraseña nueva. Revisa también la carpeta de spam.',
+    });
+  }
+
+  return (
+    <form onSubmit={enviar} noValidate>
+      <p className="auth-tarjeta__ayuda" style={{ marginTop: 0, marginBottom: 14, textAlign: 'left' }}>
+        Escribe el correo registrado en tu usuario. Si ingresas con un nombre de usuario (sin correo), pídele a un usuario master que te
+        asigne una contraseña temporal.
+      </p>
+      <div className="field-row" style={{ marginBottom: 16 }}>
+        <label className="field-label" htmlFor="rec-correo">Correo</label>
+        <input id="rec-correo" className="field-input" type="email" autoComplete="email" autoFocus value={correo} onChange={(e) => setCorreo(e.target.value)} />
+      </div>
+      <button className="btn btn--accent" type="submit" disabled={enviando} style={{ width: '100%', justifyContent: 'center' }}>
+        {enviando ? 'Enviando…' : 'Enviarme el enlace'}
+      </button>
+      {resultado && (
+        <div className={`field-msg field-msg--${resultado.tipo}`} role={resultado.tipo === 'error' ? 'alert' : 'status'}>
+          {resultado.texto}
+        </div>
+      )}
+      <button type="button" className="auth-tarjeta__salir" onClick={onVolver}>
+        Volver al ingreso
+      </button>
+    </form>
+  );
 }
 
 function mensajeDeError(error) {
@@ -40,6 +91,7 @@ export default function LoginPage() {
   const [fallidos, setFallidos] = useState(0);
   const [esperaHasta, setEsperaHasta] = useState(0);
   const [ahora, setAhora] = useState(Date.now());
+  const [modo, setModo] = useState('ingreso'); // ingreso | recuperar
 
   // Tras varios intentos fallidos se pide una pausa corta. Supabase también
   // limita los intentos en el servidor; esto evita llegar a ese bloqueo.
@@ -54,7 +106,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     if (!usuario.trim()) {
-      setError('Escribe tu usuario.');
+      setError('Escribe tu correo o usuario.');
       return;
     }
     if (!password) {
@@ -83,7 +135,7 @@ export default function LoginPage() {
 
   return (
     <div className="auth-pantalla">
-      <form onSubmit={iniciarSesion} className="panel auth-tarjeta" noValidate>
+      <div className="panel auth-tarjeta">
         <div className="auth-tarjeta__marca">
           <div className="rail__mark" style={{ marginBottom: 0 }}>
             <Fuel size={19} />
@@ -98,9 +150,13 @@ export default function LoginPage() {
           </div>
         )}
 
+        {modo === 'recuperar' ? (
+          <Recuperar onVolver={() => setModo('ingreso')} />
+        ) : (
+        <form onSubmit={iniciarSesion} noValidate>
         <div className="field-row" style={{ marginBottom: 14 }}>
           <label className="field-label" htmlFor="login-usuario">
-            Usuario
+            Correo o usuario
           </label>
           <input
             id="login-usuario"
@@ -112,7 +168,7 @@ export default function LoginPage() {
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
             autoFocus
-            placeholder="ej. operador1"
+            placeholder="ej. ana@miempresa.com u operador1"
           />
         </div>
         <div style={{ marginBottom: 18 }}>
@@ -127,8 +183,12 @@ export default function LoginPage() {
             {error}
           </div>
         )}
-        <p className="auth-tarjeta__ayuda">¿Olvidaste tu contraseña? Pídele al administrador (usuario master) que te asigne una temporal.</p>
-      </form>
+        <button type="button" className="auth-tarjeta__salir" onClick={() => setModo('recuperar')}>
+          ¿Olvidaste tu contraseña?
+        </button>
+        </form>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import ConfirmarAccion from '../../components/ConfirmarAccion.jsx';
 import { Plus, Trash2, Star, Moon } from 'lucide-react';
 import { supabase } from '../../supabase/client.js';
 import InfoTip from '../../components/InfoTip.jsx';
@@ -36,7 +37,7 @@ function mensajeError(error) {
 
 // ---------------------------------------------------------------- esquema
 
-function EsquemaCard({ esquema, turnos, reglasDelEsquema, onCambio }) {
+function EsquemaCard({ esquema, turnos, reglasDelEsquema, onCambio, soloLectura }) {
   const inicial = useMemo(
     () => ordenarTurnos(turnos).map((t) => ({ id: t.id, nombre: t.nombre, hora_inicio: horaCorta(t.hora_inicio), hora_fin: horaCorta(t.hora_fin) })),
     [turnos],
@@ -102,9 +103,12 @@ function EsquemaCard({ esquema, turnos, reglasDelEsquema, onCambio }) {
   }
 
   async function hacerPredeterminado() {
-    await supabase.from('sjap_esquemas_turno').update({ es_predeterminado: false }).eq('estacion_id', esquema.estacion_id).eq('es_predeterminado', true);
-    const { error } = await supabase.from('sjap_esquemas_turno').update({ es_predeterminado: true }).eq('id', esquema.id);
-    if (error) setMensaje({ tipo: 'error', texto: mensajeError(error) });
+    // Una sola operación en la base: quita el predeterminado anterior y marca este.
+    const { error } = await supabase.rpc('sjap_esquema_predeterminado', { p_esquema_id: esquema.id });
+    if (error) {
+      setMensaje({ tipo: 'error', texto: mensajeError(error) });
+      return;
+    }
     onCambio();
   }
 
@@ -125,7 +129,11 @@ function EsquemaCard({ esquema, turnos, reglasDelEsquema, onCambio }) {
         setMensaje({ tipo: 'error', texto: `Tiene ${count} asignación(es) en el historial — no se puede eliminar sin perderlas.` });
         return;
       }
-      await supabase.from('sjap_turno_tipos').delete().in('id', ids);
+      const { error: errTurnos } = await supabase.from('sjap_turno_tipos').delete().in('id', ids);
+      if (errTurnos) {
+        setMensaje({ tipo: 'error', texto: mensajeError(errTurnos) });
+        return;
+      }
     }
     const { error } = await supabase.from('sjap_esquemas_turno').delete().eq('id', esquema.id);
     if (error) {
@@ -136,7 +144,7 @@ function EsquemaCard({ esquema, turnos, reglasDelEsquema, onCambio }) {
   }
 
   return (
-    <div className="esquema-card">
+    <fieldset className="esquema-card" disabled={soloLectura}>
       <div className="esquema-card__header">
         <input className="esquema-card__nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} aria-label="Nombre del esquema" />
         {esquema.es_predeterminado ? (
@@ -209,12 +217,14 @@ function EsquemaCard({ esquema, turnos, reglasDelEsquema, onCambio }) {
         <button className="btn btn--sm btn--accent" onClick={guardar} disabled={!sucio || errores.length > 0 || borrador.length === 0 || guardando}>
           {guardando ? 'Guardando…' : 'Guardar'}
         </button>
-        <button className="icon-btn" onClick={eliminar} aria-label="Eliminar esquema" title="Eliminar esquema">
-          <Trash2 size={15} />
-        </button>
+        {!soloLectura && (
+          <ConfirmarAccion className="icon-btn" pregunta={`¿Eliminar el esquema "${esquema.nombre}"?`} onConfirmar={eliminar} ariaLabel="Eliminar esquema" title="Eliminar esquema">
+            <Trash2 size={15} />
+          </ConfirmarAccion>
+        )}
       </div>
       {mensaje && <div className={`field-msg field-msg--${mensaje.tipo}`}>{mensaje.texto}</div>}
-    </div>
+    </fieldset>
   );
 }
 
@@ -284,7 +294,7 @@ function NuevoEsquema({ estacionId, onCreado, onCancelar }) {
 
 const ESPECIFICIDAD = (r) => (r.fecha ? (r.isla_id ? 0 : 1) : r.dia_semana != null ? (r.isla_id ? 2 : 3) : 4);
 
-function Reglas({ estacionId, islas, esquemas, reglas, onCambio, conteoTurnos }) {
+function Reglas({ estacionId, islas, esquemas, reglas, onCambio, conteoTurnos, soloLectura }) {
   const [cuando, setCuando] = useState('dia');
   const [dia, setDia] = useState('0');
   const [fecha, setFecha] = useState(hoyISO());
@@ -322,7 +332,12 @@ function Reglas({ estacionId, islas, esquemas, reglas, onCambio, conteoTurnos })
   }
 
   async function quitar(id) {
-    await supabase.from('sjap_esquema_reglas').delete().eq('id', id);
+    const { error } = await supabase.from('sjap_esquema_reglas').delete().eq('id', id);
+    if (error) {
+      setMensaje({ tipo: 'error', texto: mensajeError(error) });
+      return;
+    }
+    setMensaje({ tipo: 'ok', texto: 'Regla quitada.' });
     onCambio();
   }
 
@@ -336,6 +351,7 @@ function Reglas({ estacionId, islas, esquemas, reglas, onCambio, conteoTurnos })
         </InfoTip>
       </div>
 
+      {!soloLectura && (
       <form className="regla-form" onSubmit={agregar}>
         <div className="field-row">
           <label className="field-label" htmlFor="rg-cuando">Cuándo</label>
@@ -391,6 +407,7 @@ function Reglas({ estacionId, islas, esquemas, reglas, onCambio, conteoTurnos })
           </button>
         </div>
       </form>
+      )}
       {mensaje && <div className={`field-msg field-msg--${mensaje.tipo}`} style={{ marginBottom: 12 }}>{mensaje.texto}</div>}
 
       {ordenadas.length === 0 ? (
@@ -417,9 +434,11 @@ function Reglas({ estacionId, islas, esquemas, reglas, onCambio, conteoTurnos })
                       {esq?.nombre ?? '—'} <span className="text-ink-soft">· {conteoTurnos(r.esquema_id)} turnos</span>
                     </td>
                     <td style={{ width: 40 }}>
-                      <button className="icon-btn" onClick={() => quitar(r.id)} aria-label="Quitar regla" title="Quitar regla">
-                        <Trash2 size={14} />
-                      </button>
+                      {!soloLectura && (
+                        <ConfirmarAccion className="icon-btn" pregunta="¿Quitar esta regla?" textoConfirmar="Sí, quitar" onConfirmar={() => quitar(r.id)} ariaLabel="Quitar regla" title="Quitar regla">
+                          <Trash2 size={14} />
+                        </ConfirmarAccion>
+                      )}
                     </td>
                   </tr>
                 );
@@ -484,7 +503,7 @@ function VistaPrevia({ islas, esquemas, reglas, conteoTurnos }) {
 
 // ---------------------------------------------------------------- pestaña
 
-export default function ConfigTurnosTab({ estacionId, islas, esquemas, turnoTipos, reglas, onCambio }) {
+export default function ConfigTurnosTab({ estacionId, islas, esquemas, turnoTipos, reglas, onCambio, soloLectura }) {
   const [creando, setCreando] = useState(false);
   const turnosActivosDe = (esquemaId) => turnoTipos.filter((t) => t.esquema_id === esquemaId && t.activo);
   const conteoTurnos = (esquemaId) => turnosActivosDe(esquemaId).length;
@@ -501,7 +520,7 @@ export default function ConfigTurnosTab({ estacionId, islas, esquemas, turnoTipo
             la de inicio cruza la medianoche y termina al día siguiente.
           </InfoTip>
           <div style={{ flex: 1 }} />
-          {!creando && (
+          {!creando && !soloLectura && (
             <button className="btn btn--accent" onClick={() => setCreando(true)}>
               <Plus size={14} /> Nuevo esquema
             </button>
@@ -525,12 +544,18 @@ export default function ConfigTurnosTab({ estacionId, islas, esquemas, turnoTipo
               turnos={turnosActivosDe(e.id)}
               reglasDelEsquema={reglas.filter((r) => r.esquema_id === e.id)}
               onCambio={onCambio}
+              soloLectura={soloLectura}
             />
           ))}
         </div>
       </div>
 
-      <Reglas estacionId={estacionId} islas={islas} esquemas={esquemas} reglas={reglas} onCambio={onCambio} conteoTurnos={conteoTurnos} />
+      {soloLectura && (
+        <div className="subnote subnote--lectura" style={{ marginTop: 16 }}>
+          Solo un usuario master puede cambiar los esquemas de turno y sus reglas.
+        </div>
+      )}
+      <Reglas estacionId={estacionId} islas={islas} esquemas={esquemas} reglas={reglas} onCambio={onCambio} conteoTurnos={conteoTurnos} soloLectura={soloLectura} />
       <VistaPrevia islas={islas} esquemas={esquemas} reglas={reglas} conteoTurnos={conteoTurnos} />
     </>
   );
